@@ -4,7 +4,7 @@
 TODO...
 
 == Live demo (to test)
-link:http://guillaumebouchetepitech.github.io/geneticAlgorithm_experiment/
+
 link:http://guillaumebouchetepitech.github.io/geneticAlgorithm_experiment/carDemo/src_html/index.html
 
 == Screenshot
