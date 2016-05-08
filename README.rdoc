@@ -1,16 +1,25 @@
 
 = Genetic Algorithm experiment
 
-TODO...
+A simple introduction to how genetic algorithm works.
+
 
 == Live demo (to test)
 
 link:http://guillaumebouchetepitech.github.io/geneticAlgorithm_experiment/carDemo/src_html/index.html
 
-== Screenshot
-TODO...
+
+== Diagram
+
+link:./carDemo/diagrams/activity_simple.png
+link:./carDemo/diagrams/usecase.png
+
 
 == Credits :
-TODO...
+
+Matthew Robbins:
+-> link:https://github.com/matthewrdev/Neural-Network
+-> link:https://www.youtube.com/watch?v=0Str0Rdkxxo
+
 
 == Thanks for watching !
