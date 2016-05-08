@@ -18,8 +18,10 @@ link:./carDemo/diagrams/usecase.png
 == Credits :
 
 Matthew Robbins:
--> link:https://github.com/matthewrdev/Neural-Network
--> link:https://www.youtube.com/watch?v=0Str0Rdkxxo
+
+github: link:https://github.com/matthewrdev/Neural-Network
+
+youtube: link:https://www.youtube.com/watch?v=0Str0Rdkxxo
 
 
 == Thanks for watching !
