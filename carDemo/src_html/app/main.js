@@ -30,6 +30,15 @@ define(
 
 
 
+    // var logger = document.getElementById("logger");
+
+    // logger.innerHTML = "test"
+    // logger.cols = 60;
+    // logger.rows = 30;
+
+
+
+
     //
     // FPS METER
 
@@ -47,7 +56,7 @@ define(
 
     //
 
-    var last_time = 0
+    // var last_time = 0; // <- this is unused
 
     ///
     ///
@@ -63,29 +72,46 @@ define(
 
         window.requestAnimFrame( tick );
 
-            var current_time = performance.now() || (new Date()).getTime();
+            // //
+            // // this is unused
 
-            if (!last_time)
-                last_time = current_time;
+            // var current_time = performance.now() || (new Date()).getTime();
 
-            var elapsed = current_time - last_time;
+            // if (!last_time)
+            //     last_time = current_time;
 
-            last_time = current_time;
+            // var elapsed = current_time - last_time;
+
+            // last_time = current_time;
+
+            // // /this is unused
+            // //
 
         ///
 
 
+        //
+        //
+        //
         // UPDATE
 
         for (var i = 0; i < 5; ++i)
             simulation.update(0.125);
 
         // /UPDATE
+        //
+        //
+        //
+
+
+        //
+        //
+        //
+        // RENDER
 
 
         Renderer.clear();
 
-        // Renderer.drawLine(0,0,200,200, "#ff0000");
 
         //
         // render circuit
@@ -152,7 +178,7 @@ define(
             Renderer.drawThickLine( positions[2].x, positions[2].y, positions[3].x, positions[3].y, color);
             Renderer.drawThickLine( positions[3].x, positions[3].y, positions[0].x, positions[0].y, color);
 
-            if (!car._alive)
+            if (!car._alive) // render sensors only if the car is alive
                 continue;
 
             var sensors = car._sensors;
@@ -194,6 +220,11 @@ define(
         // render trails
         //
 
+
+        // RENDER
+        //
+        //
+        //
 
 
         myFpsmeter.tick();

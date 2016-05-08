@@ -24,6 +24,7 @@ define(
 
 		this._geneticAlgo = new createGeneticAlgo( genome_size );
 
+		//
 
 		// cars
 		this._cars = [];
@@ -54,6 +55,16 @@ define(
 
 	createSimulation.prototype.update = function(step)
 	{
+
+		// if (!this._step)
+		// 	this._step = 0;
+
+		// ++this._step;
+
+		// this._logger.push_line('test ' + this._step);
+
+
+
 		var someone_is_alive = false;
 
 		for (var i = 0; i < this._cars.length; ++i)

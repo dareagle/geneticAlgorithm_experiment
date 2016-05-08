@@ -7,13 +7,9 @@
 
 	<body>
 
-		<div id="canvasesdiv">
-
-			<canvas id="main-canvas" style="border:1px solid #000000;" width="800" height="600">
-			</canvas>
-
-		</div>
-
+		<!--  -->
+		<!-- Those lines are the circuit checkpoints -->
+		<!--  -->
 		<div id="circuit-data" style="display: none;">
 			[
 				[600, 450,   600, 550],
@@ -51,6 +47,35 @@
 				[625, 425,   700, 500]
 			]
 		</div>
+
+		<table>
+			<tr>
+				<td>
+
+					<!--  -->
+					<!-- MAIN CANVAS -->
+					<!--  -->
+
+					<div id="canvasesdiv">
+
+						<canvas id="main-canvas" style="border:1px solid #000000;" width="800" height="600">
+						</canvas>
+
+					</div>
+
+				</td>
+				<td>
+
+					<!--  -->
+					<!-- UI -->
+					<!--  -->
+
+					<textarea id="logger" readonly>
+					</textarea>
+
+				</td>
+			</tr>
+		</table>
 
 	</body>
 

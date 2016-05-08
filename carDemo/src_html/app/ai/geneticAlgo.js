@@ -3,9 +3,13 @@
 define(
     [
 		  './ArtificialNeuralNetwork.js'
+
+        , '../utils/Logger.js'
     ],
     function(
 		  createArtificialNeuralNetwork
+
+		, createLogger
     )
 {
 
@@ -32,6 +36,10 @@ define(
 		this._current_generation = 1;
 		this._best_fitness = 0.0;
 		this._alpha_genome = {fitness: 0};
+
+		//
+
+		this._logger = new createLogger( 'logger' );
 	};
 
 	//
@@ -56,14 +64,16 @@ define(
 		{
 			this._best_fitness = bestGenomes[0].fitness;
 
-			console.log("current_generation=" + this._current_generation + ", best_fitness=" + this._best_fitness);
+			// console.log("current_generation=" + this._current_generation + ", best_fitness=" + this._best_fitness);
 		}
 
 		if (this._best_fitness > this._alpha_genome.fitness)
 		{
 			this._alpha_genome = bestGenomes[0];
 			this._is_a_great_generation = true;
-			console.log("new alpha");
+
+			// console.log("new alpha");
+			this._logger.push_line('generation: ' + this._current_generation + ' => promoted a new genome alpha');
 		}
 		else
 		{
@@ -76,7 +86,8 @@ define(
 			this._mutate(bestDude);
 			children.push(bestDude);
 
-			console.log("alpha reused");
+			// console.log("alpha reused");
+			this._logger.push_line('generation: ' + this._current_generation + ' => genome alpha is being reused');
 		}
 
 
