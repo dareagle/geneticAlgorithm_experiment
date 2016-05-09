@@ -218,8 +218,8 @@ define(
 	createGeneticAlgo.prototype._mutate = function(genome)
 	{
 		for (var i = 0; i < genome.weights.length; ++i)
-			if (Math.random() < 0.2)
-				genome.weights[i] += ((Math.random() - Math.random()) * 0.3);
+			if (Math.random() < 0.1)
+				genome.weights[i] += ((Math.random() - Math.random()) * 0.2);
 	}
 
 	//
