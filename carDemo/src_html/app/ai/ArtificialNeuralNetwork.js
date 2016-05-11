@@ -7,9 +7,51 @@ define([],function()
 
 	var createArtificialNeuralNetwork = function (topology)
 	{
-		var prev_layer_num_neuron = topology[0]; // inputs
+		//
+		// extra check here
 
-		// console.log("topology", topology);
+		if (topology.length < 2)
+			throw new Error("received invalid number of layer");
+
+		if (topology[0] <= 0) // input
+			throw new Error("received invalid number of inputs");
+
+		for (var i = 1; i < topology.length - 1; ++i) // exclude frist&last -> input&output
+			if (topology[i] <= 0)
+				throw new Error("received invalid number of hidden neurons");
+
+		if (topology[topology.length-1] <= 0) // input
+			throw new Error("received invalid number of outputs");
+
+		// extra check here
+		//
+
+
+		//
+		// compute totalWeights
+
+		// save the topology for later extra check
+		this._topology = topology;
+
+		this._totalWeights = 0;
+
+		var prev_layer_num_neuron = topology[0];
+		for (var i = 1; i < topology.length - 1; ++i) // exclude frist&last -> input&output
+		{
+			var num_neuron = topology[i];
+
+			this._totalWeights += prev_layer_num_neuron * num_neuron;
+			prev_layer_num_neuron = num_neuron;
+		}
+		this._totalWeights += prev_layer_num_neuron * topology[topology.length-1];
+
+		// compute totalWeights
+		//
+
+		//
+		// build hidden layer(s)
+
+		var prev_layer_num_neuron = topology[0]; // inputs
 
 		this._layerHidden = [];
 		for (var i = 1; i < topology.length - 1; ++i) // exclude frist&last -> input&output
@@ -32,7 +74,12 @@ define([],function()
 			prev_layer_num_neuron = curr_layer_num_neuron; // save the size -> this layer feed the next one
 		}
 
-		// console.log("this._layerHidden", this._layerHidden);
+		// build hidden layer(s)
+		//
+
+
+		//
+		// build output layer
 
 		this._layerOutput = [];
 		for (var i = 0; i < topology[topology.length - 1]; ++i)
@@ -45,16 +92,15 @@ define([],function()
 			this._layerOutput.push(neuron);
 		}
 
-		// console.log("this._layerHidden", this._layerHidden);
-		// console.log("this._layerOutput", this._layerOutput);
-
+		// build output layer
+		//
 	};
 
 	//
 
 	createArtificialNeuralNetwork.prototype.process = function(arr_input)
 	{
-		if (arr_input.length != 5)
+		if (arr_input.length != this._topology[0])
 			throw new Error( "received invalid number of inputs" );
 
 		var output = [];
@@ -65,18 +111,18 @@ define([],function()
 		var	hidden_input = arr_input;
 
 		// Cycle over all the neurons and sum their weights against the inputs.
-		for (var i = 0; i < this._layerHidden.length; ++i)
+		for (i in this._layerHidden)
 		{
 			var current_layer = this._layerHidden[i];
 
 			var hidden_output = [];
 
-			for (var j = 0; j < current_layer.length; ++j)
+			for (j in current_layer)
 			{
 				var activation = 0.0;
 
 				// Sum the weights to the activation value.
-				for (var k = 0; k < hidden_input.length; ++k)
+				for (k in hidden_input)
 					activation += hidden_input[k] * current_layer[j][k];
 
 				hidden_output.push( activation );
@@ -92,12 +138,12 @@ define([],function()
 		// process output layer
 
 		// Cycle over all the neurons and sum their weights against the inputs.
-		for (var i = 0; i < this._layerOutput.length; ++i)
+		for (i in this._layerOutput)
 		{
 			var activation = 0.0;
 
 			// Sum the weights to the activation value.
-			for (var j = 0; j < hidden_input.length; ++j)
+			for (j in hidden_input)
 				activation += hidden_input[j] * this._layerOutput[i][j];
 
 			output.push( activation );
@@ -113,18 +159,18 @@ define([],function()
 
 	createArtificialNeuralNetwork.prototype.setWeights = function(arr_weights)
 	{
-		// if (arr_weights..length != m_topology.getTotalWeights())
-		// 	throw std::invalid_argument( "received invalid number of weights" );
+		if (arr_weights.length != this._totalWeights)
+			throw new Error( "received invalid number of weights" );
 
 		var weights_inc = 0;
 
-		for (var i = 0; i < this._layerHidden.length; ++i)
-			for (var j = 0; j < this._layerHidden[i].length; ++j)
-				for (var k = 0; k < this._layerHidden[i][j].length; ++k)
+		for (i in this._layerHidden)
+			for (j in this._layerHidden[i])
+				for (k in this._layerHidden[i][j])
 					this._layerHidden[i][j][k] = arr_weights[ weights_inc++ ];
 
-		for (var i = 0; i < this._layerOutput.length; ++i)
-			for (var j = 0; j < this._layerOutput[i].length; ++j)
+		for (i in this._layerOutput)
+			for (j in this._layerOutput[i])
 				this._layerOutput[i][j] = arr_weights[ weights_inc++ ];
 	}
 
@@ -134,13 +180,13 @@ define([],function()
 	{
 		var out_weights = [];
 
-		for (var i = 0; i < this._layerHidden.length; ++i)
-			for (var j = 0; j < this._layerHidden[i].length; ++j)
-				for (var k = 0; k < this._layerHidden[i][j].length; ++k)
+		for (i in this._layerHidden)
+			for (j in this._layerHidden[i])
+				for (k in this._layerHidden[i][j])
 					out_weights.push( this._layerHidden[i][j][k] );
 
-		for (var i = 0; i < this._layerOutput.length; ++i)
-			for (var j = 0; j < this._layerOutput[i].length; ++j)
+		for (i in this._layerOutput)
+			for (j in this._layerOutput[i])
 				out_weights.push( this._layerOutput[i][j] );
 
 		return out_weights;
