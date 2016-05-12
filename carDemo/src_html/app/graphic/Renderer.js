@@ -51,15 +51,32 @@ define([],function()
 
 	//
 
-	createRenderer.prototype.drawLines = function(arr_lines, color)
+	createRenderer.prototype.drawLineStrip = function(arr_lines, color)
 	{
 		this._ctx.strokeStyle = color;
 		this._ctx.lineWidth=1;
 		this._ctx.beginPath();
 
 		this._ctx.moveTo(arr_lines[0].x, arr_lines[0].y);
-        for (var i = 1; i < arr_lines.length; ++i)
+		for (var i = 1; i < arr_lines.length; ++i)
 			this._ctx.lineTo(arr_lines[i].x, arr_lines[i].y);
+
+		this._ctx.stroke();
+	};
+
+	//
+
+	createRenderer.prototype.drawLines = function(arr_lines, color)
+	{
+		this._ctx.strokeStyle = color;
+		this._ctx.lineWidth=1;
+		this._ctx.beginPath();
+
+		for (var i = 0; i < arr_lines.length; ++i)
+		{
+			this._ctx.moveTo(arr_lines[i].p1.x, arr_lines[i].p1.y);
+			this._ctx.lineTo(arr_lines[i].p2.x, arr_lines[i].p2.y);
+		}
 
 		this._ctx.stroke();
 	};

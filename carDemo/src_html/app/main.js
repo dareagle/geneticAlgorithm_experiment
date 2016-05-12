@@ -116,19 +116,8 @@ define(
         //
         // render circuit
 
-        var checkpoints = simulation._circuit._checkpoints
-        for (index in checkpoints)
-        {
-            var line = checkpoints[index];
-            Renderer.drawLine( line.p1.x, line.p1.y, line.p2.x, line.p2.y, "#ffffff");
-        }
-
-        var walls = simulation._circuit._walls
-        for (index in walls)
-        {
-            var line = walls[index];
-            Renderer.drawLine( line.p1.x, line.p1.y, line.p2.x, line.p2.y, "#0000ff");
-        }
+        Renderer.drawLines( simulation._circuit._checkpoints, "#ffffff" );
+        Renderer.drawLines( simulation._circuit._walls, "#0000ff" );
 
         // Renderer.drawPoint(
         //       simulation._circuit._start_position.x
@@ -187,14 +176,14 @@ define(
             {
                 var sensor = sensors[i];
 
-                Renderer.drawLine( sensor.line.p1.x, sensor.line.p1.y, sensor.line.p2.x, sensor.line.p2.y, "#0000ff");
+                Renderer.drawLine( sensor.line.p1.x, sensor.line.p1.y, sensor.line.p2.x, sensor.line.p2.y, "#8888ff");
 
                 var pos = {
                       x: sensor.line.p1.x + (sensor.line.p2.x - sensor.line.p1.x) * sensor.value
                     , y: sensor.line.p1.y + (sensor.line.p2.y - sensor.line.p1.y) * sensor.value
                 };
 
-                Renderer.drawPoint(pos.x, pos.y, "#0000ff");
+                Renderer.drawPoint(pos.x, pos.y, "#8888ff");
             }
 
         }
@@ -214,7 +203,7 @@ define(
             var trail = trails[index];
             var color = trail_colors[trail_colors_index++];
 
-            Renderer.drawLines(trail, color);
+            Renderer.drawLineStrip(trail, color);
         }
 
         // render trails
