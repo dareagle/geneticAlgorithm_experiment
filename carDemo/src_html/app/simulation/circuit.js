@@ -51,27 +51,27 @@ define(
 			});
 		}
 
-		//
-		// duplicate checkpoints
+		// //
+		// // duplicate checkpoints
 
-		var	tmp_checkpoints = [];
-		tmp_checkpoints.push(this._checkpoints[0]);
-		for (var i = 1; i < this._checkpoints.length; ++i)
-		{
-			var l1 = this._checkpoints[i - 1];
-			var l2 = this._checkpoints[i];
+		// var	tmp_checkpoints = [];
+		// tmp_checkpoints.push(this._checkpoints[0]);
+		// for (var i = 1; i < this._checkpoints.length; ++i)
+		// {
+		// 	var l1 = this._checkpoints[i - 1];
+		// 	var l2 = this._checkpoints[i];
 
-			for (var f = 0.25; f < 1.0; f += 0.25)
-			{
-				tmp_checkpoints.push({
-					  p1: utils.lerp(l1.p1, l2.p1, f)
-					, p2: utils.lerp(l1.p2, l2.p2, f)
-				});
-			}
+		// 	for (var f = 0.25; f < 1.0; f += 0.25)
+		// 	{
+		// 		tmp_checkpoints.push({
+		// 			  p1: utils.lerp(l1.p1, l2.p1, f)
+		// 			, p2: utils.lerp(l1.p2, l2.p2, f)
+		// 		});
+		// 	}
 
-			tmp_checkpoints.push(l2);
-		}
-		this._checkpoints = tmp_checkpoints;
+		// 	tmp_checkpoints.push(l2);
+		// }
+		// this._checkpoints = tmp_checkpoints;
 
 		//
 		// expand the walls (fix collisions bugs)
