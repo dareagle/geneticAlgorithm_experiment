@@ -119,19 +119,19 @@ define(
         Renderer.drawLines( simulation._circuit._checkpoints, "#ffffff" );
         Renderer.drawLines( simulation._circuit._walls, "#0000ff" );
 
-        // Renderer.drawPoint(
-        //       simulation._circuit._start_position.x
-        //     , simulation._circuit._start_position.y
-        //     , "#000000"
-        // );
+        Renderer.drawPoint(
+              simulation._circuit._start_position.x
+            , simulation._circuit._start_position.y
+            , "#ffffff"
+        );
 
-        // Renderer.drawLine(
-        //       simulation._circuit._start_position.x
-        //     , simulation._circuit._start_position.y
-        //     , simulation._circuit._start_position.x+Math.cos(simulation._circuit._start_angle) * 50.0
-        //     , simulation._circuit._start_position.y+Math.sin(simulation._circuit._start_angle) * 50.0
-        //     , "#000000"
-        // );
+        Renderer.drawLine(
+              simulation._circuit._start_position.x
+            , simulation._circuit._start_position.y
+            , simulation._circuit._start_position.x+Math.cos(simulation._circuit._start_angle) * 50.0
+            , simulation._circuit._start_position.y+Math.sin(simulation._circuit._start_angle) * 50.0
+            , "#ffffff"
+        );
 
         // render circuit
         //
