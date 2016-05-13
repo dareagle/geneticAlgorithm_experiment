@@ -194,7 +194,7 @@ define(
         //
         // render trails
 
-        var trail_colors = [ "#00ff00", "#00cc00", "#00aa00", "#007700", "#004400" ];
+        var trail_colors = [ "#00ff00", "#00cc00", "#009900", "#006600", "#003300" ];
         var trail_colors_index = 0;
 
         var trails = simulation._trails;
