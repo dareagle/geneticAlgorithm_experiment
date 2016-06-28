@@ -54,13 +54,7 @@ define(
 
 
 
-    //
-
-    // var last_time = 0; // <- this is unused
-
     ///
-    ///
-
 
     tick();
 
@@ -71,21 +65,6 @@ define(
 
 
         window.requestAnimFrame( tick );
-
-            // //
-            // // this is unused
-
-            // var current_time = performance.now() || (new Date()).getTime();
-
-            // if (!last_time)
-            //     last_time = current_time;
-
-            // var elapsed = current_time - last_time;
-
-            // last_time = current_time;
-
-            // // /this is unused
-            // //
 
         ///
 
