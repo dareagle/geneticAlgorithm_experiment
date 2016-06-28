@@ -19,9 +19,9 @@ link:./carDemo/diagrams/usecase.png
 
 Matthew Robbins:
 
-github: link:https://github.com/matthewrdev/Neural-Network
+github: https://github.com/matthewrdev/Neural-Network
 
-youtube: link:https://www.youtube.com/watch?v=0Str0Rdkxxo
+youtube: https://www.youtube.com/watch?v=0Str0Rdkxxo
 
 
 == Thanks for watching !
