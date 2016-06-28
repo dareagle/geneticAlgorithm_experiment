@@ -1,25 +1,26 @@
 
 define(
     [
-          'requestAnimationFrame'
+          'requestAnimationFrame' // in /lib
+        , 'fpsmeter' // in /lib
+
         , './graphic/Renderer.js'
 
         , './utils/collision.js'
 
         , './simulation/simulation.js'
-
-        , 'fpsmeter' // in /lib
     ],
     function(
 
-          requestAnimationFrame
+          unused_requestAnimationFrame // <- use window.requestAnimFrame
+        , unused_fpsmeter // <- use window.FPSMeter
+
         , createRenderer
 
         , utils
 
         , createSimulation
 
-        , unused_fpsmeter // <- use window.FPSMeter
     )
 {
 
@@ -27,14 +28,6 @@ define(
     var Renderer = new createRenderer("main-canvas");
 
     var simulation = new createSimulation("circuit-data");
-
-
-
-    // var logger = document.getElementById("logger");
-
-    // logger.innerHTML = "test"
-    // logger.cols = 60;
-    // logger.rows = 30;
 
 
 
