@@ -55,16 +55,6 @@ define(
 
 	createSimulation.prototype.update = function(step)
 	{
-
-		// if (!this._step)
-		// 	this._step = 0;
-
-		// ++this._step;
-
-		// this._logger.push_line('test ' + this._step);
-
-
-
 		var someone_is_alive = false;
 
 		for (var i = 0; i < this._cars.length; ++i)
@@ -77,8 +67,12 @@ define(
 			someone_is_alive = true;
 		}
 
+		// end of the current generation?
+
 		if (someone_is_alive)
-			return;
+			return; // no
+
+		// rate the genome
 
 		for (var i = 0; i < this._cars.length; ++i)
 			this._geneticAlgo._genomes[i].fitness = this._cars[i]._fitness;
@@ -112,7 +106,7 @@ define(
 			car._angle = this._circuit._start_angle;
 
 			car._checkpoints = [];
-			for (var j = 0; j < this._circuit._checkpoints.length; ++j)
+			for (j in this._circuit._checkpoints)
 				car._checkpoints.push( this._circuit._checkpoints[j] );
 
 			car._alive = true;
@@ -120,6 +114,7 @@ define(
 			car._total_update = 0;
 			car._trail = [];
 		}
+
 	};
 
 	//
