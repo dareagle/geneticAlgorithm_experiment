@@ -44,9 +44,6 @@ void drawLines(sf::RenderWindow& rwindow, const t_lines& lines, const sf::Color&
 	}
 
 	rwindow.draw(&(s_vertices[0]), s_vertices.size(), sf::Lines);
-
-	// for (unsigned int i = 0; i < lines.size(); ++i)
-	// 	drawLine(rwindow, lines[i], color1, color2);
 }
 
 void drawPoint(sf::RenderWindow& rwindow, const t_vec2f& point, const sf::Color& color)
@@ -96,9 +93,6 @@ void drawCar(sf::RenderWindow& rwindow, const Car& car, const sf::Color& color)
 	if (!car.isAlive())
 		return;
 
-	// const std::array<t_line, 5>&	lines = car.getSensorsLines();
-	// const std::array<float, 5>&		values = car.getSensorsValues();
-
 	const Car::t_sensors&	sensors = car.getSensors();
 
 	for (Car::t_sensor sensor : sensors)
@@ -127,53 +121,12 @@ void drawCar(sf::RenderWindow& rwindow, const Car& car, const sf::Color& color)
 
 
 
-int	main(int argc, char** argv)
+int	main()
 {
-
-	// std::cout << "argc=" << argc << std::endl;
-
-	bool nogui = false;
-
-	for (int i = 0; i < argc; ++i)
-	{
-		// std::cout << "argv[" << i << "]=" << argv[i] << std::endl;
-
-		if (std::string(argv[i]) == "-nogui")
-			nogui = true;
-	}
-
-	// return 0;
-
-
-
-	// std::cout << "Hello World" << std::endl;
-
-
 	Simulation	tmp_sim("./res/Map_test.txt");
-
-	if (nogui)
-	{
-		for (unsigned int i = 0; i < 200000; ++i)
-		// while (true)
-			tmp_sim.update(0.125f);
-
-		return 0;
-	}
-
-	// const Circuit& tmp_circuit = tmp_sim.getCircuit();
-	// const Car& tmp_car = tmp_sim.getCar();
-
 
 	const t_lines&	checkpoints = tmp_sim.getCircuit().getCheckpoints();
 	const t_lines&	walls = tmp_sim.getCircuit().getWalls();
-
-	// bool thread_continue = true;
-
-	// std::thread	my_thread( [&]()
-	// {
-		// while (thread_continue)
-		// 	tmp_sim.update(0.125f);
-	// } );
 
 	// Create the main window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
@@ -210,18 +163,15 @@ int	main(int argc, char** argv)
 		}
 
 		// update
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < 5; ++i)
 			tmp_sim.update(0.125f);
 
-		// if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		// {
-		// 	// int tmp_max = (tmp_sim.getBestFitness() < 10 ? 190 : 40);
-		// 	// int tmp_max = 190;
-		// 	int tmp_max = 90;
-
-		// 	for (int i = 0; i < tmp_max; ++i)
-		// 		tmp_sim.update(0.06125f);
-		// }
+		// go slower if Up is pressed (debug <3)
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		{
+			for (int i = 0; i < 90; ++i)
+				tmp_sim.update(0.06125f);
+		}
 
 		// Clear screen
 		window.clear();
@@ -231,28 +181,21 @@ int	main(int argc, char** argv)
 		drawLines(window, checkpoints, sf::Color(255,255,255), sf::Color(128,128,128));
 		drawLines(window, walls, sf::Color::Blue, sf::Color(128,128,128));
 
-		drawCar(window, tmp_sim.getCars()[0], sf::Color::White);
-		for (unsigned int i = 1; i < tmp_sim.getCars().size(); ++i)
-			drawCar(window, tmp_sim.getCars()[i], sf::Color::Green);
+		for (auto& elem :  tmp_sim.getCars())
+			drawCar(window, elem, sf::Color::Green);
 
 		const std::vector< std::vector<t_line> >&	trails = tmp_sim.getTrails();
 
 		for (unsigned int i = 0; i < trails.size(); ++i)
 		{
-			sf::Color	color = sf::Color::White;
-			color.r = 128 + ((float)i / trails.size()) * 128;
+			sf::Color	color = sf::Color::Black;
 			color.g = 128 + ((float)i / trails.size()) * 128;
-			color.b = 128 + ((float)i / trails.size()) * 128;
 			drawLines(window, trails[i], color, color);
 		}
 
 		// Update the window
 		window.display();
 	}
-
-	// thread_continue = false;
-	// if (my_thread.joinable())
-	// 	my_thread.join();
 
 	return EXIT_SUCCESS;
 }
