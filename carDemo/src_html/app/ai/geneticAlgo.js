@@ -80,8 +80,11 @@ define(
 			var	bestDude = {
 				  id: this._alpha_genome.id
 				, fitness: 0.0
-				, weights: this._alpha_genome.weights
+				, weights: []
 			};
+
+			for (index in this._alpha_genome.weights)
+				bestDude.weights.push( this._alpha_genome.weights[index] );
 
 			this._mutate(bestDude);
 			children.push(bestDude);
@@ -91,18 +94,22 @@ define(
 		}
 
 
-		{
-			// Carry on the best dude.
+		{ // Carry on the best dude.
+
 			var	bestDude = {
 				  id: bestGenomes[0].id
 				, fitness: 0.0
-				, weights: bestGenomes[0].weights
+				, weights: []
 			};
+
+			for (index in bestGenomes[0].weights)
+				bestDude.weights.push( bestGenomes[0].weights[index] );
 
 			this._mutate(bestDude);
 
 			children.push(bestDude);
-		}
+
+		} // Carry on the best dude.
 
 		// breed best genomes
 
