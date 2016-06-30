@@ -4,7 +4,7 @@
 A simple introduction to how genetic algorithm works.
 
 
-== Live demo (to test)
+== Live demo
 
 link:http://guillaumebouchetepitech.github.io/geneticAlgorithm_experiment/carDemo/src_html/index.html
 
