@@ -116,6 +116,16 @@ define(
         {
             var car = cars[index];
 
+            render_car(car, "#00ff00", true);
+        }
+
+        if (simulation._alpha_car)
+            render_car(simulation._alpha_car, "#ffffff", false);
+
+        //
+
+        function render_car(car, alive_color, show_sensors) {
+
             var position = car._position;
             var angle = car._angle;
 
@@ -132,15 +142,15 @@ define(
             for (var i = 0; i < 4; ++i)
                 positions[i] = utils.rotateVec2(positions[i], position, angle);
 
-            var color = (car._alive ? "#00ff00" :  "#ff0000");
+            var color = (car._alive ? alive_color :  "#ff0000");
 
             Renderer.drawThickLine( positions[0].x, positions[0].y, positions[1].x, positions[1].y, color);
             Renderer.drawThickLine( positions[1].x, positions[1].y, positions[2].x, positions[2].y, color);
             Renderer.drawThickLine( positions[2].x, positions[2].y, positions[3].x, positions[3].y, color);
             Renderer.drawThickLine( positions[3].x, positions[3].y, positions[0].x, positions[0].y, color);
 
-            if (!car._alive) // render sensors only if the car is alive
-                continue;
+            if (!car._alive || !show_sensors) // render sensors only if the car is alive
+                return;
 
             var sensors = car._sensors;
 
@@ -157,16 +167,15 @@ define(
 
                 Renderer.drawPoint(pos.x, pos.y, "#8888ff");
             }
-
         }
-
         // render car
         //
 
         //
         // render trails
 
-        var trail_colors = [ "#00ff00", "#00cc00", "#009900", "#006600", "#003300" ];
+        // var trail_colors = [ "#00ff00", "#00cc00", "#009900", "#006600", "#003300" ];
+        var trail_colors = [ "#ffffff", "#00ff00", "#00cc00", "#009900", "#006600", "#003300" ];
         var trail_colors_index = 0;
 
         var trails = simulation._trails;
