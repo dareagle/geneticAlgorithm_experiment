@@ -9,6 +9,13 @@ A simple introduction to how genetic algorithm works.
 link:http://guillaumebouchetepitech.github.io/geneticAlgorithm_experiment/carDemo/src_html/index.html
 
 
+== If you liked it :
+
+You might want to check this other repository
+
+-> https://github.com/GuillaumeBouchetEpitech/NeuralNetwork_experiment
+
+
 == Diagram
 
 link:./carDemo/diagrams/activity_simple.png
