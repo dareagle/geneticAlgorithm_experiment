@@ -28,7 +28,7 @@ std::string getTime();
 	std::cout << sstr.str() << std::endl;\
 }
 
-// #define D_MYLOG(msg) (void)0;
+// #define D_MYLOG(msg)
 
 
 #endif // D_TRACELOGGER_HPP
