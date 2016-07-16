@@ -166,8 +166,8 @@ int	main()
 		for (int i = 0; i < 5; ++i)
 			tmp_sim.update(0.125f);
 
-		// go slower if Up is pressed (debug <3)
-		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		// go faster if Up is pressed (debug <3)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
 			for (int i = 0; i < 90; ++i)
 				tmp_sim.update(0.06125f);
@@ -176,21 +176,29 @@ int	main()
 		// Clear screen
 		window.clear();
 
+		// render starting point
 		drawPoint(window, tmp_sim.getCircuit().getStartingPositon(), sf::Color::Blue);
 
+		// render circuit
 		drawLines(window, checkpoints, sf::Color(255,255,255), sf::Color(128,128,128));
 		drawLines(window, walls, sf::Color::Blue, sf::Color(128,128,128));
 
+		// render cars
 		for (auto& elem :  tmp_sim.getCars())
 			drawCar(window, elem, sf::Color::Green);
 
+		// render trails
 		const std::vector< std::vector<t_line> >&	trails = tmp_sim.getTrails();
-
-		for (unsigned int i = 0; i < trails.size(); ++i)
+		if (!trails.empty())
 		{
-			sf::Color	color = sf::Color::Black;
-			color.g = 128 + ((float)i / trails.size()) * 128;
-			drawLines(window, trails[i], color, color);
+			for (unsigned int i = 0; i < trails.size() - 1; ++i)
+			{
+				sf::Color	color = sf::Color::Black;
+				color.g = 128 + ((float)i / trails.size()) * 128;
+				drawLines(window, trails[i], color, color);
+			}
+
+			drawLines(window, trails.back(), sf::Color::White, sf::Color::White);
 		}
 
 		// Update the window
