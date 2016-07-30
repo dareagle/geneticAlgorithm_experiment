@@ -162,15 +162,23 @@ int	main()
 			}
 		}
 
+
+		int iteration_nbr = 5;
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			iteration_nbr = 90;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+			iteration_nbr = 1;
+
 		// update
-		for (int i = 0; i < 5; ++i)
+		for (int i = 0; i < iteration_nbr; ++i)
 			tmp_sim.update(0.125f);
 
 		// go faster if Up is pressed (debug <3)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
-			for (int i = 0; i < 90; ++i)
-				tmp_sim.update(0.06125f);
+			// for (int i = 0; i < 90; ++i)
+			// 	tmp_sim.update(0.125f);
 		}
 
 		// Clear screen
