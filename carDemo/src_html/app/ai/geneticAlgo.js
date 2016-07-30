@@ -21,7 +21,7 @@ define(
 
 		this._ANNs = [];
 		for (var i = 0; i < genome_size; ++i)
-			this._ANNs.push( new createArtificialNeuralNetwork([5, 8, 2]) );
+			this._ANNs.push( new createArtificialNeuralNetwork([5, 4, 2]) );
 
 		this._genomes = [];
 		for (var i = 0; i < genome_size; ++i)

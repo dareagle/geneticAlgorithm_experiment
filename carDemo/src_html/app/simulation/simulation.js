@@ -126,7 +126,7 @@ define(
 			this._alpha_car._checkpoints.push( this._circuit._checkpoints[j] );
 
 
-		this._alpha_car._myANN = new createArtificialNeuralNetwork([5, 8, 2]);
+		this._alpha_car._myANN = new createArtificialNeuralNetwork([5, 4, 2]);
 
 		var weights = [];
 		for (index in this._geneticAlgo._alpha_genome.weights)
