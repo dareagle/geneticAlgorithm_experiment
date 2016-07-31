@@ -56,7 +56,7 @@ define(
 
 	createGeneticAlgo.prototype.BreedPopulation = function()
 	{
-		var bestGenomes = this._getBestGenomes(5);
+		var bestGenomes = this._getBestGenomes(4);
 
 		var children = [];
 
@@ -83,7 +83,7 @@ define(
 				, weights: []
 			};
 
-			for (index in this._alpha_genome.weights)
+			for (var index in this._alpha_genome.weights)
 				bestDude.weights.push( this._alpha_genome.weights[index] );
 
 			this._mutate(bestDude);
@@ -102,7 +102,7 @@ define(
 				, weights: []
 			};
 
-			for (index in bestGenomes[0].weights)
+			for (var index in bestGenomes[0].weights)
 				bestDude.weights.push( bestGenomes[0].weights[index] );
 
 			this._mutate(bestDude);
@@ -114,7 +114,7 @@ define(
 		// breed best genomes
 
 		for (var i = 0; i < bestGenomes.length; ++i)
-			for (var j = i+1; j < bestGenomes.sizelength; ++j)
+			for (var j = i+1; j < bestGenomes.length; ++j)
 			{
 				var	baby1 = {},
 					baby2 = {};
@@ -198,8 +198,7 @@ define(
 	createGeneticAlgo.prototype._crossBreed = function(g1, g2, baby1, baby2)
 	{
 		var totalWeights = g1.weights.length;
-		var crossover = Math.random() * totalWeights;
-
+		var crossover = Math.floor(Math.random() * totalWeights);
 
 		baby1.id = this._current_id++;
 		baby1.weights = [];
