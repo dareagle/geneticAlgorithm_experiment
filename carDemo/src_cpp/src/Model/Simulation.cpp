@@ -508,13 +508,17 @@ void	Car::collideSensors(const Circuit& circuit)
 	const t_lines&	walls = circuit.getWalls();
 
 	for (t_sensor& sensor : m_sensors)
+	{
+		sensor.m_value = 1.0f;
+
 		for (const t_line& wall : walls)
 		{
 			float v = CollisionSegSeg_partial(sensor.m_line.p1, sensor.m_line.p2, wall.p1, wall.p2);
 
-			if (v >= 0.0f && v < 1.0f)
+			if (v >= 0.0f && v < 1.0f && sensor.m_value > v)
 				sensor.m_value = v;
 		}
+	}
 }
 
 void	Car::collideCheckpoints()

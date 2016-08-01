@@ -146,13 +146,15 @@ define(
 		{
 			var sensor = this._sensors[i];
 
+			sensor.value = 1.0;
+
 			for (var j = 0; j < walls.length; ++j)
 			{
 				var wall = walls[j];
 
 				var v = utils.CollisionSegSeg_partial(sensor.line.p1, sensor.line.p2, wall.p1, wall.p2);
 
-				if (v >= 0.0 && v < 1.0)
+				if (v >= 0.0 && v < 1.0 && sensor.value > v)
 					sensor.value = v;
 			}
 		}
