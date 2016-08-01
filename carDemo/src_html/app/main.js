@@ -67,8 +67,8 @@ define(
         //
         // UPDATE
 
-        for (var i = 0; i < 5; ++i)
-            simulation.update(0.125);
+        for (var i = 0; i < 3; ++i)
+            simulation.update(0.25);
 
         // /UPDATE
         //

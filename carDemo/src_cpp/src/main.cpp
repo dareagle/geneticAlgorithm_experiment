@@ -163,7 +163,7 @@ int	main()
 		}
 
 
-		int iteration_nbr = 5;
+		int iteration_nbr = 3;
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			iteration_nbr = 90;
@@ -172,7 +172,7 @@ int	main()
 
 		// update
 		for (int i = 0; i < iteration_nbr; ++i)
-			tmp_sim.update(0.125f);
+			tmp_sim.update(0.25f);
 
 		// go faster if Up is pressed (debug <3)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
