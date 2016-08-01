@@ -85,8 +85,9 @@ define([],function()
 
 	createRenderer.prototype.drawPoint = function(x, y, color)
 	{
-		this.drawLine(x-20, y-20, x+20, y+20, color);
-		this.drawLine(x-20, y+20, x+20, y-20, color);
+		var size = 10;
+		this.drawLine(x-size, y-size, x+size, y+size, color);
+		this.drawLine(x-size, y+size, x+size, y-size, color);
 	};
 
 	//

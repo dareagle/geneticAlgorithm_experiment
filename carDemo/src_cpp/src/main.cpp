@@ -48,7 +48,7 @@ void drawLines(sf::RenderWindow& rwindow, const t_lines& lines, const sf::Color&
 
 void drawPoint(sf::RenderWindow& rwindow, const t_vec2f& point, const sf::Color& color)
 {
-	float size = 25.0f;
+	float size = 10.0f;
 	sf::Vertex vertices[] = {
 		sf::Vertex(sf::Vector2f(point.x - size, point.y - size), color),
 		sf::Vertex(sf::Vector2f(point.x + size, point.y + size), color),
