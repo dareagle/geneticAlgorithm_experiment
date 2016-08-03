@@ -119,9 +119,6 @@ define(
             render_car(car, "#00ff00", true);
         }
 
-        if (simulation._alpha_car)
-            render_car(simulation._alpha_car, "#ffffff", false);
-
         //
 
         function render_car(car, alive_color, show_sensors) {

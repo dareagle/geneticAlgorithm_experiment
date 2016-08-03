@@ -5,15 +5,11 @@ define(
           './circuit.js'
         , './car.js'
         , '../ai/geneticAlgo.js'
-
-		, '../ai/ArtificialNeuralNetwork.js'
     ],
     function(
 		  createCircuit
 		, createCar
 		, createGeneticAlgo
-
-		, createArtificialNeuralNetwork
     )
 {
 
@@ -54,8 +50,6 @@ define(
 
 		this._trails = [];
 
-		this._alpha_car = null;
-
 		this._start_to_stop_sens = true;
 	};
 
@@ -74,16 +68,6 @@ define(
 
 			someone_is_alive = true;
 		}
-
-
-		//
-		// alpha car
-
-		if (this._alpha_car)
-			this._alpha_car.update(step, this._circuit._walls, this._alpha_car._myANN);
-
-		// alpha car
-		//
 
 
 		// end of the current generation?
@@ -108,41 +92,6 @@ define(
 			if (this._trails.length > 5)
 				this._trails.splice(0, 1);
 		}
-
-
-		//
-		//
-		//
-		// alpha car
-
-		this._alpha_car = new createCar();
-		this._alpha_car._position = {
-			  x: this._circuit._start_position.x
-			, y: this._circuit._start_position.y
-		};
-
-		this._alpha_car._angle = this._circuit._start_angle;
-
-		this._alpha_car._checkpoints = [];
-		for (var j = 0; j < this._circuit._checkpoints.length; ++j)
-			this._alpha_car._checkpoints.push( this._circuit._checkpoints[j] );
-
-
-		this._alpha_car._myANN = new createArtificialNeuralNetwork([5, 4, 2]);
-
-		var weights = [];
-		for (index in this._geneticAlgo._alpha_genome.weights)
-			weights.push( this._geneticAlgo._alpha_genome.weights[index] );
-
-		this._alpha_car._myANN.setWeights( weights );
-
-		// this._alpha_car._myANN.setWeights( this._geneticAlgo._alpha_genome.weights );
-
-		// alpha car
-		//
-		//
-		//
-
 
 		// reset the cars
 
