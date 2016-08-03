@@ -371,6 +371,25 @@ bool Circuit::loadMap(const std::string& filename)
 		// D_MYLOG("m_start_angle=" << m_start_angle);
 	}
 
+	{
+		t_line& l1 = m_checkpoints.back();
+		m_stop_position.x = l1.p1.x + (l1.p2.x - l1.p1.x) * 0.5f;
+		m_stop_position.y = l1.p1.y + (l1.p2.y - l1.p1.y) * 0.5f;
+
+		t_vec2f pos;
+		t_line& l2 = m_checkpoints[m_checkpoints.size() - 2];
+		pos.x = l2.p1.x + (l2.p2.x - l2.p1.x) * 0.5f;
+		pos.y = l2.p1.y + (l2.p2.y - l2.p1.y) * 0.5f;
+
+		// D_MYLOG("m_stop_position.x=" << m_stop_position.x);
+		// D_MYLOG("m_stop_position.y=" << m_stop_position.y);
+		// D_MYLOG("pos.x=" << pos.x);
+		// D_MYLOG("pos.y=" << pos.y);
+
+		m_stop_angle = atan2f(pos.y - m_stop_position.y, pos.x - m_stop_position.x);
+
+		// D_MYLOG("m_stop_angle=" << m_stop_angle);
+	}
 
 	return true;
 }
@@ -589,6 +608,8 @@ void	Car::revive()
 Simulation::Simulation(const std::string& filename)
 	// :	m_pNNTopology(NULL)
 {
+	m_start_to_stop_sens = true;
+
 	m_Circuit.loadMap(filename);
 
 	// at that point the geneticAlgo class constructor
@@ -664,14 +685,34 @@ void	Simulation::update(float step)
 			m_trails.erase( m_trails.begin() );
 	}
 
-	for (Car& car : m_Cars)
+	//
+	//
+
+	m_start_to_stop_sens = !m_start_to_stop_sens;
+
+	if (m_start_to_stop_sens)
 	{
-		// restart the car
-		car.setPosition( m_Circuit.getStartingPositon() );
-		car.setAngle( m_Circuit.getStartingAngle() );
-		car.setCheckpoints( m_Circuit.getCheckpoints() );
-		car.revive();
+		for (Car& car : m_Cars)
+		{
+			// restart the car
+			car.setPosition( m_Circuit.getStartingPositon() );
+			car.setAngle( m_Circuit.getStartingAngle() );
+			car.setCheckpoints( m_Circuit.getCheckpoints() );
+			car.revive();
+		}
 	}
+	else
+	{
+		for (Car& car : m_Cars)
+		{
+			// restart the car
+			car.setPosition( m_Circuit.getStoppingPositon() );
+			car.setAngle( m_Circuit.getStoppingAngle() );
+			car.setCheckpoints( m_Circuit.getCheckpoints() );
+			car.revive();
+		}
+	}
+
 }
 
 // SIMULATION

@@ -103,6 +103,25 @@ define(
 				pos.x - this._start_position.x
 			);
 		}
+
+		{
+			var l1 = this._checkpoints[this._checkpoints.length-1];
+			this._stop_position = {
+				  x: l1.p1.x + (l1.p2.x - l1.p1.x) * 0.5
+				, y: l1.p1.y + (l1.p2.y - l1.p1.y) * 0.5
+			}
+
+			var l1 = this._checkpoints[this._checkpoints.length-2];
+			var pos = {
+				  x: l2.p1.x + (l2.p2.x - l2.p1.x) * 0.5
+				, y: l2.p1.y + (l2.p2.y - l2.p1.y) * 0.5
+			};
+
+			this._stop_angle = Math.atan2(
+				pos.y - this._stop_position.y,
+				pos.x - this._stop_position.x
+			);
+		}
 	}
 
 	//

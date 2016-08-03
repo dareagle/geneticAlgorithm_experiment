@@ -84,6 +84,9 @@ private: // attributs
 	t_vec2f	m_start_position;
 	float	m_start_angle;
 
+	t_vec2f	m_stop_position;
+	float	m_stop_angle;
+
 	bool m_valid;
 
 public: // ctor/dtor
@@ -97,8 +100,12 @@ public: // setter/getter
 	inline bool	isValid() const { return m_valid; }
 	inline const t_lines&	getCheckpoints() const { return m_checkpoints; }
 	inline const t_lines&	getWalls() const { return m_walls; }
+
 	inline const t_vec2f&	getStartingPositon() const { return m_start_position; }
 	inline float			getStartingAngle() const { return m_start_angle; }
+
+	inline const t_vec2f&	getStoppingPositon() const { return m_stop_position; }
+	inline float			getStoppingAngle() const { return m_stop_angle; }
 };
 
 // CIRCUIT
@@ -184,6 +191,8 @@ private: // attributs
 	GeneticAlgorithm			m_genAlgo;
 
 	std::vector< std::vector<t_line> >	m_trails;
+
+	bool						m_start_to_stop_sens;
 
 public: // ctor/dtor
 	Simulation(const std::string& filename);
