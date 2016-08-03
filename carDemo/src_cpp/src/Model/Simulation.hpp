@@ -154,9 +154,6 @@ public: // setter/getter
 	inline const t_vec2f&	getPosition() const { return m_position; }
 	inline float			getAngle() const { return m_angle; }
 
-	// const std::array<t_line, 5>&	getSensorsLines() const { return m_sensors_lines; }
-	// const std::array<float, 5>&		getSensorsValues() const { return m_sensors_values; }
-
 	inline const t_sensors&	getSensors() const { return m_sensors; }
 
 
