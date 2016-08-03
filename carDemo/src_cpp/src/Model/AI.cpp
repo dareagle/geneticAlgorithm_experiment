@@ -572,9 +572,9 @@ void	GeneticAlgorithm::mutate(t_genome& genome) const
 	int total_mutated = 0;
 
 	for (float& weight : genome.m_weights)
-		if (randomFloat() < 0.6f)
+		if (randomFloat() < 0.1f)
 		{
-			weight += (randomClamped() * 0.3f);
+			weight += (randomClamped() * 0.2f);
 
 			++total_mutated;
 		}
