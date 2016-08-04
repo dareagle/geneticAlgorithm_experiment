@@ -162,7 +162,7 @@ define(
                     , y: sensor.line.p1.y + (sensor.line.p2.y - sensor.line.p1.y) * sensor.value
                 };
 
-                Renderer.drawPoint(pos.x, pos.y, "#8888ff");
+                Renderer.drawPoint(pos.x, pos.y, "#ffff00");
             }
         }
         // render car

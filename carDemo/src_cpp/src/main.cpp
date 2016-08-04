@@ -10,6 +10,7 @@
 #include <thread>
 
 #include <SFML/Graphics.hpp>
+#include <SFML/OpenGL.hpp>
 
 
 
@@ -86,7 +87,11 @@ void drawCar(sf::RenderWindow& rwindow, const Car& car, const sf::Color& color)
 
 	sf::Vertex vertices[] = { p1,p2, p2,p3, p3,p4, p4,p1 };
 
+	glLineWidth(5.0f);
+
 	rwindow.draw(vertices, 8, sf::Lines);
+
+	glLineWidth(1.0f);
 
 	///
 
@@ -97,13 +102,14 @@ void drawCar(sf::RenderWindow& rwindow, const Car& car, const sf::Color& color)
 
 	for (Car::t_sensor sensor : sensors)
 	{
-		drawLine(rwindow, sensor.m_line, sf::Color::Red, sf::Color::Blue);
+		sf::Color	LightBlue(128,128,255);
+		drawLine(rwindow, sensor.m_line, LightBlue, LightBlue);
 
 		t_vec2f	pos;
 		pos.x = sensor.m_line.p1.x + (sensor.m_line.p2.x - sensor.m_line.p1.x) * sensor.m_value;
 		pos.y = sensor.m_line.p1.y + (sensor.m_line.p2.y - sensor.m_line.p1.y) * sensor.m_value;
 
-		drawPoint(rwindow, pos, sf::Color::Blue);
+		drawPoint(rwindow, pos, sf::Color::Yellow);
 	}
 }
 
