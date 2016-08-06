@@ -21,7 +21,8 @@ define(
 
 		this._ANNs = [];
 		for (var i = 0; i < genome_size; ++i)
-			this._ANNs.push( new createArtificialNeuralNetwork([5, 4, 2]) );
+			// this._ANNs.push( new createArtificialNeuralNetwork([5, 4, 2]) );
+			this._ANNs.push( new createArtificialNeuralNetwork([5, 2]) );
 
 		this._genomes = [];
 		for (var i = 0; i < genome_size; ++i)
@@ -40,16 +41,6 @@ define(
 		//
 
 		this._logger = new createLogger( 'logger' );
-	};
-
-	//
-
-	createGeneticAlgo.prototype.update = function(step)
-	{
-		for (var i = 0; i < this._cars.length; ++i)
-		{
-			this._cars[i].update(step, this._circuit._walls);
-		}
 	};
 
 	//
