@@ -261,8 +261,8 @@ define(
 
                 var windex = 0;
 
-                // var topology = [5, 4, 2];
-                var topology = [5, 2];
+                var topology = [5, 4, 2];
+                // var topology = [5, 2];
 
                 for (var index = 1; index < topology.length; ++index)
                 {
@@ -301,6 +301,7 @@ define(
                         {
                             var curr_x = (index) * 75;
 
+                            Renderer.drawCircle(curr_x, curr_dec_y+cindex*75, 13, "#ffff00");
                             Renderer.drawCircle(curr_x, curr_dec_y+cindex*75, 10, "#00ff00");
                         }
                 }
