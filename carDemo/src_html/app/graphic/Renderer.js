@@ -49,7 +49,7 @@ define([],function()
 	createRenderer.prototype.drawLine = function(x1, y1, x2, y2, color, size)
 	{
 		this._ctx.strokeStyle = color;
-		this._ctx.lineWidth= size || 1;
+		this._ctx.lineWidth = size || 1;
 		this._ctx.beginPath();
 		this._ctx.moveTo(this._center_x+x1, this._center_y+y1);
 		this._ctx.lineTo(this._center_x+x2, this._center_y+y2);
@@ -60,20 +60,15 @@ define([],function()
 
 	createRenderer.prototype.drawThickLine = function(x1, y1, x2, y2, color)
 	{
-		this._ctx.strokeStyle = color;
-		this._ctx.lineWidth=4;
-		this._ctx.beginPath();
-		this._ctx.moveTo(this._center_x+x1, this._center_y+y1);
-		this._ctx.lineTo(this._center_x+x2, this._center_y+y2);
-		this._ctx.stroke();
+		this.drawLine(x1, y1, x2, y2, color, 4);
 	};
 
 	//
 
-	createRenderer.prototype.drawLineStrip = function(arr_lines, color)
+	createRenderer.prototype.drawLineStrip = function(arr_lines, color, size)
 	{
 		this._ctx.strokeStyle = color;
-		this._ctx.lineWidth=1;
+		this._ctx.lineWidth = size || 1;
 		this._ctx.beginPath();
 
 		this._ctx.moveTo(this._center_x+arr_lines[0].x, this._center_y+arr_lines[0].y);
@@ -85,10 +80,10 @@ define([],function()
 
 	//
 
-	createRenderer.prototype.drawLines = function(arr_lines, color)
+	createRenderer.prototype.drawLines = function(arr_lines, color, size)
 	{
 		this._ctx.strokeStyle = color;
-		this._ctx.lineWidth=1;
+		this._ctx.lineWidth = size || 1;
 		this._ctx.beginPath();
 
 		for (var i = 0; i < arr_lines.length; ++i)
@@ -102,11 +97,11 @@ define([],function()
 
 	//
 
-	createRenderer.prototype.drawPoint = function(x, y, color)
+	createRenderer.prototype.drawPoint = function(x, y, color, size)
 	{
-		var size = 10;
-		this.drawLine(x-size, y-size, x+size, y+size, color);
-		this.drawLine(x-size, y+size, x+size, y-size, color);
+		var csize = 10;
+		this.drawLine(x-csize, y-csize, x+csize, y+csize, color, size);
+		this.drawLine(x-csize, y+csize, x+csize, y-csize, color, size);
 	};
 
 	//

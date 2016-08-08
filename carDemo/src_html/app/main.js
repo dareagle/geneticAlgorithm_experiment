@@ -128,13 +128,14 @@ define(
             //
             // render circuit
 
-            Renderer.drawLines( simulation._circuit._checkpoints, "#ffffff" );
-            Renderer.drawLines( simulation._circuit._walls, "#0000ff" );
+            Renderer.drawLines( simulation._circuit._checkpoints, "#ffffff", 3 );
+            Renderer.drawLines( simulation._circuit._walls, "#0000ff", 2 );
 
             Renderer.drawPoint(
                   simulation._circuit._start_position.x
                 , simulation._circuit._start_position.y
                 , "#ffffff"
+                , 2
             );
 
             Renderer.drawLine(
@@ -143,6 +144,7 @@ define(
                 , simulation._circuit._start_position.x+Math.cos(simulation._circuit._start_angle) * 50.0
                 , simulation._circuit._start_position.y+Math.sin(simulation._circuit._start_angle) * 50.0
                 , "#ffffff"
+                , 2
             );
 
             // render circuit
@@ -181,10 +183,10 @@ define(
 
                 var color = (car._alive ? alive_color :  "#ff0000");
 
-                Renderer.drawThickLine( positions[0].x, positions[0].y, positions[1].x, positions[1].y, color);
-                Renderer.drawThickLine( positions[1].x, positions[1].y, positions[2].x, positions[2].y, color);
-                Renderer.drawThickLine( positions[2].x, positions[2].y, positions[3].x, positions[3].y, color);
-                Renderer.drawThickLine( positions[3].x, positions[3].y, positions[0].x, positions[0].y, color);
+                Renderer.drawLine( positions[0].x, positions[0].y, positions[1].x, positions[1].y, color, 6);
+                Renderer.drawLine( positions[1].x, positions[1].y, positions[2].x, positions[2].y, color, 6);
+                Renderer.drawLine( positions[2].x, positions[2].y, positions[3].x, positions[3].y, color, 6);
+                Renderer.drawLine( positions[3].x, positions[3].y, positions[0].x, positions[0].y, color, 6);
 
                 if (!car._alive || !show_sensors) // render sensors only if the car is alive
                     return;
@@ -195,16 +197,18 @@ define(
                 {
                     var sensor = sensors[i];
 
-                    Renderer.drawLine( sensor.line.p1.x, sensor.line.p1.y, sensor.line.p2.x, sensor.line.p2.y, "#8888ff");
-
                     var pos = {
                           x: sensor.line.p1.x + (sensor.line.p2.x - sensor.line.p1.x) * sensor.value
                         , y: sensor.line.p1.y + (sensor.line.p2.y - sensor.line.p1.y) * sensor.value
                     };
 
-                    Renderer.drawPoint(pos.x, pos.y, "#ffff00");
+                    Renderer.drawLine( sensor.line.p1.x, sensor.line.p1.y, pos.x, pos.y, "#8888ff", 2);
+                    Renderer.drawLine( pos.x, pos.y, sensor.line.p2.x, sensor.line.p2.y, "#ff8888", 2);
+
+                    Renderer.drawPoint(pos.x, pos.y, "#ffff00", 2);
                 }
             }
+
             // render car
             //
 
