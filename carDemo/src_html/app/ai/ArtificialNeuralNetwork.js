@@ -109,21 +109,20 @@ define([],function()
 		// process hidden layer
 
 		var	hidden_input = arr_input;
-		var hidden_output = [];
 
 		// Cycle over all the neurons and sum their weights against the inputs.
-		for (i in this._layerHidden)
+		for (var i in this._layerHidden)
 		{
 			var current_layer = this._layerHidden[i];
 
-			hidden_output.length = 0;
+			var hidden_output = [];
 
-			for (j in current_layer)
+			for (var j in current_layer)
 			{
 				var activation = 0.0;
 
 				// Sum the weights to the activation value.
-				for (k in hidden_input)
+				for (var k in hidden_input)
 					activation += hidden_input[k] * current_layer[j][k];
 
 				hidden_output.push( activation );
@@ -139,12 +138,12 @@ define([],function()
 		// process output layer
 
 		// Cycle over all the neurons and sum their weights against the inputs.
-		for (i in this._layerOutput)
+		for (var i in this._layerOutput)
 		{
 			var activation = 0.0;
 
 			// Sum the weights to the activation value.
-			for (j in hidden_input)
+			for (var j in hidden_input)
 				activation += hidden_input[j] * this._layerOutput[i][j];
 
 			output.push( activation );

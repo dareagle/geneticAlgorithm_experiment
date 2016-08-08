@@ -137,6 +137,8 @@ int	main()
 	// Create the main window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
 
+	sf::Vector2f	camera_center;
+
 	// Start the game loop
 	while (window.isOpen())
 	{
@@ -180,6 +182,35 @@ int	main()
 		for (int i = 0; i < iteration_nbr; ++i)
 			tmp_sim.update(0.25f);
 
+
+		{ // camera
+
+			sf::View	view;
+			view.reset(sf::FloatRect(0, 0, 800, 600));
+
+			t_vec2f	target;
+
+			unsigned int index = 0;
+			for (; index < tmp_sim.getCars().size(); ++index)
+				if (tmp_sim.getCars()[index].isAlive())
+					break;
+
+			if (index < tmp_sim.getCars().size())
+				target = tmp_sim.getCars()[index].getPosition();
+
+			sf::Vector2f	diff(target.x-camera_center.x, target.y-camera_center.y);
+
+            camera_center.x += diff.x * 0.1;
+            camera_center.y += diff.y * 0.1;
+
+			// view.setCenter(400,300);
+			if (iteration_nbr <= 3)
+				view.setCenter(camera_center);
+
+			window.setView(view);
+
+		} // camera
+
 		// Clear screen
 		window.clear();
 
@@ -207,6 +238,32 @@ int	main()
 
 			drawLines(window, trails.back(), sf::Color::White, sf::Color::White);
 		}
+
+		{ // hud
+
+			// window.setView(window.getDefaultView());
+
+			// unsigned int index = 0;
+			// for (; index < tmp_sim.getCars().size(); ++index)
+			// 	if (tmp_sim.getCars()[index].isAlive())
+			// 		break;
+
+			// if (index < tmp_sim.getCars().size())
+			// {
+			// 	const GeneticAlgorithm::t_genome& genome = tmp_sim.getGenomes()[index];
+
+			// 	sf::CircleShape circle;
+			// 	circle.setRadius(10);
+			// 	circle.setOrigin(10,10);
+			// 	circle.setOutlineColor(sf::Color::Red);
+			// 	circle.setOutlineThickness(3);
+			// 	circle.setPosition(10, 10);
+			// 	window.draw(circle);
+
+			// 	genome.m_weights;
+			// }
+
+		} // hud
 
 		// Update the window
 		window.display();

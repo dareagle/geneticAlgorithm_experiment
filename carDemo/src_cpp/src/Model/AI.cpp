@@ -304,6 +304,7 @@ void	GeneticAlgorithm::generateRandomPopulation()
 	std::vector<unsigned int> tmp_hidden;
 	// tmp_hidden.push_back(8);
 	tmp_hidden.push_back(4);
+	tmp_hidden.push_back(3);
 	// tmp_hidden.push_back(7);
 	// tmp_hidden.push_back(7);
 	// tmp_hidden.push_back(7);

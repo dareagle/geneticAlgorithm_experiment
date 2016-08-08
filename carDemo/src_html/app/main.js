@@ -107,7 +107,7 @@ define(
             center_x = center_x + diff_x * 0.1;
             center_y = center_y + diff_y * 0.1;
 
-            Renderer.setCenter(-center_x+400, -center_y+300);
+            Renderer.setCenter(-center_x+500, -center_y+300);
         }
 
         // CAMERA
@@ -261,8 +261,9 @@ define(
 
                 var windex = 0;
 
-                var topology = [5, 4, 2];
+                // var topology = [5, 4, 2];
                 // var topology = [5, 2];
+                var topology = [5, 4, 3, 2];
 
                 for (var index = 1; index < topology.length; ++index)
                 {

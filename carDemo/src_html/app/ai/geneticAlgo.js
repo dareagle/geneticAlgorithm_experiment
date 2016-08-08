@@ -21,8 +21,9 @@ define(
 
 		this._ANNs = [];
 		for (var i = 0; i < genome_size; ++i)
-			this._ANNs.push( new createArtificialNeuralNetwork([5, 4, 2]) );
+			// this._ANNs.push( new createArtificialNeuralNetwork([5, 4, 2]) );
 			// this._ANNs.push( new createArtificialNeuralNetwork([5, 2]) );
+			this._ANNs.push( new createArtificialNeuralNetwork([5, 4, 3, 2]) );
 
 		this._genomes = [];
 		for (var i = 0; i < genome_size; ++i)
@@ -121,7 +122,7 @@ define(
 		// For the remainding n population, add some random kiddies.
 		var remainingChildren = (this._genomes.length - children.length);
 
-		var total_weights = this._ANNs[0].getWeights().length
+		var total_weights = this._ANNs[0].getWeights().length;
 
 		for (var i = 0; i < remainingChildren; i++)
 		{

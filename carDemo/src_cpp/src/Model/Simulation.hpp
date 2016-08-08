@@ -210,7 +210,7 @@ public: // setter/getter
 	inline const std::vector<GeneticAlgorithm::t_genome>&	getGenomes() const { return m_genAlgo.getGenomes(); }
 
 	inline const std::vector< std::vector<t_line> >&	getTrails() const { return m_trails; };
-	
+
 };
 
 // SIMULATION
