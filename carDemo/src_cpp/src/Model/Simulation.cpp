@@ -500,6 +500,8 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 	// float speed = ((fabs(leftTheta + rightTheta)) / 2) * 160.0f;
 	float speed = rightTheta * 3.0f;
 
+	speed = std::min(15.0f, std::max(-10.0f, speed));
+
 	// speed = std::min(15.0f, std::max(10.0f, speed));
 
 

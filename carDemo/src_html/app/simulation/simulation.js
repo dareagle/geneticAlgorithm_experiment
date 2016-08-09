@@ -120,6 +120,7 @@ define(
 				car._fitness = 0;
 				car._total_update = 0;
 				car._trail = [];
+				car._min_updates = 100;
 			}
 		}
 		else
@@ -145,6 +146,7 @@ define(
 				car._fitness = 0;
 				car._total_update = 0;
 				car._trail = [];
+				car._min_updates = 100;
 			}
 		}
 

@@ -19,6 +19,7 @@ define(
 
 		this._fitness = 0;
 
+		this._min_updates = 100;
 		this._total_update = 0;
 
 		this._trail = [];
@@ -32,6 +33,23 @@ define(
 	{
 		if (!this._alive)
 			return;
+
+
+		//
+		// min update
+
+		if (this._min_updates > 0)
+			--this._min_updates;
+		if (this._min_updates == 0)
+		{
+			this._min_updates = 100;
+			this._alive = false;
+		}
+
+		// min update
+		//
+		//
+
 
 		//
 
@@ -48,19 +66,26 @@ define(
 		var leftTheta = output[0];
 		var rightTheta = output[1];
 
+		if (isNaN(leftTheta))	leftTheta = 0;
+		if (isNaN(rightTheta))	rightTheta = 0;
+
 		// console.log("leftTheta=" + leftTheta);
 		// console.log("rightTheta=" + rightTheta);
 
-		leftTheta = Math.min(Math.PI/32.0, Math.max(-Math.PI/32.0, leftTheta));
-		rightTheta = Math.min(Math.PI/32.0, Math.max(-Math.PI/32.0, rightTheta));
+		// leftTheta = Math.min(Math.PI/32.0, Math.max(-Math.PI/32.0, leftTheta));
+		// rightTheta = Math.min(Math.PI/32.0, Math.max(-Math.PI/32.0, rightTheta));
 
-		this._angle += (leftTheta - rightTheta) * step;
+		// this._angle += (leftTheta - rightTheta) * step;
+		this._angle += leftTheta * step;
 
 		// console.log(this._angle);
 
-		var speed = ((Math.abs(leftTheta + rightTheta)) / 2) * 160.0;
+		// var speed = ((Math.abs(leftTheta + rightTheta)) / 2) * 160.0;
 
-		speed = Math.min(15.0, Math.max(10.0, speed));
+		var speed = rightTheta * 30.0;
+
+		// speed = Math.min(15.0, Math.max(10.0, speed));
+		speed = Math.min(15.0, Math.max(-10.0, speed));
 
 		//
 
@@ -171,6 +196,9 @@ define(
 			{
 				// console.log('checkpoint erased');
 				this._checkpoints.splice(i, 1);
+
+				this._min_updates = 100;
+
 				++this._fitness;
 			}
 			else
