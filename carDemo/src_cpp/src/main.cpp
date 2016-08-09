@@ -198,7 +198,7 @@ int	main()
 			if (index < tmp_sim.getCars().size())
 				target = tmp_sim.getCars()[index].getPosition();
 
-			sf::Vector2f	diff(target.x-camera_center.x, target.y-camera_center.y);
+			sf::Vector2f	diff(target.x-camera_center.x-200, target.y-camera_center.y);
 
             camera_center.x += diff.x * 0.1;
             camera_center.y += diff.y * 0.1;
@@ -243,25 +243,106 @@ int	main()
 
 			// window.setView(window.getDefaultView());
 
-			// unsigned int index = 0;
-			// for (; index < tmp_sim.getCars().size(); ++index)
-			// 	if (tmp_sim.getCars()[index].isAlive())
-			// 		break;
+			sf::View	view;
+			view.reset(sf::FloatRect(0, 0, 800, 600));
+			view.move(-100,-100);
+			window.setView(view);
 
-			// if (index < tmp_sim.getCars().size())
-			// {
-			// 	const GeneticAlgorithm::t_genome& genome = tmp_sim.getGenomes()[index];
+			unsigned int index = 0;
+			for (; index < tmp_sim.getCars().size(); ++index)
+				if (tmp_sim.getCars()[index].isAlive())
+					break;
 
-			// 	sf::CircleShape circle;
-			// 	circle.setRadius(10);
-			// 	circle.setOrigin(10,10);
-			// 	circle.setOutlineColor(sf::Color::Red);
-			// 	circle.setOutlineThickness(3);
-			// 	circle.setPosition(10, 10);
-			// 	window.draw(circle);
+			if (index < tmp_sim.getCars().size())
+			{
+				const GeneticAlgorithm::t_genome& genome = tmp_sim.getGenomes()[index];
 
-			// 	genome.m_weights;
-			// }
+				unsigned int	ann_topology_length = 4;
+				unsigned int	ann_topology[] = {5,4,3,2};
+
+				unsigned int	windex = 0;
+
+				for (unsigned int index = 1; index < ann_topology_length; ++index)
+				{
+					int prev_layer = ann_topology[index-1];
+					int curr_layer = ann_topology[index];
+
+					float prev_dec_y = (1.0f - ((float)prev_layer / 5)) * 185;
+					float curr_dec_y = (1.0f - ((float)curr_layer / 5)) * 185;
+
+					for (int pindex = 0; pindex < prev_layer; ++pindex)
+						for (int cindex = 0; cindex < curr_layer; ++cindex)
+						{
+							float curr_x = (index-1) * 75;
+
+							sf::Vector2f	p1;
+							p1.x = curr_x;
+							p1.y = prev_dec_y+pindex*75;
+
+							sf::Vector2f	p2;
+							p2.x = curr_x+75;
+							p2.y = curr_dec_y+cindex*75;
+
+							float wvalue = genome.m_weights[windex++];
+
+							float ratio = wvalue * 10;
+							if (ratio < 0)  ratio = -ratio;
+							if (ratio < 1)  ratio = 1;
+
+							float thickness = ratio;
+
+							float length = sqrtf( (p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y) );
+
+							sf::RectangleShape line(sf::Vector2f(length, thickness));
+
+							line.setOrigin(thickness/2, thickness/2);
+							line.setPosition(p1);
+
+
+							if (wvalue > 0)
+								line.setFillColor(sf::Color::Red);
+							else
+								line.setFillColor(sf::Color::Blue);
+
+							float angle = atan2f(p2.y-p1.y, p2.x-p1.x);
+
+							// line.rotate(angle);
+							// line.rotate(angle * 3.14f / 180.0f);
+							line.rotate(angle * 180.0f / 3.14f);
+							window.draw(line);
+
+
+							// if (wvalue > 0)
+							// 	Renderer.drawLine( curr_x, prev_dec_y+pindex*75, curr_x+75, curr_dec_y+cindex*75, "#ff0000", ratio);
+							// else
+							// 	Renderer.drawLine( curr_x, prev_dec_y+pindex*75, curr_x+75, curr_dec_y+cindex*75, "#0000ff", ratio);
+						}
+				}
+
+				for (unsigned int index = 0; index < ann_topology_length; ++index)
+				{
+					int curr_layer = ann_topology[index];
+
+					float curr_dec_y = (1.0f - ((float)curr_layer / 5)) * 185;
+
+					for (int cindex = 0; cindex < curr_layer; ++cindex)
+					{
+						int curr_x = (index) * 75;
+
+						// Renderer.drawCircle(curr_x, curr_dec_y+cindex*75, 13, "#ffff00");
+						// Renderer.drawCircle(curr_x, curr_dec_y+cindex*75, 10, "#00ff00");
+
+						sf::CircleShape circle;
+						circle.setRadius(10);
+						circle.setOrigin(10,10);
+						circle.setOutlineColor(sf::Color::Yellow);
+						circle.setOutlineThickness(3);
+						circle.setPosition(curr_x, curr_dec_y+cindex*75);
+						window.draw(circle);
+					}
+				}
+
+			}
 
 		} // hud
 
