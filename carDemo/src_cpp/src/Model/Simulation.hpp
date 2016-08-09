@@ -131,6 +131,7 @@ private: // attributs
 	float	m_angle;
 	float	m_fitness;
 	bool	m_alive;
+	unsigned int	m_min_updates;
 	unsigned int	m_total_updates;
 
 	// TODO : use enumeration

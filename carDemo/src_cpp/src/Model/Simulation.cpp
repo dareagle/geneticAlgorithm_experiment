@@ -289,6 +289,9 @@ bool Circuit::loadMap(const std::string& filename)
 	// m_walls.push_back( t_line(m_checkpoints.front().p1, m_checkpoints.back().p1) );
 	// m_walls.push_back( t_line(m_checkpoints.front().p2, m_checkpoints.back().p2) );
 
+	// m_walls.push_back( t_line(m_checkpoints.front().p1, m_checkpoints.front().p2) );
+	// m_walls.push_back( t_line(m_checkpoints.back().p1, m_checkpoints.back().p2) );
+
 	// expand the walls (fix collisions bugs)
 
 	for (unsigned int i = 0; i < m_walls.size(); ++i)
@@ -368,6 +371,9 @@ bool Circuit::loadMap(const std::string& filename)
 
 		m_start_angle = atan2f(pos.y - m_start_position.y, pos.x - m_start_position.x);
 
+		// m_start_position.x += 10.0f * cosf(m_start_angle);
+		// m_start_position.y += 10.0f * sinf(m_start_angle);
+
 		// D_MYLOG("m_start_angle=" << m_start_angle);
 	}
 
@@ -387,6 +393,9 @@ bool Circuit::loadMap(const std::string& filename)
 		// D_MYLOG("pos.y=" << pos.y);
 
 		m_stop_angle = atan2f(pos.y - m_stop_position.y, pos.x - m_stop_position.x);
+
+		// m_stop_position.x += 10.0f * cosf(m_stop_angle);
+		// m_stop_position.y += 10.0f * sinf(m_stop_angle);
 
 		// D_MYLOG("m_stop_angle=" << m_stop_angle);
 	}
@@ -420,6 +429,7 @@ Car::Car()
 	:	m_angle(0.0f),
 		m_fitness(0.0f),
 		m_alive(true),
+		m_min_updates(100),
 		m_total_updates(0)
 {
 	updateSensors();
@@ -435,6 +445,19 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 	if (!m_alive)
 		return;
 
+	//
+	// min update
+
+	if (m_min_updates > 0)
+		--m_min_updates;
+	if (m_min_updates == 0)
+	{
+		m_min_updates = 100;
+		m_alive = false;
+	}
+
+	// min update
+	//
 	//
 
 	// m_fitness += 0.01f;
@@ -462,17 +485,22 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 	float leftTheta		= output[0];
 	float rightTheta	= output[1];
 
-	leftTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, leftTheta));
-	rightTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, rightTheta));
+	if (std::isnan(leftTheta))	leftTheta = 0.0f;
+	if (std::isnan(rightTheta))	rightTheta = 0.0f;
 
-	m_angle += (leftTheta - rightTheta) * step;
+	// leftTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, leftTheta));
+	// rightTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, rightTheta));
+
+	// m_angle += (leftTheta - rightTheta) * step;
+	m_angle += leftTheta * step;
 
 	// m_position.x += (k_speed * cosf(m_angle)) * step;
 	// m_position.y += (k_speed * sinf(m_angle)) * step;
 
-	float speed = ((fabs(leftTheta + rightTheta)) / 2) * 160.0f;
+	// float speed = ((fabs(leftTheta + rightTheta)) / 2) * 160.0f;
+	float speed = rightTheta * 5.0f;
 
-	speed = std::min(15.0f, std::max(10.0f, speed));
+	// speed = std::min(15.0f, std::max(10.0f, speed));
 
 
 	t_vec2f	prev_pos = m_position;
@@ -548,6 +576,7 @@ void	Car::collideCheckpoints()
 		if (CollisionSegmentCercle(it->p1, it->p2, m_position, 5.0f))
 		{
 			it = m_current_checkpoints.erase(it);
+			m_min_updates = 100;
 			++m_fitness;
 		}
 		else
@@ -581,6 +610,7 @@ void	Car::revive()
 	m_fitness = 0;
 	m_total_updates = 0;
 	m_trail.clear();
+	m_min_updates = 100;
 }
 
 // CAR
