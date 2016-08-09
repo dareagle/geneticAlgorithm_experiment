@@ -498,7 +498,7 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 	// m_position.y += (k_speed * sinf(m_angle)) * step;
 
 	// float speed = ((fabs(leftTheta + rightTheta)) / 2) * 160.0f;
-	float speed = rightTheta * 5.0f;
+	float speed = rightTheta * 3.0f;
 
 	// speed = std::min(15.0f, std::max(10.0f, speed));
 
