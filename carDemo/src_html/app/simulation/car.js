@@ -72,7 +72,7 @@ define(
 		// console.log("leftTheta=" + leftTheta);
 		// console.log("rightTheta=" + rightTheta);
 
-		// leftTheta = Math.min(Math.PI/32.0, Math.max(-Math.PI/32.0, leftTheta));
+		leftTheta = Math.min(Math.PI/32.0, Math.max(-Math.PI/32.0, leftTheta));
 		// rightTheta = Math.min(Math.PI/32.0, Math.max(-Math.PI/32.0, rightTheta));
 
 		// this._angle += (leftTheta - rightTheta) * step;
