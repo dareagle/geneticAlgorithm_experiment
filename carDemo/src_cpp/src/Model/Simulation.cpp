@@ -488,7 +488,7 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 	if (std::isnan(leftTheta))	leftTheta = 0.0f;
 	if (std::isnan(rightTheta))	rightTheta = 0.0f;
 
-	// leftTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, leftTheta));
+	leftTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, leftTheta));
 	// rightTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, rightTheta));
 
 	// m_angle += (leftTheta - rightTheta) * step;
@@ -720,9 +720,9 @@ void	Simulation::update(float step)
 	//
 	//
 
-	m_start_to_stop_sens = !m_start_to_stop_sens;
+	// m_start_to_stop_sens = !m_start_to_stop_sens;
 
-	if (m_start_to_stop_sens)
+	// if (m_start_to_stop_sens)
 	{
 		for (Car& car : m_Cars)
 		{
@@ -733,17 +733,17 @@ void	Simulation::update(float step)
 			car.revive();
 		}
 	}
-	else
-	{
-		for (Car& car : m_Cars)
-		{
-			// restart the car
-			car.setPosition( m_Circuit.getStoppingPositon() );
-			car.setAngle( m_Circuit.getStoppingAngle() );
-			car.setCheckpoints( m_Circuit.getCheckpoints() );
-			car.revive();
-		}
-	}
+	// else
+	// {
+	// 	for (Car& car : m_Cars)
+	// 	{
+	// 		// restart the car
+	// 		car.setPosition( m_Circuit.getStoppingPositon() );
+	// 		car.setAngle( m_Circuit.getStoppingAngle() );
+	// 		car.setCheckpoints( m_Circuit.getCheckpoints() );
+	// 		car.revive();
+	// 	}
+	// }
 
 }
 
