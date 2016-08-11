@@ -97,7 +97,7 @@ define(
 
 		this._start_to_stop_sens = !this._start_to_stop_sens;
 
-		if (this._start_to_stop_sens)
+		// if (this._start_to_stop_sens)
 		{
 			for (var i = 0; i < this._cars.length; ++i)
 			{
@@ -123,32 +123,32 @@ define(
 				car._min_updates = 100;
 			}
 		}
-		else
-		{
-			for (var i = 0; i < this._cars.length; ++i)
-			{
-				var car = this._cars[i];
+		// else
+		// {
+		// 	for (var i = 0; i < this._cars.length; ++i)
+		// 	{
+		// 		var car = this._cars[i];
 
-				this._geneticAlgo._genomes[i].car = car;
+		// 		this._geneticAlgo._genomes[i].car = car;
 
-				car._position = {
-					  x: this._circuit._stop_position.x
-					, y: this._circuit._stop_position.y
-				};
+		// 		car._position = {
+		// 			  x: this._circuit._stop_position.x
+		// 			, y: this._circuit._stop_position.y
+		// 		};
 
-				car._angle = this._circuit._stop_angle;
+		// 		car._angle = this._circuit._stop_angle;
 
-				car._checkpoints = [];
-				for (j in this._circuit._checkpoints)
-					car._checkpoints.push( this._circuit._checkpoints[j] );
+		// 		car._checkpoints = [];
+		// 		for (j in this._circuit._checkpoints)
+		// 			car._checkpoints.push( this._circuit._checkpoints[j] );
 
-				car._alive = true;
-				car._fitness = 0;
-				car._total_update = 0;
-				car._trail = [];
-				car._min_updates = 100;
-			}
-		}
+		// 		car._alive = true;
+		// 		car._fitness = 0;
+		// 		car._total_update = 0;
+		// 		car._trail = [];
+		// 		car._min_updates = 100;
+		// 	}
+		// }
 
 	};
 

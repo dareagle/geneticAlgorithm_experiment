@@ -488,21 +488,26 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 	if (std::isnan(leftTheta))	leftTheta = 0.0f;
 	if (std::isnan(rightTheta))	rightTheta = 0.0f;
 
-	leftTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, leftTheta));
+
+
+
+	// leftTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, leftTheta));
 	// rightTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, rightTheta));
 
 	// m_angle += (leftTheta - rightTheta) * step;
-	m_angle += leftTheta * step;
-
-	// m_position.x += (k_speed * cosf(m_angle)) * step;
-	// m_position.y += (k_speed * sinf(m_angle)) * step;
 
 	// float speed = ((fabs(leftTheta + rightTheta)) / 2) * 160.0f;
-	float speed = rightTheta * 3.0f;
+	// speed = std::min(15.0f, std::max(10.0f, speed));
 
+
+
+	leftTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, leftTheta));
+	m_angle += leftTheta * step;
+	float speed = rightTheta * 3.0f;
 	speed = std::min(15.0f, std::max(-10.0f, speed));
 
-	// speed = std::min(15.0f, std::max(10.0f, speed));
+
+
 
 
 	t_vec2f	prev_pos = m_position;
