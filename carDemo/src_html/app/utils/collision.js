@@ -6,18 +6,18 @@ define([],function()
 
 	//
 
-	self.CollisionDroiteSeg_BBox = function(A, B, O, P)
-	{
-		var minAB = {x:Math.min(A.x, B.x), y:Math.min(A.y, B.y)};
-		var minOP = {x:Math.min(O.x, P.x), y:Math.min(O.y, P.y)};
-		var maxAB = {x:Math.max(A.x, B.x), y:Math.max(A.y, B.y)};
-		var maxOP = {x:Math.max(O.x, P.x), y:Math.max(O.y, P.y)};
+	// self.CollisionDroiteSeg_BBox = function(A, B, O, P)
+	// {
+	// 	var minAB = {x:Math.min(A.x, B.x), y:Math.min(A.y, B.y)};
+	// 	var minOP = {x:Math.min(O.x, P.x), y:Math.min(O.y, P.y)};
+	// 	var maxAB = {x:Math.max(A.x, B.x), y:Math.max(A.y, B.y)};
+	// 	var maxOP = {x:Math.max(O.x, P.x), y:Math.max(O.y, P.y)};
 
-		return !(maxAB.x < minOP.x ||
-				 minAB.x > maxOP.x ||
-				 maxAB.y < minOP.y ||
-				 minAB.y > maxOP.y);
-	}
+	// 	return !(maxAB.x < minOP.x ||
+	// 			 minAB.x > maxOP.x ||
+	// 			 maxAB.y < minOP.y ||
+	// 			 minAB.y > maxOP.y);
+	// }
 
 	self.CollisionDroiteSeg = function(A, B, O, P)
 	{

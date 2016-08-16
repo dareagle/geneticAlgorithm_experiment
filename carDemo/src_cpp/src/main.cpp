@@ -189,7 +189,7 @@ int	main()
 			view.reset(sf::FloatRect(0, 0, 800, 600));
 
 			t_vec2f	target;
-
+			
 			unsigned int index = 0;
 			for (; index < tmp_sim.getCars().size(); ++index)
 				if (tmp_sim.getCars()[index].isAlive())
