@@ -46,7 +46,7 @@ define(
 
 	createGeneticAlgo.prototype.BreedPopulation = function()
 	{
-		var bestGenomes = this._getBestGenomes(4);
+		var bestGenomes = this._getBestGenomes(5);
 
 		var children = [];
 
