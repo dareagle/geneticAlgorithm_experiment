@@ -113,8 +113,8 @@ define(
 				this._mutate(baby1);
 				this._mutate(baby2);
 
-				children.push(baby1);
-				children.push(baby2);
+				if (children.length < this._genomes.length) children.push(baby1);
+				if (children.length < this._genomes.length) children.push(baby2);
 			}
 
 		// For the remainding n population, add some random kiddies.
