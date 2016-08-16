@@ -21,8 +21,9 @@ define(
 		this._circuit = new createCircuit(elem_id);
 
 		var genome_size = 30;
+		this._ann_topology = [5, 4, 3, 2];
 
-		this._geneticAlgo = new createGeneticAlgo( genome_size );
+		this._geneticAlgo = new createGeneticAlgo( genome_size, this._ann_topology );
 
 		//
 

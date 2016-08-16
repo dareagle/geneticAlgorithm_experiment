@@ -11,7 +11,6 @@ define(
         , './simulation/simulation.js'
     ],
     function(
-
           unused_requestAnimationFrame // <- use window.requestAnimFrame
         , unused_fpsmeter // <- use window.FPSMeter
 
@@ -20,7 +19,6 @@ define(
         , utils
 
         , createSimulation
-
     )
 {
 
@@ -215,7 +213,6 @@ define(
             //
             // render trails
 
-            // var trail_colors = [ "#00ff00", "#00cc00", "#009900", "#006600", "#003300" ];
             var trail_colors = [ "#ffffff", "#00ff00", "#00cc00", "#009900", "#006600", "#003300" ];
             var trail_colors_index = 0;
 
@@ -265,9 +262,7 @@ define(
 
                 var windex = 0;
 
-                // var topology = [5, 4, 2];
-                // var topology = [5, 2];
-                var topology = [5, 4, 3, 2];
+                var topology = simulation._ann_topology
 
                 for (var index = 1; index < topology.length; ++index)
                 {
@@ -301,14 +296,13 @@ define(
 
                     var curr_dec_y = (1.0 - (curr_layer / 5)) * 185;
 
-                    // for (var pindex = 0; pindex < prev_layer; ++pindex)
-                        for (var cindex = 0; cindex < curr_layer; ++cindex)
-                        {
-                            var curr_x = (index) * 75;
+                    for (var cindex = 0; cindex < curr_layer; ++cindex)
+                    {
+                        var curr_x = (index) * 75;
 
-                            Renderer.drawCircle(curr_x, curr_dec_y+cindex*75, 13, "#ffff00");
-                            Renderer.drawCircle(curr_x, curr_dec_y+cindex*75, 10, "#00ff00");
-                        }
+                        Renderer.drawCircle(curr_x, curr_dec_y+cindex*75, 13, "#ffff00");
+                        Renderer.drawCircle(curr_x, curr_dec_y+cindex*75, 10, "#00ff00");
+                    }
                 }
 
             }

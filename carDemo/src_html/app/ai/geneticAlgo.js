@@ -15,15 +15,13 @@ define(
 
 	//
 
-	var createGeneticAlgo = function (genome_size)
+	var createGeneticAlgo = function (genome_size, ann_topology)
 	{
 		this._current_id = 0;
 
 		this._ANNs = [];
 		for (var i = 0; i < genome_size; ++i)
-			// this._ANNs.push( new createArtificialNeuralNetwork([5, 4, 2]) );
-			// this._ANNs.push( new createArtificialNeuralNetwork([5, 2]) );
-			this._ANNs.push( new createArtificialNeuralNetwork([5, 4, 3, 2]) );
+			this._ANNs.push( new createArtificialNeuralNetwork( ann_topology ) );
 
 		this._genomes = [];
 		for (var i = 0; i < genome_size; ++i)
