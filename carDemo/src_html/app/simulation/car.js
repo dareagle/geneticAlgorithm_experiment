@@ -124,12 +124,20 @@ define(
 	{
 		// initialise
 
+		// var angles = [
+		// 	-Math.PI/2.0,
+		// 	-Math.PI/4.0,
+		// 	0.0,
+		// 	Math.PI/4.0,
+		// 	Math.PI/2.0
+		// ];
+
 		var angles = [
-			-Math.PI/2.0,
 			-Math.PI/4.0,
+			-Math.PI/8.0,
 			0.0,
-			Math.PI/4.0,
-			Math.PI/2.0
+			Math.PI/8.0,
+			Math.PI/4.0
 		];
 
 		this._sensors = [];
@@ -139,8 +147,8 @@ define(
 				line: {
 					  p1: {x:0, y:0}
 					, p2: {
-						  x: 100.0 * Math.cos(angles[i])
-						, y: 100.0 * Math.sin(angles[i])
+						  x: 200.0 * Math.cos(angles[i])
+						, y: 200.0 * Math.sin(angles[i])
 					}
 				}
 				, value: 1.0

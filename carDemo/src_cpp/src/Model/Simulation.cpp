@@ -526,19 +526,27 @@ void	Car::updateSensors()
 {
 	// initialise
 
+	// static const float angles[5] = {
+	// 	-M_PI/2.0f,
+	// 	-M_PI/4.0f,
+	// 	0.0f,
+	// 	M_PI/4.0f,
+	// 	M_PI/2.0f
+	// };
+
 	static const float angles[5] = {
-		-M_PI/2.0f,
 		-M_PI/4.0f,
+		-M_PI/8.0f,
 		0.0f,
-		M_PI/4.0f,
-		M_PI/2.0f
+		M_PI/8.0f,
+		M_PI/4.0f
 	};
 
 	for (unsigned int i = 0; i < m_sensors.size(); ++i)
 	{
 		m_sensors[i].m_line.p1 = t_vec2f();
-		m_sensors[i].m_line.p2.x = 100.0f * cosf(angles[i]);
-		m_sensors[i].m_line.p2.y = 100.0f * sinf(angles[i]);
+		m_sensors[i].m_line.p2.x = 200.0f * cosf(angles[i]);
+		m_sensors[i].m_line.p2.y = 200.0f * sinf(angles[i]);
 
 		m_sensors[i].m_value = 1.0f;
 	}
