@@ -300,37 +300,37 @@ bool Circuit::loadMap(const std::string& filename)
 		m_walls[i].p2 = lerp(m_walls[i].p1, m_walls[i].p2, 1.01f);
 	}
 
-	// // duplicate the checkpoints
+	// duplicate the checkpoints
 
-	// t_lines	tmp_checkpoints;
-	// tmp_checkpoints.push_back(m_checkpoints[0]);
-	// for (unsigned int i = 1; i < m_checkpoints.size(); ++i)
+	t_lines	tmp_checkpoints;
+	tmp_checkpoints.push_back(m_checkpoints[0]);
+	for (unsigned int i = 1; i < m_checkpoints.size(); ++i)
+	{
+		const t_line& l1 = m_checkpoints[i - 1];
+		const t_line& l2 = m_checkpoints[i];
+
+		t_line	tmp_line;
+		for (float f = 0.25f; f < 1.0f; f += 0.25f)
+		{
+			tmp_line.p1 = lerp(l1.p1, l2.p1, f);
+			tmp_line.p2 = lerp(l1.p2, l2.p2, f);
+			tmp_checkpoints.push_back(tmp_line);
+		}
+
+		tmp_checkpoints.push_back(l2);
+	}
 	// {
-	// 	const t_line& l1 = m_checkpoints[i - 1];
-	// 	const t_line& l2 = m_checkpoints[i];
+	// 	const t_line& l1 = m_checkpoints.front();
+	// 	const t_line& l2 = m_checkpoints.back();
 
 	// 	t_line	tmp_line;
-	// 	for (float f = 0.25f; f < 1.0f; f += 0.25f)
-	// 	{
-	// 		tmp_line.p1 = lerp(l1.p1, l2.p1, f);
-	// 		tmp_line.p2 = lerp(l1.p2, l2.p2, f);
-	// 		tmp_checkpoints.push_back(tmp_line);
-	// 	}
+	// 	tmp_line.p1 = lerp(l1.p1, l2.p1, 0.5f);
+	// 	tmp_line.p2 = lerp(l1.p2, l2.p2, 0.5f);
+	// 	tmp_checkpoints.push_back(tmp_line);
 
 	// 	tmp_checkpoints.push_back(l2);
 	// }
-	// // {
-	// // 	const t_line& l1 = m_checkpoints.front();
-	// // 	const t_line& l2 = m_checkpoints.back();
-
-	// // 	t_line	tmp_line;
-	// // 	tmp_line.p1 = lerp(l1.p1, l2.p1, 0.5f);
-	// // 	tmp_line.p2 = lerp(l1.p2, l2.p2, 0.5f);
-	// // 	tmp_checkpoints.push_back(tmp_line);
-
-	// // 	tmp_checkpoints.push_back(l2);
-	// // }
-	// m_checkpoints = tmp_checkpoints;
+	m_checkpoints = tmp_checkpoints;
 
 	// print checkpoints
 
