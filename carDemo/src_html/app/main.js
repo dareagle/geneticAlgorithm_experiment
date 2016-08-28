@@ -201,7 +201,7 @@ define(
                     };
 
                     Renderer.drawLine( sensor.line.p1.x, sensor.line.p1.y, pos.x, pos.y, "#8888ff", 2);
-                    Renderer.drawLine( pos.x, pos.y, sensor.line.p2.x, sensor.line.p2.y, "#ff8888", 2);
+                    // Renderer.drawLine( pos.x, pos.y, sensor.line.p2.x, sensor.line.p2.y, "#ff8888", 2);
 
                     Renderer.drawPoint(pos.x, pos.y, "#ffff00", 2);
                 }

@@ -103,11 +103,15 @@ void drawCar(sf::RenderWindow& rwindow, const Car& car, const sf::Color& color)
 	for (Car::t_sensor sensor : sensors)
 	{
 		sf::Color	LightBlue(128,128,255);
-		drawLine(rwindow, sensor.m_line, LightBlue, LightBlue);
+		// drawLine(rwindow, sensor.m_line, LightBlue, LightBlue);
 
 		t_vec2f	pos;
 		pos.x = sensor.m_line.p1.x + (sensor.m_line.p2.x - sensor.m_line.p1.x) * sensor.m_value;
 		pos.y = sensor.m_line.p1.y + (sensor.m_line.p2.y - sensor.m_line.p1.y) * sensor.m_value;
+
+		t_line	tmp_line(sensor.m_line.p1, pos);
+
+		drawLine(rwindow, tmp_line, LightBlue, LightBlue);
 
 		drawPoint(rwindow, pos, sf::Color::Yellow);
 	}
