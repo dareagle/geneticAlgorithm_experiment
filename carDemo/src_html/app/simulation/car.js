@@ -19,7 +19,7 @@ define(
 
 		this._fitness = 0;
 
-		this._min_updates = 100;
+		this._min_updates = 50;
 		this._total_update = 0;
 
 		this._trail = [];
@@ -42,7 +42,7 @@ define(
 			--this._min_updates;
 		if (this._min_updates == 0)
 		{
-			this._min_updates = 100;
+			this._min_updates = 50;
 			this._alive = false;
 		}
 
@@ -205,7 +205,7 @@ define(
 				// console.log('checkpoint erased');
 				this._checkpoints.splice(i, 1);
 
-				this._min_updates = 100;
+				this._min_updates = 50;
 
 				++this._fitness;
 			}

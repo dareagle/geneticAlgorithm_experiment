@@ -429,7 +429,7 @@ Car::Car()
 	:	m_angle(0.0f),
 		m_fitness(0.0f),
 		m_alive(true),
-		m_min_updates(100),
+		m_min_updates(50),
 		m_total_updates(0)
 {
 	updateSensors();
@@ -452,7 +452,7 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 		--m_min_updates;
 	if (m_min_updates == 0)
 	{
-		m_min_updates = 100;
+		m_min_updates = 50;
 		m_alive = false;
 	}
 
@@ -591,7 +591,7 @@ void	Car::collideCheckpoints()
 		if (CollisionSegmentCercle(it->p1, it->p2, m_position, 5.0f))
 		{
 			it = m_current_checkpoints.erase(it);
-			m_min_updates = 100;
+			m_min_updates = 50;
 			++m_fitness;
 		}
 		else
@@ -625,7 +625,7 @@ void	Car::revive()
 	m_fitness = 0;
 	m_total_updates = 0;
 	m_trail.clear();
-	m_min_updates = 100;
+	m_min_updates = 50;
 }
 
 // CAR
