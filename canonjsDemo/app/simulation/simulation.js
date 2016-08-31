@@ -159,10 +159,10 @@ define(
 
         gl.uniformMatrix4fv(in_shader_color.uMVMatrix, false, in_viewMatrix); // lookAt only
 
-        gl.uniform1f(in_shader_color.uColorApha, 0.5);
+        // gl.uniform1f(in_shader_color.uColorApha, 0.5);
 
-		for (var i = 0; i < this._cars.length; ++i)
-			this._cars[i].render_sensors(in_shader_color);
+		// for (var i = 0; i < this._cars.length; ++i)
+		// 	this._cars[i].render_sensors(in_shader_color);
 
         this._circuit.render(in_shader_color);
 	}
