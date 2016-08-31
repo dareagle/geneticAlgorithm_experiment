@@ -26,6 +26,8 @@ define(
         , '../geometries/createCubeVertices.js'
 
         , '../utils/keyboardHandler.js'
+
+        , '../renderer/resourceManager.js'
 	],
 	function(
           gl
@@ -40,6 +42,8 @@ define(
         , createCubeVertices
 
         , createKeyboardHandler
+
+        , resourceManager
 	)
 {
 	function createCar()
@@ -141,11 +145,17 @@ define(
 		//
 		// RENDER
 
-        var vertices = createCubeVertices([4,2,1],[1,0,0]);
-	    this._geom_cube = new createGeometryColor(vertices, gl.LINES);
+        if (!resourceManager.geom_car_chassis) // create once and reuse <- mobile friendly
+        {
+            var vertices = createCubeVertices([4,2,1],[1,0,0]);
+            resourceManager.geom_car_chassis = new createGeometryColor(vertices, gl.LINES);
+        }
 
-	    var vertices = createCubeVertices([1,0.5,1],[1,1,0]);
-	    this._geom_cubeWheel = new createGeometryColor(vertices, gl.LINES);
+        if (!resourceManager.geom_car_wheel) // create once and reuse <- mobile friendly
+        {
+    	    var vertices = createCubeVertices([1,0.5,1],[1,1,0]);
+    	    resourceManager.geom_car_wheel = new createGeometryColor(vertices, gl.LINES);
+        }
 
 		//
 		//
@@ -477,7 +487,8 @@ define(
 
         gl.uniformMatrix4fv(in_shader_color.uMVMatrix, false, tmp_modelViewMatrix);
 
-        this._geom_cube.render(in_shader_color);
+        resourceManager.geom_car_chassis.render(in_shader_color);
+
 
         //
         //
@@ -511,7 +522,7 @@ define(
 
             gl.uniformMatrix4fv(in_shader_color.uMVMatrix, false, tmp_mvMatrix2);
 
-            this._geom_cubeWheel.render(in_shader_color);
+            resourceManager.geom_car_wheel.render(in_shader_color);
         }
     }
 
