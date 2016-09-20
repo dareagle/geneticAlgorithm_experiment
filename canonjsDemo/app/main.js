@@ -129,6 +129,7 @@ define(
         ////// camera
 
         var pos = {x:0, y:0, z:0};
+        var car_index = -1;
         var curr_checkpoint = -1;
 
         for (var i = 0; i < simulation._cars.length; ++i)
@@ -141,6 +142,7 @@ define(
             if (curr_checkpoint > car._current_checkpoint_id)
                 continue;
 
+            car_index = i;
             curr_checkpoint = car._current_checkpoint_id;
             pos = car._chassisBody.position;
             // break;
@@ -208,7 +210,7 @@ define(
 
             geom_axis.render(shader_color);
 
-            simulation.render(shader_color, tmp_viewMatrix);
+            simulation.render(shader_color, tmp_viewMatrix, car_index);
 
         gl.useProgram(null);
 

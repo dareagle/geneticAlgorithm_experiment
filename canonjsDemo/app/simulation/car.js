@@ -543,7 +543,7 @@ define(
             {
                 render_line(this._sensors[i].from, this._sensors[i].to);
 
-                // render_cross(this._sensors[i].to);
+                render_cross(this._sensors[i].to);
             }
         }
 

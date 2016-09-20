@@ -23,17 +23,28 @@ define(
 		// this._circuit = new createCircuit(elem_id);
 
 	    var arr_checkpoints = [
-	        [-15, 0, 5,  -15,10, 5],
-	        [  0, 0, 5,    0,10, 5],
+	        [-15, 0,  5,   -15,10,  5],
+	        [  0, 0,  5,     0,10,  5],
 
-	        [ 15, 0, 5,   15,10, 5],
-	        [ 30,15, 5,   30,25, 5],
-	        [ 45, 5, 5,   45,15, 5],
-	        [ 60, 0, 5,   60,10, 5],
-	        [ 75, 0,8,   75,10,8],
-	        [ 90, 0,16,   90,10,16],
-	        [105, 0,20,  105,10,20],
-	        [120, 0,20,  120,10,20],
+	        [ 15, 0,  5,    15,10,  5],
+	        [ 30,15,  5,    30,25,  5],
+	        [ 45, 5,  5,    45,15,  5],
+	        [ 60, 0,  5,    60,10,  5],
+	        [ 75, 0,  8,    75,10,  8],
+	        [ 90, 0, 16,    90,10, 16],
+	        [105, 0, 20,   105,10, 20],
+	        [120, 0, 20,   120,10, 20],
+	        [135, 0, 16,   135,10, 16],
+	        [150, 0,  8,   150,10,  8],
+	        [165, 0,  5,   165,10,  5],
+	        [180, 0,  2,   180,10,  2],
+	        [195, 0, -6,   195,10, -6],
+	        [210, 0,-10,   210,10,-10],
+	        [235, 0,-10,   235,10,-10],
+	        [250, 0, -6,   250,10, -6],
+	        [265, 0,  2,   265,10,  2],
+	        [280, 0,  5,   280,10,  5],
+	        [295, 0,  5,   295,10,  5],
 
 	        // [ 15, 0,15,   15,10,15]
 
@@ -152,17 +163,22 @@ define(
 
 	//
 
-	createSimulation.prototype.render = function(in_shader_color, in_viewMatrix)
+	createSimulation.prototype.render = function(in_shader_color, in_viewMatrix, car_index)
 	{
 		for (var i = 0; i < this._cars.length; ++i)
 			this._cars[i].render(in_shader_color, in_viewMatrix);
 
         gl.uniformMatrix4fv(in_shader_color.uMVMatrix, false, in_viewMatrix); // lookAt only
 
-        // gl.uniform1f(in_shader_color.uColorApha, 0.5);
+        if (car_index >= 0)
+        {
+	        gl.uniform1f(in_shader_color.uColorApha, 0.5);
 
-		// for (var i = 0; i < this._cars.length; ++i)
-		// 	this._cars[i].render_sensors(in_shader_color);
+			// for (var i = 0; i < this._cars.length; ++i)
+			// 	this._cars[i].render_sensors(in_shader_color);
+
+			this._cars[car_index].render_sensors(in_shader_color);
+        }
 
         this._circuit.render(in_shader_color);
 	}
