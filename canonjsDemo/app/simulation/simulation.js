@@ -8,6 +8,8 @@ define(
         , '../ai/geneticAlgo.js'
 
         , 'BSpline' // in /lib
+
+        , '../geometries/geometryColor.js'
     ],
     function(
 		  world
@@ -16,6 +18,8 @@ define(
 		, createGeneticAlgo
 
         , BSpline
+
+        , createGeometryColor
     )
 {
 
@@ -99,8 +103,6 @@ define(
 	        // circuit
 	        //
 
-	        //
-
 	        var points_ex = [];
 	        var points2_ex = [];
 
@@ -126,6 +128,33 @@ define(
 	            points_ex.push(curr1);
 	            points2_ex.push(curr2);
 	        }
+
+	        //
+
+	        { // geom
+
+	        	var geom_vertices = [];
+
+				for (var index = 0; index < points_ex.length; ++index)
+				{
+					geom_vertices.push(points_ex[index][0], points_ex[index][1], points_ex[index][2], 1,1,1);
+					geom_vertices.push(points2_ex[index][0], points2_ex[index][1], points2_ex[index][2], 1,1,1);
+
+					if (index > 0)
+					{
+						geom_vertices.push(points_ex[index-1][0], points_ex[index-1][1], points_ex[index-1][2], 1,1,1);
+						geom_vertices.push(points_ex[index][0], points_ex[index][1], points_ex[index][2], 1,1,1);
+
+						geom_vertices.push(points2_ex[index-1][0], points2_ex[index-1][1], points2_ex[index-1][2], 1,1,1);
+						geom_vertices.push(points2_ex[index][0], points2_ex[index][1], points2_ex[index][2], 1,1,1);
+					}
+				}
+
+	        	// console.log(geom_vertices);
+
+				this._geom_skelton = new createGeometryColor(geom_vertices, gl.LINES);
+
+	        } // geom
 
 	        var spline = new BSpline(points_ex,3); //making BSpline
 	        var spline2 = new BSpline(points2_ex,3); //making BSpline
@@ -295,6 +324,8 @@ define(
 
 			this._cars[car_index].render_sensors(in_shader_color);
         }
+
+        this._geom_skelton.render(in_shader_color, false);
 
         this._circuit.render(in_shader_color);
 	}
