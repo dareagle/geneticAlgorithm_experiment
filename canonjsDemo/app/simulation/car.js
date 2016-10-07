@@ -213,6 +213,13 @@ define(
             }
 
         //
+
+        this._ground_sensor = {
+              from: [0,0,0]
+            , to: [0,0,-100]
+        };
+
+        //
         //
         //
         // LOGIC
@@ -352,22 +359,45 @@ define(
         if (!this._alive)
             return;
 
+        this._updateModelMatrix();
+        this._updateSensors();
+
         var tmp_checkpoint_id = -1;
 
         { // raycast to get the checkpoints validation
 
             var pos = this._chassisBody.position;
 
+            // this._ground_sensor.from = [pos.x, pos.y, pos.z];
+            // this._ground_sensor.to = [pos.x, pos.y, pos.z-10];
+            this._ground_sensor.from = [0,0,0];
+            this._ground_sensor.to = [0,0-10];
+            // this._ground_sensor.from = [0, 0, 0];
+            // this._ground_sensor.to = [0, 0, -100];
+
+            // var pos2 = [0, 0, -10];
+            this._ground_sensor.from = glm.post_mult(this._modelMatrix, this._ground_sensor.from)
+            this._ground_sensor.to = glm.post_mult(this._modelMatrix, this._ground_sensor.to)
+            // var pos_to = [0, 0, -10];
+
+            // console.log(pos_to);
+
             var result = new CANNON.RaycastResult();
             world.raycastClosest(
                 new CANNON.Vec3(pos.x,pos.y,pos.z),
                 new CANNON.Vec3(pos.x,pos.y,pos.z-10),
+                // new CANNON.Vec3(pos.x,pos.y,pos.z),
+                // new CANNON.Vec3(pos_to[0],pos_to[1],pos_to[2]),
+                // new CANNON.Vec3(this._ground_sensor.from),
+                // new CANNON.Vec3(this._ground_sensor.to),
                 { skipBackfaces: true },
                 result
             );
 
             if (result.hasHit && result.body)
             {
+                this._ground_sensor.to = [result.hitPointWorld.x, result.hitPointWorld.y, result.hitPointWorld.z];
+
                 tmp_checkpoint_id = result.body.id;
                 // result.body.id
             }
@@ -395,9 +425,6 @@ define(
                     this._alive = false;
             }
         }
-
-        this._updateModelMatrix();
-        this._updateSensors();
 	}
 
 	//
@@ -542,9 +569,11 @@ define(
             for (var i = 0; i < this._sensors.length; ++i)
             {
                 render_line(this._sensors[i].from, this._sensors[i].to);
-
                 render_cross(this._sensors[i].to);
             }
+
+            render_line(this._ground_sensor.from, this._ground_sensor.to);
+            render_cross(this._ground_sensor.to);
         }
 
         function render_cross(in_pos)
@@ -589,7 +618,8 @@ define(
 
     createCar.prototype.reset = function()
     {
-        this._chassisBody.position.set(-10, 5, 7);
+        // this._chassisBody.position.set(-10, 5, 7);
+        this._chassisBody.position.set(5, 5, 1.1);
         this._chassisBody.quaternion.set(0,0,0,1);
 
         this._chassisBody.velocity.set(0, 0, 0);
