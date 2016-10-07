@@ -315,21 +315,24 @@ define(
 
 
         // look up
-        if (speedValue > 0.1)
+        // if (speedValue > 0.1)
+        if (speedValue > 0.0)
         {
             this._vehicle.applyEngineForce(-maxForce, 0);
             this._vehicle.applyEngineForce(-maxForce, 1);
         }
-        // look down
-        else if (speedValue < -0.1)
-        {
-            this._vehicle.applyEngineForce(maxForce, 0);
-            this._vehicle.applyEngineForce(maxForce, 1);
-        }
+        // // look down
+        // else if (speedValue < -0.1)
+        // {
+        //     this._vehicle.applyEngineForce(maxForce, 0);
+        //     this._vehicle.applyEngineForce(maxForce, 1);
+        // }
         else
         {
-            this._vehicle.applyEngineForce(0, 0);
-            this._vehicle.applyEngineForce(0, 1);
+            // this._vehicle.applyEngineForce(0, 0);
+            // this._vehicle.applyEngineForce(0, 1);
+            this._vehicle.applyEngineForce(-maxForce/2, 0);
+            this._vehicle.applyEngineForce(-maxForce/2, 1);
         }
 
         // look left
