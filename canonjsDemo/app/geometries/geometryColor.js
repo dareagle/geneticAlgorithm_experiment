@@ -12,7 +12,7 @@ define(
 
 	//
 
-	var createGeometryColor = function (vertices, primitive) {
+	var createGeometryColor = function (vertices, primitive, is_dynamic) {
 
 		this._primitive = primitive;
 
@@ -20,7 +20,8 @@ define(
 
 		gl.bindBuffer(gl.ARRAY_BUFFER, this._vbuffer);
 
-		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.DYNAMIC_DRAW);
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), is_dynamic ? gl.DYNAMIC_DRAW : gl.STATIC_DRAW);
+		// gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
 		this._vbuffer.numItems = vertices.length / 6;
 
@@ -33,6 +34,18 @@ define(
 
 		// /tmp
 		//
+	}
+
+	//
+
+	createGeometryColor.prototype.update = function(vertices) {
+
+		gl.bindBuffer(gl.ARRAY_BUFFER, this._vbuffer);
+
+		// gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.DYNAMIC_DRAW);
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+		this._vbuffer.numItems = vertices.length / 6;
 	}
 
 	//

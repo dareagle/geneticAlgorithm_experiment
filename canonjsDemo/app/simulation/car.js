@@ -568,6 +568,50 @@ define(
     //
     //
 
+    var cross_geom = new createGeometryColor([0,0,0,1,1,1, 0,0,0,1,1,1], gl.LINES, true); // <- true=dynamic
+
+    function render_cross(in_shader_color, in_pos, in_color)
+    {
+        var vertices = [];
+
+        var color = in_color || [0,1,0];
+
+        var cross_size = 2;
+
+        vertices.push(in_pos[0]-cross_size,in_pos[1],in_pos[2],  color[0],color[1],color[2]);
+        vertices.push(in_pos[0]+cross_size,in_pos[1],in_pos[2],  color[0],color[1],color[2]);
+        vertices.push(in_pos[0],in_pos[1]-cross_size,in_pos[2],  color[0],color[1],color[2]);
+        vertices.push(in_pos[0],in_pos[1]+cross_size,in_pos[2],  color[0],color[1],color[2]);
+        vertices.push(in_pos[0],in_pos[1],in_pos[2]-cross_size,  color[0],color[1],color[2]);
+        vertices.push(in_pos[0],in_pos[1],in_pos[2]+cross_size,  color[0],color[1],color[2]);
+
+        // var cross_geom = new createGeometryColor(vertices, gl.LINES);
+
+        cross_geom.update(vertices);
+        cross_geom.render(in_shader_color);
+
+        // cross_geom.dispose();
+    }
+
+    function render_line(in_shader_color, in_from, in_to, in_color)
+    {
+        var vertices = [];
+
+        var color = in_color || [0,1,0];
+
+        var cross_size = 2;
+
+        vertices.push(in_from[0],in_from[1],in_from[2],  color[0],color[1],color[2]);
+        vertices.push(in_to[0],in_to[1],in_to[2],  color[0],color[1],color[2]);
+
+        // var cross_geom = new createGeometryColor(vertices, gl.LINES);
+
+        cross_geom.update(vertices);
+        cross_geom.render(in_shader_color);
+
+        // cross_geom.dispose();
+    }
+
     createCar.prototype.render_sensors = function(in_shader_color)
     {
         if (!this._alive)
@@ -577,52 +621,12 @@ define(
 
             for (var i = 0; i < this._sensors.length; ++i)
             {
-                render_line(this._sensors[i].from, this._sensors[i].to);
-                render_cross(this._sensors[i].to);
+                render_line(in_shader_color, this._sensors[i].from, this._sensors[i].to);
+                render_cross(in_shader_color, this._sensors[i].to);
             }
 
-            render_line(this._ground_sensor.from, this._ground_sensor.to, [1,0,0]);
-            render_cross(this._ground_sensor.to, [1,0,0]);
-        }
-
-        function render_cross(in_pos, in_color)
-        {
-            var vertices = [];
-
-            var color = in_color || [0,1,0];
-
-            var cross_size = 2;
-
-            vertices.push(in_pos[0]-cross_size,in_pos[1],in_pos[2],  color[0],color[1],color[2]);
-            vertices.push(in_pos[0]+cross_size,in_pos[1],in_pos[2],  color[0],color[1],color[2]);
-            vertices.push(in_pos[0],in_pos[1]-cross_size,in_pos[2],  color[0],color[1],color[2]);
-            vertices.push(in_pos[0],in_pos[1]+cross_size,in_pos[2],  color[0],color[1],color[2]);
-            vertices.push(in_pos[0],in_pos[1],in_pos[2]-cross_size,  color[0],color[1],color[2]);
-            vertices.push(in_pos[0],in_pos[1],in_pos[2]+cross_size,  color[0],color[1],color[2]);
-
-            var cross_geom = new createGeometryColor(vertices, gl.LINES);
-
-            cross_geom.render(in_shader_color);
-
-            cross_geom.dispose();
-        }
-
-        function render_line(in_from, in_to, in_color)
-        {
-            var vertices = [];
-
-            var color = in_color || [0,1,0];
-
-            var cross_size = 2;
-
-            vertices.push(in_from[0],in_from[1],in_from[2],  color[0],color[1],color[2]);
-            vertices.push(in_to[0],in_to[1],in_to[2],  color[0],color[1],color[2]);
-
-            var cross_geom = new createGeometryColor(vertices, gl.LINES);
-
-            cross_geom.render(in_shader_color);
-
-            cross_geom.dispose();
+            render_line(in_shader_color, this._ground_sensor.from, this._ground_sensor.to, [1,0,0]);
+            render_cross(in_shader_color, this._ground_sensor.to, [1,0,0]);
         }
 	}
 
