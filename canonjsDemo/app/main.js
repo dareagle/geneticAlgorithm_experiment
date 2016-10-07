@@ -237,7 +237,10 @@ define(
 
         gl.viewport(gl.viewportWidth*0.66, 0, gl.viewportWidth*0.33, gl.viewportHeight*0.33);
 
-        gl.clear(/*gl.COLOR_BUFFER_BIT |*/ gl.DEPTH_BUFFER_BIT);
+        gl.enable(gl.SCISSOR_TEST);
+            gl.scissor(gl.viewportWidth*0.66, 0, gl.viewportWidth*0.33, gl.viewportHeight*0.33);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        gl.disable(gl.SCISSOR_TEST);
 
         /// render scene
 
