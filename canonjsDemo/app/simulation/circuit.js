@@ -118,14 +118,14 @@ define(
 			var nz = (px * qy) - (py * qx);
 
 			var normal = [nx, ny, nz];
-			var tmp_len = normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2];
+			var tmp_len = Math.sqrt(normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2]);
 			normal[0] /= tmp_len;
 			normal[1] /= tmp_len;
 			normal[2] /= tmp_len;
 
-			normal[0] *= 200;
-			normal[1] *= 200;
-			normal[2] *= 200;
+			normal[0] *= 10;
+			normal[1] *= 10;
+			normal[2] *= 10;
 
 			// calculate the normal
 			//
