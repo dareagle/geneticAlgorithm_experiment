@@ -80,6 +80,8 @@ define(
 
 	            points.push([0,0,0]); points2.push([0,10,0]);
 	            points.push([20,0,0]); points2.push([20,0,0]);
+
+	            points.push([20,0,0]); points2.push([20,0,0]);
 	            points.push([20,30,0]); points2.push([20,30,0]);
 	            points.push([20,-30,0]); points2.push([20,-30,0]);
 	            points.push([20,-30,0]); points2.push([20,-30,0]);
@@ -98,7 +100,8 @@ define(
 	            points.push([r,d,-r]); points2.push([r,d,-r]);
 	            points.push([r,0,0]); points2.push([r,0,0]);
 
-	            points.push([60,0,0]); points2.push([60,0,0]);
+	            points.push([20,0,0]); points2.push([20,0,0]);
+	            points.push([20,0,0]); points2.push([20,0,0]);
 
 	        // circuit
 	        //
@@ -135,10 +138,23 @@ define(
 
 	        	var geom_vertices = [];
 
+				function lerp(val1, val2, ratio)
+				{
+					return val1 + (val2 - val1) * ratio;
+				}
+
 				for (var index = 0; index < points_ex.length; ++index)
 				{
-					geom_vertices.push(points_ex[index][0], points_ex[index][1], points_ex[index][2], 1,1,1);
-					geom_vertices.push(points2_ex[index][0], points2_ex[index][1], points2_ex[index][2], 1,1,1);
+					var vertex1 = points_ex[index];
+					var vertex2 = points2_ex[index];
+
+					// geom_vertices.push(vertex1[0], vertex1[1], vertex1[2], 1,1,1);
+					// geom_vertices.push(vertex2[0], vertex2[1], vertex2[2], 1,1,1);
+
+					var v1 = [ lerp(vertex1[0], vertex2[0], -0.5), lerp(vertex1[1], vertex2[1], -0.5), lerp(vertex1[2], vertex2[2], -0.5) ];
+					var v2 = [ lerp(vertex1[0], vertex2[0], +1.5), lerp(vertex1[1], vertex2[1], +1.5), lerp(vertex1[2], vertex2[2], +1.5) ];
+					geom_vertices.push(v1[0], v1[1], v1[2], 1,1,1);
+					geom_vertices.push(v2[0], v2[1], v2[2], 1,1,1);
 
 					if (index > 0)
 					{
