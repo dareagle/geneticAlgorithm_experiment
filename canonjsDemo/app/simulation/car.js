@@ -368,31 +368,37 @@ define(
 
             var pos = this._chassisBody.position;
 
-            // this._ground_sensor.from = [pos.x, pos.y, pos.z];
-            // this._ground_sensor.to = [pos.x, pos.y, pos.z-10];
-            this._ground_sensor.from = [0,0,0];
-            this._ground_sensor.to = [0,0-10];
+            // this._ground_sensor.from = [pos.x, pos.y, pos.z+100];
+            // this._ground_sensor.to = [pos.x, pos.y, pos.z-100];
+            // this._ground_sensor.from = [0,0,100];
+            // this._ground_sensor.to = [0,0-100];
             // this._ground_sensor.from = [0, 0, 0];
             // this._ground_sensor.to = [0, 0, -100];
 
-            // var pos2 = [0, 0, -10];
-            this._ground_sensor.from = glm.post_mult(this._modelMatrix, this._ground_sensor.from)
-            this._ground_sensor.to = glm.post_mult(this._modelMatrix, this._ground_sensor.to)
-            // var pos_to = [0, 0, -10];
+
+            var from = [0,0,0];
+            var to = [0,0,-10];
+
+            var pos_from = glm.post_mult(this._modelMatrix, from);
+            var pos_to = glm.post_mult(this._modelMatrix, to);
+
 
             // console.log(pos_to);
 
             var result = new CANNON.RaycastResult();
             world.raycastClosest(
-                new CANNON.Vec3(pos.x,pos.y,pos.z),
-                new CANNON.Vec3(pos.x,pos.y,pos.z-10),
+                // new CANNON.Vec3(pos.x,pos.y,pos.z),
+                // new CANNON.Vec3(pos.x,pos.y,pos.z-10),
                 // new CANNON.Vec3(pos.x,pos.y,pos.z),
                 // new CANNON.Vec3(pos_to[0],pos_to[1],pos_to[2]),
-                // new CANNON.Vec3(this._ground_sensor.from),
-                // new CANNON.Vec3(this._ground_sensor.to),
+                new CANNON.Vec3(pos_from[0],pos_from[1], pos_from[2]),
+                new CANNON.Vec3(pos_to[0],pos_to[1], pos_to[2]),
                 { skipBackfaces: true },
                 result
             );
+
+            this._ground_sensor.from = pos_from;
+            this._ground_sensor.to = pos_to;
 
             if (result.hasHit && result.body)
             {
@@ -401,6 +407,9 @@ define(
                 tmp_checkpoint_id = result.body.id;
                 // result.body.id
             }
+
+            // console.log('start', this._ground_sensor.from, this._ground_sensor.to);
+            // console.log('stop ', this._ground_sensor.from, this._ground_sensor.to);
 
             // console.log(result.body.id);
             // console.log(result);
@@ -572,22 +581,24 @@ define(
                 render_cross(this._sensors[i].to);
             }
 
-            render_line(this._ground_sensor.from, this._ground_sensor.to);
-            render_cross(this._ground_sensor.to);
+            render_line(this._ground_sensor.from, this._ground_sensor.to, [1,0,0]);
+            render_cross(this._ground_sensor.to, [1,0,0]);
         }
 
-        function render_cross(in_pos)
+        function render_cross(in_pos, in_color)
         {
             var vertices = [];
 
+            var color = in_color || [0,1,0];
+
             var cross_size = 2;
 
-            vertices.push(in_pos[0]-cross_size,in_pos[1],in_pos[2],  0,1,0);
-            vertices.push(in_pos[0]+cross_size,in_pos[1],in_pos[2],  0,1,0);
-            vertices.push(in_pos[0],in_pos[1]-cross_size,in_pos[2],  0,1,0);
-            vertices.push(in_pos[0],in_pos[1]+cross_size,in_pos[2],  0,1,0);
-            vertices.push(in_pos[0],in_pos[1],in_pos[2]-cross_size,  0,1,0);
-            vertices.push(in_pos[0],in_pos[1],in_pos[2]+cross_size,  0,1,0);
+            vertices.push(in_pos[0]-cross_size,in_pos[1],in_pos[2],  color[0],color[1],color[2]);
+            vertices.push(in_pos[0]+cross_size,in_pos[1],in_pos[2],  color[0],color[1],color[2]);
+            vertices.push(in_pos[0],in_pos[1]-cross_size,in_pos[2],  color[0],color[1],color[2]);
+            vertices.push(in_pos[0],in_pos[1]+cross_size,in_pos[2],  color[0],color[1],color[2]);
+            vertices.push(in_pos[0],in_pos[1],in_pos[2]-cross_size,  color[0],color[1],color[2]);
+            vertices.push(in_pos[0],in_pos[1],in_pos[2]+cross_size,  color[0],color[1],color[2]);
 
             var cross_geom = new createGeometryColor(vertices, gl.LINES);
 
@@ -596,14 +607,16 @@ define(
             cross_geom.dispose();
         }
 
-        function render_line(in_from, in_to)
+        function render_line(in_from, in_to, in_color)
         {
             var vertices = [];
 
+            var color = in_color || [0,1,0];
+
             var cross_size = 2;
 
-            vertices.push(in_from[0],in_from[1],in_from[2],  0,1,0);
-            vertices.push(in_to[0],in_to[1],in_to[2],  0,1,0);
+            vertices.push(in_from[0],in_from[1],in_from[2],  color[0],color[1],color[2]);
+            vertices.push(in_to[0],in_to[1],in_to[2],  color[0],color[1],color[2]);
 
             var cross_geom = new createGeometryColor(vertices, gl.LINES);
 
