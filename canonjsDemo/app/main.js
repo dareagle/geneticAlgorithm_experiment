@@ -105,6 +105,7 @@ define(
 
 
     var center = {x:0, y:0, z:0};
+    var prev_center = {x:0, y:0, z:0};
 
     tick();
 
@@ -154,9 +155,16 @@ define(
             , z: pos.z - center.z
         }
 
-        center.x = center.x + diff.x * 0.1;
-        center.y = center.y + diff.y * 0.1;
-        center.z = center.z + diff.z * 0.1;
+        prev_center.x = center.x;
+        prev_center.y = center.y;
+        prev_center.z = center.z;
+
+        // var lerp_ratio = 0.1;
+        var lerp_ratio = 0.05;
+
+        center.x = center.x + diff.x * lerp_ratio;
+        center.y = center.y + diff.y * lerp_ratio;
+        center.z = center.z + diff.z * lerp_ratio;
 
         ////// camera
         //
@@ -215,6 +223,41 @@ define(
         gl.useProgram(null);
 
         ////// /render 3d scene
+        //
+        //
+
+
+
+        //
+        //
+        ////// render secondary 3d scene
+
+        // glm.mat4.lookAt( tmp_viewMatrix, [center.x+30, center.y+30, center.z+30], [center.x, center.y, center.z], [0,0,1] );
+        glm.mat4.lookAt( tmp_viewMatrix, [prev_center.x, prev_center.y, prev_center.z], [center.x, center.y, center.z], [0,0,1] );
+
+        gl.viewport(gl.viewportWidth*0.66, 0, gl.viewportWidth*0.33, gl.viewportHeight*0.33);
+
+        gl.clear(/*gl.COLOR_BUFFER_BIT |*/ gl.DEPTH_BUFFER_BIT);
+
+        /// render scene
+
+        gl.enable(gl.BLEND);
+        gl.blendEquation(gl.FUNC_ADD);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+        gl.useProgram(shader_color);
+
+            gl.uniformMatrix4fv(shader_color.uPMatrix, false, tmp_pMatrix);
+            gl.uniformMatrix4fv(shader_color.uMVMatrix, false, tmp_viewMatrix);
+            gl.uniform1f(shader_color.uColorApha, 1.0);
+
+            geom_axis.render(shader_color);
+
+            simulation.render(shader_color, tmp_viewMatrix, car_index);
+
+        gl.useProgram(null);
+
+        ////// /render secondary 3d scene
         //
         //
 
