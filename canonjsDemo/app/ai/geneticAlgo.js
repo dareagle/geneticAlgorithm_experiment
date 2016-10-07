@@ -34,8 +34,8 @@ define(
 		}
 
 		this._current_generation = 1;
-		this._best_fitness = 0.0;
-		this._alpha_genome = {fitness: 0};
+		this._best_fitness = -1; // <------------ will force a bad first generation to be accepted
+		this._alpha_genome = {fitness: -1}; // <- will force a bad first generation to be accepted
 
 		//
 
@@ -139,8 +139,15 @@ define(
 		this._genomes = children;
 		++this._current_generation;
 
+		// for (var i = 0; i < this._genomes.length; ++i)
+		// 	console.log('=>', i, this._genomes[i].weights);
+
 		for (var i = 0; i < this._genomes.length; ++i)
+		{
+			// console.log(i, ' => ', this._genomes[i].weights);
+
 			this._ANNs[i].setWeights( this._genomes[i].weights );
+		}
 	}
 
 	//
@@ -148,15 +155,27 @@ define(
 	createGeneticAlgo.prototype._getBestGenomes = function(totalAsked)
 	{
 		// realistic total outputed genomes 
-		totalAsked = Math.min(this._genomes.length, totalAsked);
+		var totalAsked = Math.min(this._genomes.length, totalAsked);
 
 		var out = [];
 
+		var tries = totalAsked; // we try a limited ammount of time
+
 		while (out.length < totalAsked)
 		{
+			if (!tries--)
+				break;
+
 			var bestFitness = 0;
 			var bestIndex = -1;
+
+			// console.log(out.length, totalAsked);
+			// console.log(this._genomes.length);
+
 			for (var i = 0; i < this._genomes.length; i++)
+			{
+				// console.log(i);
+
 				if (this._genomes[i].fitness > bestFitness)
 				{
 					var isUsed = false;
@@ -175,9 +194,19 @@ define(
 					bestIndex = i;
 					bestFitness = this._genomes[bestIndex].fitness;
 				}
+			}
+
+			// console.log('bestIndex', bestIndex);
 
 			if (bestIndex != -1)
 				out.push( this._genomes[bestIndex] );
+		}
+
+		if (!out.length) // out of tries and nothing? -> push something anyway!
+		{
+			console.log("stupid generation");
+			for (var i = 0; i < totalAsked; ++i)
+				out.push( this._genomes[i] );
 		}
 
 		return out;
