@@ -85,6 +85,19 @@ define(
 
 
 
+				var r = 40;
+				var d = 10;
+
+				points.push([r,0,0]); points2.push([r,0,0]);
+				points.push([r,0,r]); points2.push([r,0,r]);
+				points.push([-r,d,r]); points2.push([-r,d,r]);
+				points.push([-r,d,-r]); points2.push([-r,d,-r]);
+				points.push([r,d,-r]); points2.push([r,d,-r]);
+				points.push([r,0,0]); points2.push([r,0,0]);
+
+				points.push([20,0,0]); points2.push([20,0,0]);
+				points.push([20,0,0]); points2.push([20,0,0]);
+
 
 
                 {
@@ -92,11 +105,11 @@ define(
 
                     points.push([30,0,0]); points2.push([30,0,-pente]);
 
-                    for (var i = 0; i < 3; ++i)
+                    for (var i = 0; i < 1; ++i)
                     {
                         var height = +3.5;
-                        var inner_radius = 15;
-                        var outer_radius = 25;
+                        var inner_radius = 25;
+                        var outer_radius = 35;
 
                         points.push([outer_radius,outer_radius,height]); points2.push([inner_radius,inner_radius,height]);
                         points.push([-outer_radius,outer_radius,height]); points2.push([-inner_radius,inner_radius,height]);
@@ -106,11 +119,11 @@ define(
 
                     points.push([30,0,-pente]); points2.push([30,0,+pente]);
 
-                    for (var i = 0; i < 3; ++i)
+                    for (var i = 0; i < 1; ++i)
                     {
                         var height = +3.5;
-                        var inner_radius = 25;
-                        var outer_radius = 15;
+                        var inner_radius = 35;
+                        var outer_radius = 25;
 
                         points.push([outer_radius,-outer_radius,height]); points2.push([inner_radius,-inner_radius,height]);
                         points.push([-outer_radius,-outer_radius,height]); points2.push([-inner_radius,-inner_radius,height]);
@@ -154,19 +167,6 @@ define(
 
 
 
-
-				var r = 40;
-				var d = 10;
-
-				points.push([r,0,0]); points2.push([r,0,0]);
-				points.push([r,0,r]); points2.push([r,0,r]);
-				points.push([-r,d,r]); points2.push([-r,d,r]);
-				points.push([-r,d,-r]); points2.push([-r,d,-r]);
-				points.push([r,d,-r]); points2.push([r,d,-r]);
-				points.push([r,0,0]); points2.push([r,0,0]);
-
-				points.push([20,0,0]); points2.push([20,0,0]);
-				points.push([20,0,0]); points2.push([20,0,0]);
 
 	        // circuit
 	        //
