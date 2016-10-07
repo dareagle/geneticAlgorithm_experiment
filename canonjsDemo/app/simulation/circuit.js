@@ -24,33 +24,33 @@ define(
 		//
 		// duplicate checkpoints
 
-		function lerp(val1, val2, ratio)
-		{
-			return val1 + (val2 - val1) * ratio;
-		}
+		// function lerp(val1, val2, ratio)
+		// {
+		// 	return val1 + (val2 - val1) * ratio;
+		// }
 
-		var	tmp_checkpoints = [];
-		tmp_checkpoints.push(arr_checkpoints[0]);
-		for (var i = 1; i < arr_checkpoints.length; ++i)
-		{
-			var l1 = arr_checkpoints[i - 1];
-			var l2 = arr_checkpoints[i];
+		// var	tmp_checkpoints = [];
+		// tmp_checkpoints.push(arr_checkpoints[0]);
+		// for (var i = 1; i < arr_checkpoints.length; ++i)
+		// {
+		// 	var l1 = arr_checkpoints[i - 1];
+		// 	var l2 = arr_checkpoints[i];
 
-			for (var f = 0.25; f < 1.0; f += 0.25)
-			{
-				tmp_checkpoints.push([
-					  lerp(l1[0], l2[0], f)
-					, lerp(l1[1], l2[1], f)
-					, lerp(l1[2], l2[2], f)
-					, lerp(l1[3], l2[3], f)
-					, lerp(l1[4], l2[4], f)
-					, lerp(l1[5], l2[5], f)
-				]);
-			}
+		// 	for (var f = 0.25; f < 1.0; f += 0.25)
+		// 	{
+		// 		tmp_checkpoints.push([
+		// 			  lerp(l1[0], l2[0], f)
+		// 			, lerp(l1[1], l2[1], f)
+		// 			, lerp(l1[2], l2[2], f)
+		// 			, lerp(l1[3], l2[3], f)
+		// 			, lerp(l1[4], l2[4], f)
+		// 			, lerp(l1[5], l2[5], f)
+		// 		]);
+		// 	}
 
-			tmp_checkpoints.push(l2);
-		}
-		arr_checkpoints = tmp_checkpoints;
+		// 	tmp_checkpoints.push(l2);
+		// }
+		// arr_checkpoints = tmp_checkpoints;
 
 		//
 		//
@@ -67,6 +67,8 @@ define(
 
 		var geom_vertices = [];
 		var geom_vertices_wall = [];
+
+		var prev_normal = null;
 
 		for (var index = 1; index < arr_checkpoints.length; ++index)
 		{
@@ -91,14 +93,62 @@ define(
 			planeBody.collisionFilterMask = world._GROUP_sensor; // <- sensors will collide the floor
 			world.addBody(planeBody);
 
+
+
+
+
+			//
+			//
+			// calculate the normal
+
+			var v0 = p12;
+			var v1 = p21;
+			var v2 = p22;
+
+			var px = v1[0] - v0[0];
+			var py = v1[1] - v0[1];
+			var pz = v1[2] - v0[2];
+
+			var qx = v2[0] - v0[0];
+			var qy = v2[1] - v0[1];
+			var qz = v2[2] - v0[2];
+
+			var nx = (py * qz) - (pz * qy);
+			var ny = (pz * qx) - (px * qz);
+			var nz = (px * qy) - (py * qx);
+
+			var normal = [nx, ny, nz];
+			var tmp_len = normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2];
+			normal[0] /= tmp_len;
+			normal[1] /= tmp_len;
+			normal[2] /= tmp_len;
+
+			normal[0] *= 200;
+			normal[1] *= 200;
+			normal[2] *= 200;
+
+			// calculate the normal
+			//
+			//
+
+
+			if (!prev_normal)
+				prev_normal = normal;
+
+
+
 			//
 			// walls
 
 			var vertices_wall1 = [
+			   // p11[0], p11[1], p11[2],
+			   // p11[0], p11[1], p11[2]+10,
+			   // p21[0], p21[1], p21[2],
+			   // p21[0], p21[1], p21[2]+10
 			   p11[0], p11[1], p11[2],
-			   p11[0], p11[1], p11[2]+10,
+			   p11[0]+prev_normal[0], p11[1]+prev_normal[1], p11[2]+prev_normal[2],
 			   p21[0], p21[1], p21[2],
-			   p21[0], p21[1], p21[2]+10
+			   p21[0]+normal[0], p21[1]+normal[1], p21[2]+normal[2]
 			];
 			var planeShape = new CANNON.Trimesh(vertices_wall1, indices);
 			var planeBody = new CANNON.Body({mass:0});
@@ -108,10 +158,14 @@ define(
 			world.addBody(planeBody);
 
 			var vertices_wall2 = [
+			   // p12[0], p12[1], p12[2],
+			   // p12[0], p12[1], p12[2]+10,
+			   // p22[0], p22[1], p22[2],
+			   // p22[0], p22[1], p22[2]+10
 			   p12[0], p12[1], p12[2],
-			   p12[0], p12[1], p12[2]+10,
+			   p12[0]+prev_normal[0], p12[1]+prev_normal[1], p12[2]+prev_normal[2],
 			   p22[0], p22[1], p22[2],
-			   p22[0], p22[1], p22[2]+10
+			   p22[0]+normal[0], p22[1]+normal[1], p22[2]+normal[2]
 			];
 			var planeShape = new CANNON.Trimesh(vertices_wall2, indices);
 			var planeBody = new CANNON.Body({mass:0});
@@ -119,6 +173,8 @@ define(
 			planeBody.collisionFilterGroup = world._GROUP_wall;
 			planeBody.collisionFilterMask = world._GROUP_sensor;
 			world.addBody(planeBody);
+
+			prev_normal = normal;
 
 			//
 			//
