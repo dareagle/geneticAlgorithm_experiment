@@ -79,7 +79,7 @@ define(
 	        // circuit
 
 				points.push([0,0,0]); points2.push([0,10,0]);
-				points.push([20,0,0]); points2.push([20,0,0]);
+				points.push([40,0,0]); points2.push([40,0,0]);
 
 
 
