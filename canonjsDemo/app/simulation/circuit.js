@@ -62,7 +62,7 @@ define(
 
 		var prev_normal = null;
 
-		var geometry_step = 3;
+		var geometry_step = 6;
 
 		for (var index = 1; index < arr_checkpoints.length; index += geometry_step)
 		{
