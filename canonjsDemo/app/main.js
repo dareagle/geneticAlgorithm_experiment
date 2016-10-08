@@ -107,9 +107,18 @@ define(
     var center = {x:0, y:0, z:0};
     var prev_center = {x:0, y:0, z:0};
 
+    var last_time = 0;
+    var center_index = -1;
+    var center_timeout = 1000;
+
     tick();
 
     function tick(time) {
+
+        var my_time = (new Date()).getTime();
+        if (!last_time) last_time = my_time;
+        var delta = (my_time - last_time) / 1000;
+        last_time = my_time;
 
         // plan the next frame
         window.requestAnimFrame( tick ); // webgl-utils.js
@@ -129,6 +138,7 @@ define(
         //
         ////// camera
 
+        var car_index = -1;
         var pos = {x:0, y:0, z:0};
 
         if (simulation._playMode)
@@ -137,24 +147,39 @@ define(
         }
         else
         {
-            var car_index = -1;
-            var curr_checkpoint = -1;
 
-            for (var i = 0; i < simulation._cars.length; ++i)
+            center_timeout += delta;
+
+            if (center_timeout > 0.5)
             {
-                var car = simulation._cars[i];
+                center_timeout = 0.0;
 
-                if (!car._alive)
-                    continue;
+                var curr_checkpoint = -1;
 
-                if (curr_checkpoint > car._current_checkpoint_id)
-                    continue;
+                for (var i = 0; i < simulation._cars.length; ++i)
+                {
+                    var car = simulation._cars[i];
 
-                car_index = i;
-                curr_checkpoint = car._current_checkpoint_id;
-                pos = car._chassisBody.position;
-                // break;
+                    if (!car._alive)
+                        continue;
+
+                    if (curr_checkpoint > car._current_checkpoint_id)
+                        continue;
+
+                    car_index = i;
+                    curr_checkpoint = car._current_checkpoint_id;
+                    pos = car._chassisBody.position;
+                }
+
+                center_index = car_index;
             }
+            else
+            {
+                var car = simulation._cars[center_index];
+                pos = car._chassisBody.position;
+                car_index = center_index;
+            }
+
         }
 
         var diff = {
