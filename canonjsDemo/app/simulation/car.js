@@ -241,7 +241,10 @@ define(
 
 	createCar.prototype.processEvent = function()
 	{
-        var maxSteerVal = 0.5;
+        this._alive = true;
+        this._min_update = 100000;
+
+        var maxSteerVal = 0.5 * 1.0;
         var maxForce = 1000;
         var brakeForce = 1000000;
 
@@ -639,7 +642,7 @@ define(
     createCar.prototype.reset = function()
     {
         // this._chassisBody.position.set(-10, 5, 7);
-        this._chassisBody.position.set(5, 5, 1.1);
+        this._chassisBody.position.set(2, 5, 1.1);
         this._chassisBody.quaternion.set(0,0,0,1);
 
         this._chassisBody.velocity.set(0, 0, 0);
