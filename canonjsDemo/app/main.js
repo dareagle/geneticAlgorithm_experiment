@@ -130,23 +130,31 @@ define(
         ////// camera
 
         var pos = {x:0, y:0, z:0};
-        var car_index = -1;
-        var curr_checkpoint = -1;
 
-        for (var i = 0; i < simulation._cars.length; ++i)
+        if (simulation._playMode)
         {
-            var car = simulation._cars[i];
+            pos = simulation._playable_car._chassisBody.position;
+        }
+        else
+        {
+            var car_index = -1;
+            var curr_checkpoint = -1;
 
-            if (!car._alive)
-                continue;
+            for (var i = 0; i < simulation._cars.length; ++i)
+            {
+                var car = simulation._cars[i];
 
-            if (curr_checkpoint > car._current_checkpoint_id)
-                continue;
+                if (!car._alive)
+                    continue;
 
-            car_index = i;
-            curr_checkpoint = car._current_checkpoint_id;
-            pos = car._chassisBody.position;
-            // break;
+                if (curr_checkpoint > car._current_checkpoint_id)
+                    continue;
+
+                car_index = i;
+                curr_checkpoint = car._current_checkpoint_id;
+                pos = car._chassisBody.position;
+                // break;
+            }
         }
 
         var diff = {

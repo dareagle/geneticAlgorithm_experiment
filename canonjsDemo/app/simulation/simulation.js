@@ -286,6 +286,7 @@ define(
 
 
 		var genome_size = 30;
+		// var genome_size = 0;
 		// this._ann_topology = [5, 4, 3, 2];
 		// this._ann_topology = [15, 4, 3, 2];
 		this._ann_topology = [15, 4, 2];
@@ -317,14 +318,31 @@ define(
 
 			this._cars.push(car);
 		}
+
+		this._playable_car = new createCar();
+
+		this._playMode = false;
+
+        var self = this;
+        document.addEventListener('keydown', function(event)
+        {
+			if (event.keyCode == 80) // <- P
+				self._playMode = !self._playMode;
+        });
 	};
 
 	//
 
 	createSimulation.prototype.update = function(time)
 	{
-
         world._my_update(time);
+
+        if (this._playMode == true)
+        {
+        	this._playable_car.processEvent();
+        	this._playable_car.update();
+        	return;
+        }
 
 
 		var someone_is_alive = false;
@@ -393,20 +411,35 @@ define(
 
 	createSimulation.prototype.render = function(in_shader_color, in_viewMatrix, car_index)
 	{
-		for (var i = 0; i < this._cars.length; ++i)
-			this._cars[i].render(in_shader_color, in_viewMatrix);
+		if (this._playMode)
+		{
+	        gl.uniform1f(in_shader_color.uColorApha, 1.0);
+			this._playable_car.render(in_shader_color, in_viewMatrix);
 
-        gl.uniformMatrix4fv(in_shader_color.uMVMatrix, false, in_viewMatrix); // lookAt only
+	        gl.uniformMatrix4fv(in_shader_color.uMVMatrix, false, in_viewMatrix); // lookAt only
 
-        if (car_index >= 0)
-        {
 	        gl.uniform1f(in_shader_color.uColorApha, 0.5);
+			this._playable_car.render_sensors(in_shader_color);
+		}
+		else
+		{
+			for (var i = 0; i < this._cars.length; ++i)
+				this._cars[i].render(in_shader_color, in_viewMatrix);
 
-			// for (var i = 0; i < this._cars.length; ++i)
-			// 	this._cars[i].render_sensors(in_shader_color);
+	        gl.uniformMatrix4fv(in_shader_color.uMVMatrix, false, in_viewMatrix); // lookAt only
 
-			this._cars[car_index].render_sensors(in_shader_color);
-        }
+	        if (car_index >= 0)
+	        {
+		        gl.uniform1f(in_shader_color.uColorApha, 0.5);
+
+				// for (var i = 0; i < this._cars.length; ++i)
+				// 	this._cars[i].render_sensors(in_shader_color);
+
+				this._cars[car_index].render_sensors(in_shader_color);
+	        }
+		}
+
+        // gl.uniformMatrix4fv(in_shader_color.uMVMatrix, false, in_viewMatrix); // lookAt only
 
         this._geom_skelton.render(in_shader_color, false);
 
