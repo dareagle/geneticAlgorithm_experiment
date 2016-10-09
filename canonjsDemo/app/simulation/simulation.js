@@ -184,20 +184,20 @@ define(
 				// points.push([20,0,0]); points2.push([20,0,0]);
 
 
-
                 points.push([0,0,0]); points2.push([0,15,0]); colors.push([0,0,1]);
-
                 points.push([90,0,0]); points2.push([90,0,0]); colors.push([0,0,1]);
+
+                points.push([90,0,0]); points2.push([90,0,0]); colors.push([1,0,0]);
 
                 { // turned looping
 
                     var color = [0,0.5,0]
 
-                    points.push([30,0,30]); points2.push([30,0,30]); colors.push(color);
-                    points.push([-30,0,30]); points2.push([-30,0,30]); colors.push(color);
+                    points.push([40,0,40]); points2.push([40,0,40]); colors.push(color);
+                    points.push([-40,0,40]); points2.push([-40,0,40]); colors.push(color);
 
-                    points.push([-30,30,-15]); points2.push([-30,15,0]); colors.push(color);
-                    points.push([20,30,0]); points2.push([0,30,-15]); colors.push(color);
+                    points.push([-40,40,-15]); points2.push([-40,25,0]); colors.push(color);
+                    points.push([20,40,0]); points2.push([0,40,-15]); colors.push(color);
 
                     points.push([20,20,0]); points2.push([35,35,0]); colors.push(color);
                     points.push([40,0,0]); points2.push([45,0,0]); colors.push(color);
@@ -205,15 +205,16 @@ define(
                 } // turned looping
 
 
-                points.push([30,0,0]); points2.push([30,0,0]); colors.push([1,1,1]);
+
+                points.push([30,0,0]); points2.push([30,0,0]); colors.push([1,0,0]);
 
 
                 { // looping
 
                     var color = [0,0,1]
 
-                    var r = 40;
-                    var d = 20;
+                    var r = 60;
+                    var d = -20;
 
                     points.push([r,0,0]); points2.push([r,0,0]); colors.push(color);
                     points.push([r,0,r]); points2.push([r,0,r]); colors.push(color);
@@ -223,12 +224,12 @@ define(
                     points.push([r,0,0]); points2.push([r,0,0]); colors.push(color);
 
                     points.push([20,0,0]); points2.push([20,0,0]); colors.push(color);
-                    points.push([20,0,0]); points2.push([20,0,0]); colors.push(color);
+                    // points.push([20,0,0]); points2.push([20,0,0]); colors.push(color);
 
                 } // looping
 
 
-                points.push([30,0,0]); points2.push([30,0,0]); colors.push([1,1,1])
+                points.push([30,0,0]); points2.push([30,0,0]); colors.push([1,0,0])
 
 
                 { // infinity loop
@@ -244,7 +245,7 @@ define(
 
                     points.push([30,0,+pente]); points2.push([30,0,0]); colors.push(color)
 
-                    for (var i = 0; i < 1; ++i)
+                    for (var i = 0; i < 2; ++i)
                     {
                         points.push([outer_radius,outer_radius,height]); points2.push([inner_radius,inner_radius,height]); colors.push(color)
                         points.push([-outer_radius,outer_radius,height]); points2.push([-inner_radius,inner_radius,height]); colors.push(color)
@@ -253,9 +254,9 @@ define(
                         points.push([outer_radius,-outer_radius,height]); points2.push([inner_radius,-inner_radius,height]); colors.push(color)
                     }
 
-                    points.push([30,0,0]); points2.push([30,0,+pente*2]); colors.push(color)
+                    points.push([40,0,0]); points2.push([40,0,+pente*2]); colors.push([1,0,0])
  
-                    for (var i = 0; i < 1; ++i)
+                    for (var i = 0; i < 2; ++i)
                     {
                         points.push([inner_radius,-inner_radius,height]); points2.push([outer_radius,-outer_radius,height]); colors.push(color)
                         points.push([-inner_radius,-inner_radius,height]); points2.push([-outer_radius,-outer_radius,height]); colors.push(color)
@@ -267,6 +268,9 @@ define(
                     points.push([30,0,0]); points2.push([30,0,-pente]); colors.push(color)
 
                 } // infinity loop
+
+
+                points.push([30,0,0]); points2.push([30,0,0]); colors.push([1,0,0])
 
 
 
