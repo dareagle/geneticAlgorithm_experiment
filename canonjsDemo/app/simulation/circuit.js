@@ -69,6 +69,7 @@ define(
 			var vertices = [];
 			var vertices_wall1 = [];
 			var vertices_wall2 = [];
+			var colors = [];
 
 			//
 			// repeatable
@@ -96,6 +97,9 @@ define(
 				var p21 = [ c2[0], c2[1], c2[2] ];
 				var p22 = [ c2[3], c2[4], c2[5] ];
 
+				var color1 = [ c1[6], c1[7], c1[8] ];
+				var color2 = [ c2[6], c2[7], c2[8] ];
+
 				//
 				// calculate the floor normal
 
@@ -115,6 +119,11 @@ define(
 				vertices.push( p12[0], p12[1], p12[2] );
 				vertices.push( p21[0], p21[1], p21[2] );
 				vertices.push( p22[0], p22[1], p22[2] );
+
+				colors.push(color1[0], color1[1], color1[2]);
+				colors.push(color1[0], color1[1], color1[2]);
+				colors.push(color2[0], color2[1], color2[2]);
+				colors.push(color2[0], color2[1], color2[2]);
 
 				//
 				// walls
@@ -168,7 +177,8 @@ define(
 				if (vertexi == 0 || vertexi == 3)
 					geom_vertices.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], 1,1,1 );
 				else
-					geom_vertices.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], 0,0,1 );
+					// geom_vertices.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], 0,0,1 );
+					geom_vertices.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], colors[0],colors[1],colors[2] );
 			}
 
 			for (var index2 in indices)
