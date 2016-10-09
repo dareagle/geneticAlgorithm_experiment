@@ -74,96 +74,199 @@ define(
 
 	        var points = [];
 	        var points2 = [];
+	        var colors = [];
 
 	        //
 	        // circuit
 
-				points.push([0,0,0]); points2.push([0,10,0]);
-				points.push([40,0,0]); points2.push([40,0,0]);
+				// points.push([0,0,0]); points2.push([0,15,0]);
+				// points.push([40,0,0]); points2.push([40,0,0]);
+
+
+
+				// { // turned looping
+
+	   //              points.push([20,0,0]); points2.push([20,0,0]);
+	   //              points.push([20,0,20]); points2.push([20,0,20]);
+	   //              points.push([-20,0,20]); points2.push([-20,0,20]);
+
+	   //              points.push([-20,30,-15]); points2.push([-20,20,0]);
+	   //              points.push([10,30,0]); points2.push([0,30,-10]);
+	   //              // points.push([0,20,0]); points2.push([0,20,0]);
+
+				// } // turned looping
+
+
+
+    //             points.push([10,10,0]); points2.push([20,20,0]);
+
+
+				// { // looping
+
+				// 	var r = 40;
+				// 	var d = 10;
+
+				// 	points.push([r,0,0]); points2.push([r,0,0]);
+				// 	points.push([r,0,r]); points2.push([r,0,r]);
+				// 	points.push([-r,d,r]); points2.push([-r,d,r]);
+				// 	points.push([-r,d,-r]); points2.push([-r,d,-r]);
+				// 	points.push([r,d,-r]); points2.push([r,d,-r]);
+				// 	points.push([r,0,0]); points2.push([r,0,0]);
+
+				// 	points.push([20,0,0]); points2.push([20,0,0]);
+				// 	points.push([20,0,0]); points2.push([20,0,0]);
+
+				// } // looping
+
+
+
+
+    //             { // infinity loop
+
+    //                 var pente = 7;
+
+    //                 points.push([30,0,+pente]); points2.push([30,0,0]);
+
+    //                 for (var i = 0; i < 1; ++i)
+    //                 {
+    //                     var height = +3.5;
+    //                     var inner_radius = 25;
+    //                     var outer_radius = 35;
+
+    //                     points.push([outer_radius,outer_radius,height]); points2.push([inner_radius,inner_radius,height]);
+    //                     points.push([-outer_radius,outer_radius,height]); points2.push([-inner_radius,inner_radius,height]);
+    //                     points.push([-outer_radius,-outer_radius,height]); points2.push([-inner_radius,-inner_radius,height]);
+    //                     points.push([outer_radius,-outer_radius,height]); points2.push([inner_radius,-inner_radius,height]);
+    //                 }
+
+    //                 points.push([30,0,0]); points2.push([30,0,+pente*2]);
+
+    //                 for (var i = 0; i < 1; ++i)
+    //                 {
+    //                     var height = +3.5;
+    //                     var inner_radius = 35;
+    //                     var outer_radius = 25;
+
+    //                     points.push([outer_radius,-outer_radius,height]); points2.push([inner_radius,-inner_radius,height]);
+    //                     points.push([-outer_radius,-outer_radius,height]); points2.push([-inner_radius,-inner_radius,height]);
+    //                     points.push([-outer_radius,outer_radius,height]); points2.push([-inner_radius,inner_radius,height]);
+    //                     points.push([outer_radius,outer_radius,height]); points2.push([inner_radius,inner_radius,height]);
+    //                 }
+
+    //                 points.push([30,0,0]); points2.push([30,0,-pente]);
+
+    //             } // infinity loop
 
 
 
 
 
-				var r = 40;
-				var d = 10;
-
-				points.push([r,0,0]); points2.push([r,0,0]);
-				points.push([r,0,r]); points2.push([r,0,r]);
-				points.push([-r,d,r]); points2.push([-r,d,r]);
-				points.push([-r,d,-r]); points2.push([-r,d,-r]);
-				points.push([r,d,-r]); points2.push([r,d,-r]);
-				points.push([r,0,0]); points2.push([r,0,0]);
-
-				points.push([20,0,0]); points2.push([20,0,0]);
-				points.push([20,0,0]); points2.push([20,0,0]);
 
 
+				// points.push([20,0,0]); points2.push([20,0,0]);
+				// points.push([20,30,0]); points2.push([20,30,0]);
+				// points.push([20,-30,0]); points2.push([20,-30,0]);
+				// points.push([20,-30,0]); points2.push([20,-30,0]);
+				// points.push([20,30,0]); points2.push([20,30,0]);
+				// points.push([20,0,0]); points2.push([20,0,0]);
 
-                {
+				// // points.push([20,0,0]); points2.push([20,0,0]);
+
+				// // points.push([20,0,0]); points2.push([20,0,0]);
+
+				// points.push([20,0,5]); points2.push([20,0,-5]);
+				// points.push([20,30,-10]); points2.push([20,30,10]);
+				// points.push([20,-30,5]); points2.push([20,-30,-5]);
+				// points.push([20,-30,5]); points2.push([20,-30,-5]);
+				// points.push([20,30,-5]); points2.push([20,30,5]);
+				// points.push([20,0,0]); points2.push([20,0,0]);
+
+				// points.push([20,0,0]); points2.push([20,0,0]);
+
+
+
+                points.push([0,0,0]); points2.push([0,15,0]); colors.push([0,0,1]);
+
+                points.push([90,0,0]); points2.push([90,0,0]); colors.push([0,0,1]);
+
+                { // turned looping
+
+                    var color = [0,0.5,0]
+
+                    points.push([30,0,30]); points2.push([30,0,30]); colors.push(color);
+                    points.push([-30,0,30]); points2.push([-30,0,30]); colors.push(color);
+
+                    points.push([-30,30,-15]); points2.push([-30,15,0]); colors.push(color);
+                    points.push([20,30,0]); points2.push([0,30,-15]); colors.push(color);
+
+                    points.push([20,20,0]); points2.push([35,35,0]); colors.push(color);
+                    points.push([40,0,0]); points2.push([45,0,0]); colors.push(color);
+
+                } // turned looping
+
+
+                points.push([30,0,0]); points2.push([30,0,0]); colors.push([1,1,1]);
+
+
+                { // looping
+
+                    var color = [0,0,1]
+
+                    var r = 40;
+                    var d = 20;
+
+                    points.push([r,0,0]); points2.push([r,0,0]); colors.push(color);
+                    points.push([r,0,r]); points2.push([r,0,r]); colors.push(color);
+                    points.push([-r,d,r]); points2.push([-r,d,r]); colors.push(color);
+                    points.push([-r,d,-r]); points2.push([-r,d,-r]); colors.push(color);
+                    points.push([r,d,-r]); points2.push([r,d,-r]); colors.push(color);
+                    points.push([r,0,0]); points2.push([r,0,0]); colors.push(color);
+
+                    points.push([20,0,0]); points2.push([20,0,0]); colors.push(color);
+                    points.push([20,0,0]); points2.push([20,0,0]); colors.push(color);
+
+                } // looping
+
+
+                points.push([30,0,0]); points2.push([30,0,0]); colors.push([1,1,1])
+
+
+                { // infinity loop
+
+                    var color = [0,0.5,0];
+
                     var pente = 7;
 
-                    points.push([30,0,0]); points2.push([30,0,-pente]);
+                    var height = 6;
+                    var inner_radius = 35;
+                    var outer_radius = 60;
+
+
+                    points.push([30,0,+pente]); points2.push([30,0,0]); colors.push(color)
 
                     for (var i = 0; i < 1; ++i)
                     {
-                        var height = +3.5;
-                        var inner_radius = 25;
-                        var outer_radius = 35;
+                        points.push([outer_radius,outer_radius,height]); points2.push([inner_radius,inner_radius,height]); colors.push(color)
+                        points.push([-outer_radius,outer_radius,height]); points2.push([-inner_radius,inner_radius,height]); colors.push(color)
 
-                        points.push([outer_radius,outer_radius,height]); points2.push([inner_radius,inner_radius,height]);
-                        points.push([-outer_radius,outer_radius,height]); points2.push([-inner_radius,inner_radius,height]);
-                        points.push([-outer_radius,-outer_radius,height]); points2.push([-inner_radius,-inner_radius,height]);
-                        points.push([outer_radius,-outer_radius,height]); points2.push([inner_radius,-inner_radius,height]);
+                        points.push([-outer_radius,-outer_radius,height]); points2.push([-inner_radius,-inner_radius,height]); colors.push(color)
+                        points.push([outer_radius,-outer_radius,height]); points2.push([inner_radius,-inner_radius,height]); colors.push(color)
                     }
 
-                    points.push([30,0,-pente]); points2.push([30,0,+pente]);
-
+                    points.push([30,0,0]); points2.push([30,0,+pente*2]); colors.push(color)
+ 
                     for (var i = 0; i < 1; ++i)
                     {
-                        var height = +3.5;
-                        var inner_radius = 35;
-                        var outer_radius = 25;
+                        points.push([inner_radius,-inner_radius,height]); points2.push([outer_radius,-outer_radius,height]); colors.push(color)
+                        points.push([-inner_radius,-inner_radius,height]); points2.push([-outer_radius,-outer_radius,height]); colors.push(color)
 
-                        points.push([outer_radius,-outer_radius,height]); points2.push([inner_radius,-inner_radius,height]);
-                        points.push([-outer_radius,-outer_radius,height]); points2.push([-inner_radius,-inner_radius,height]);
-                        points.push([-outer_radius,outer_radius,height]); points2.push([-inner_radius,inner_radius,height]);
-                        points.push([outer_radius,outer_radius,height]); points2.push([inner_radius,inner_radius,height]);
+                        points.push([-inner_radius,inner_radius,height]); points2.push([-outer_radius,outer_radius,height]); colors.push(color)
+                        points.push([inner_radius,inner_radius,height]); points2.push([outer_radius,outer_radius,height]); colors.push(color)
                     }
 
-                    points.push([30,0,+pente]); points2.push([30,0,0]);
-                }
+                    points.push([30,0,0]); points2.push([30,0,-pente]); colors.push(color)
 
-
-
-
-
-
-
-
-
-				points.push([20,0,0]); points2.push([20,0,0]);
-				points.push([20,30,0]); points2.push([20,30,0]);
-				points.push([20,-30,0]); points2.push([20,-30,0]);
-				points.push([20,-30,0]); points2.push([20,-30,0]);
-				points.push([20,30,0]); points2.push([20,30,0]);
-				points.push([20,0,0]); points2.push([20,0,0]);
-
-				// points.push([20,0,0]); points2.push([20,0,0]);
-
-				// points.push([20,0,0]); points2.push([20,0,0]);
-
-				points.push([20,0,5]); points2.push([20,0,-5]);
-				points.push([20,30,-10]); points2.push([20,30,10]);
-				points.push([20,-30,5]); points2.push([20,-30,-5]);
-				points.push([20,-30,5]); points2.push([20,-30,-5]);
-				points.push([20,30,-5]); points2.push([20,30,5]);
-				points.push([20,0,0]); points2.push([20,0,0]);
-
-				points.push([20,0,0]); points2.push([20,0,0]);
-
-
-
+                } // infinity loop
 
 
 
@@ -239,14 +342,17 @@ define(
 
 	        var spline = new BSpline(points_ex,3); //making BSpline
 	        var spline2 = new BSpline(points2_ex,3); //making BSpline
+	        var spline_color = new BSpline(colors,3); //making BSpline
+
 	        for (var t = 0; t <= 1; t += 0.001)
 	        {
 	            var p = spline.calcAt(t);
 	            var p2 = spline2.calcAt(t);
+	            var color = spline_color.calcAt(t);
 
 	            // console.log(p, p2);
 
-	            var curr = [ p[0], p[1], p[2], p2[0], p2[1], p2[2] ];
+	            var curr = [ p[0], p[1], p[2], p2[0], p2[1], p2[2], color[0],color[1],color[2] ];
 
 	            if (tmp_checkpoint.length > 0)
 	            {
@@ -289,7 +395,8 @@ define(
 		// var genome_size = 0;
 		// this._ann_topology = [5, 4, 3, 2];
 		// this._ann_topology = [15, 4, 3, 2];
-		this._ann_topology = [15, 4, 2];
+		// this._ann_topology = [15, 4, 2];
+		this._ann_topology = [16, 4, 2];
 
 		this._geneticAlgo = new createGeneticAlgo( genome_size, this._ann_topology );
 
