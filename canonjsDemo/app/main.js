@@ -173,11 +173,15 @@ define(
 
                 center_index = car_index;
             }
-            else
+            else if (simulation._cars[center_index])
             {
                 var car = simulation._cars[center_index];
                 pos = car._chassisBody.position;
                 car_index = center_index;
+            }
+            else
+            {
+                pos.x = pos.y = pos.z = 0;
             }
 
         }
