@@ -93,7 +93,8 @@ define(
 	        radius: 0.5,
 	        directionLocal: new CANNON.Vec3(0, 0, -1),
 	        suspensionStiffness: 30,
-	        suspensionRestLength: 0.3,
+	        // suspensionRestLength: 0.3,
+            suspensionRestLength: 0.8,
 	        frictionSlip: 5,
 	        dampingRelaxation: 2.3,
 	        dampingCompression: 4.4,
@@ -101,7 +102,8 @@ define(
 	        rollInfluence:  0.01,
 	        axleLocal: new CANNON.Vec3(0, 1, 0),
 	        chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0),
-	        maxSuspensionTravel: 0.3,
+	        // maxSuspensionTravel: 0.3,
+            maxSuspensionTravel: 0.8,
 	        customSlidingRotationalSpeed: -30,
 	        useCustomSlidingRotationalSpeed: true
 	    };
@@ -196,7 +198,7 @@ define(
         //     Math.PI/8.0,
         // ];
 
-        var elevations = [-3, 0, 3];
+        var elevations = [-6, 0, 6];
 
         for (var j = 0; j < elevations.length; ++j)
             for (var i = 0; i < angles.length; ++i)
@@ -244,7 +246,7 @@ define(
         this._alive = true;
         this._min_update = 100000;
 
-        var maxSteerVal = 0.5 * 1.0;
+        var maxSteerVal = 0.5;// * 0.25;
         var maxForce = 1000;
         var brakeForce = 1000000;
 
@@ -303,58 +305,68 @@ define(
         // for (var i = 5; i < 10; ++i)
             input.push( this._sensors[i].value );
 
+        var vel = this._chassisBody.velocity;
+        var vel_length = Math.sqrt(vel.x*vel.x + vel.y*vel.y + vel.z*vel.z);
+        input.push( vel_length / 100 );
+
         var output = in_ANN.process( input );
 
-        var steerValue = output[0];
-        var speedValue = output[1];
+        var steerValue = Math.max(-1.0, Math.min(output[0], 1.0));
+        var speedValue = Math.max(-1.0, Math.min(output[1], 1.0));
+
+
 
         //
         //
         //
 
-        var maxSteerVal = 0.5;
+        var maxSteerVal = 0.5;// * 0.25;
         var maxForce = 1000;
         var brakeForce = 1000000;
 
 
-        // look up
+        // // look up
         // if (speedValue > 0.1)
-        if (speedValue > 0.0)
-        {
-            this._vehicle.applyEngineForce(-maxForce, 0);
-            this._vehicle.applyEngineForce(-maxForce, 1);
-        }
+        // // if (speedValue > 0.0)
+        // {
+        //     this._vehicle.applyEngineForce(-maxForce * speedValue*2, 0);
+        //     this._vehicle.applyEngineForce(-maxForce * speedValue*2, 1);
+        // }
         // // look down
         // else if (speedValue < -0.1)
         // {
-        //     this._vehicle.applyEngineForce(maxForce, 0);
-        //     this._vehicle.applyEngineForce(maxForce, 1);
+        //     this._vehicle.applyEngineForce(maxForce * speedValue*2, 0);
+        //     this._vehicle.applyEngineForce(maxForce * speedValue*2, 1);
         // }
-        else
-        {
-            // this._vehicle.applyEngineForce(0, 0);
-            // this._vehicle.applyEngineForce(0, 1);
-            this._vehicle.applyEngineForce(-maxForce/2, 0);
-            this._vehicle.applyEngineForce(-maxForce/2, 1);
-        }
+        // else
+        // {
+        //     this._vehicle.applyEngineForce(0, 0);
+        //     this._vehicle.applyEngineForce(0, 1);
+        //     // this._vehicle.applyEngineForce(-maxForce/2, 0);
+        //     // this._vehicle.applyEngineForce(-maxForce/2, 1);
+        // }
+        this._vehicle.applyEngineForce(-maxForce * speedValue, 0);
+        this._vehicle.applyEngineForce(-maxForce * speedValue, 1);
 
-        // look left
-        if (steerValue < -0.1)
-        {
-            this._vehicle.setSteeringValue(maxSteerVal, 0);
-            this._vehicle.setSteeringValue(maxSteerVal, 1);
-        }
-        // look right
-        else if (steerValue > 0.1)
-        {
-            this._vehicle.setSteeringValue(-maxSteerVal, 0);
-            this._vehicle.setSteeringValue(-maxSteerVal, 1);
-        }
-        else
-        {
-            this._vehicle.setSteeringValue(0, 0);
-            this._vehicle.setSteeringValue(0, 1);
-        }
+        // // look left
+        // if (steerValue < -0.1)
+        // {
+        //     this._vehicle.setSteeringValue(maxSteerVal * steerValue*2, 0);
+        //     this._vehicle.setSteeringValue(maxSteerVal * steerValue*2, 1);
+        // }
+        // // look right
+        // else if (steerValue > 0.1)
+        // {
+        //     this._vehicle.setSteeringValue(-maxSteerVal * steerValue*2, 0);
+        //     this._vehicle.setSteeringValue(-maxSteerVal * steerValue*2, 1);
+        // }
+        // else
+        // {
+        //     this._vehicle.setSteeringValue(0, 0);
+        //     this._vehicle.setSteeringValue(0, 1);
+        // }
+        this._vehicle.setSteeringValue(-maxSteerVal * steerValue, 0);
+        this._vehicle.setSteeringValue(-maxSteerVal * steerValue, 1);
     }
 
     //
@@ -373,6 +385,8 @@ define(
         { // raycast to get the checkpoints validation
 
             var pos = this._chassisBody.position;
+
+            // var vel = this._chassisBody.velocity;
 
             // this._ground_sensor.from = [pos.x, pos.y, pos.z+100];
             // this._ground_sensor.to = [pos.x, pos.y, pos.z-100];
@@ -470,7 +484,7 @@ define(
 
             var pos1 = [0, 0, 0];
             // var pos2 = [20*Math.cos(angle), 20*Math.sin(angle), 0];
-            var pos2 = [20*Math.cos(angle), 20*Math.sin(angle), elevation];
+            var pos2 = [50*Math.cos(angle), 50*Math.sin(angle), elevation];
 
             var pos_from = glm.post_mult(this._modelMatrix, pos1)
             var pos_to = glm.post_mult(this._modelMatrix, pos2)
@@ -642,7 +656,7 @@ define(
     createCar.prototype.reset = function()
     {
         // this._chassisBody.position.set(-10, 5, 7);
-        this._chassisBody.position.set(2, 5, 1.1);
+        this._chassisBody.position.set(5, 7.5, 1.1);
         this._chassisBody.quaternion.set(0,0,0,1);
 
         this._chassisBody.velocity.set(0, 0, 0);
