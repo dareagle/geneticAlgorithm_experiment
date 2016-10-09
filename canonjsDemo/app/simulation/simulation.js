@@ -543,6 +543,8 @@ define(
 				// 	this._cars[i].render_sensors(in_shader_color);
 
 				this._cars[car_index].render_sensors(in_shader_color);
+
+				this._cars[car_index].render_vision();
 	        }
 		}
 

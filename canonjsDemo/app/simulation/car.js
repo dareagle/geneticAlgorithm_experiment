@@ -517,7 +517,7 @@ define(
 
             var length = Math.sqrt(diff[0]*diff[0] + diff[1]*diff[1] + diff[2]*diff[2]);
 
-            this._sensors[i].value = length / 20;
+            this._sensors[i].value = length / 50;
             this._sensors[i].from = pos_from;
             this._sensors[i].to = pos_to;
         }
@@ -649,6 +649,49 @@ define(
             render_cross(in_shader_color, this._ground_sensor.to, [1,0,0]);
         }
 	}
+
+    //
+    //
+
+    createCar.prototype.render_vision = function()
+    {
+        //
+        //
+        //
+        // CANVAS STUFF (in fact, this still the HUD...)
+
+        var ctx = gl.hud;
+
+        ctx.clearRect(0, 0, gl.viewportWidth, gl.viewportHeight);
+
+        for (var i = 0; i < this._sensors.length; ++i)
+        {
+            var sensor = this._sensors[i];
+            var value = sensor.value;
+
+            var x = gl.viewportWidth*0.9 - (i % 5) * 25;
+            var y = gl.viewportHeight*0.85 - 25*5 - Math.floor(i / 5) * 25;
+
+            // var my_gradient = ctx.createLinearGradient(x-25,y-25,x+100 * value,y+25);
+            var my_gradient = ctx.createLinearGradient(0,0,3000 * value,0);
+            my_gradient.addColorStop(0,"white");
+            my_gradient.addColorStop(1,"red");
+            ctx.fillStyle = my_gradient;
+
+            // console.log(i, x, y);
+
+            ctx.beginPath();
+            ctx.arc(x, y, 12.5, 0, 2 * Math.PI, false);
+            // ctx.stroke();
+            ctx.fill();
+        }
+
+        // CANVAS STUFF (in fact, this still the HUD...)
+        //
+        //
+        //
+    }
+
 
     //
     //
