@@ -187,6 +187,13 @@ define(
                 points.push([0,0,0]); points2.push([0,15,0]); colors.push([0,0,1]);
                 points.push([90,0,0]); points2.push([90,0,0]); colors.push([0,0,1]);
 
+
+
+
+
+
+
+
                 points.push([90,0,0]); points2.push([90,0,0]); colors.push([1,0,0]);
 
                 { // turned looping
@@ -271,6 +278,28 @@ define(
 
 
                 points.push([30,0,0]); points2.push([30,0,0]); colors.push([1,0,0])
+
+                {
+                    points.push([30,0,0]); points2.push([30,0,0]); colors.push([1,0,1])
+
+                    points.push([30,0,30]); points2.push([30,0,30]); colors.push([1,0,1])
+
+                    points.push([10,0,40]); points2.push([10,0,40]); colors.push([1,0,1])
+
+                    points.push([10,30,30]); points2.push([10,15,15]); colors.push([1,0,1])
+                    points.push([-10,30,-30]); points2.push([-10,15,-15]); colors.push([1,0,1])
+
+                    points.push([-10,0,-40]); points2.push([-10,0,-40]); colors.push([1,0,1])
+
+                    points.push([-30,0,-30]); points2.push([-30,0,-30]); colors.push([1,0,1])
+
+                    points.push([-30,0,0]); points2.push([-30,0,0]); colors.push([1,1,1])
+                }
+
+                points.push([-30,0,0]); points2.push([-30,0,0]); colors.push([1,0,0])
+
+
+
 
 
 
