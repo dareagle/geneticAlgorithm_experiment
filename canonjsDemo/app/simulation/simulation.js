@@ -474,6 +474,9 @@ define(
 			if (event.keyCode == 80) // <- P
 				self._playMode = !self._playMode;
         });
+
+
+        this._time_ratio = 0;
 	};
 
 	//
@@ -591,7 +594,36 @@ define(
 
         this._geom_skelton.render(in_shader_color, false);
 
-        this._circuit.render(in_shader_color);
+        // this._circuit.render(in_shader_color);
+	};
+
+	//
+
+	createSimulation.prototype.render_exp = function(in_shader_exp)
+	{
+		var best_fitness = 0;
+		for (var i = 0; i < this._cars.length; ++i)
+			if (this._cars[i]._alive &&
+				best_fitness < this._cars[i]._fitness)
+				best_fitness = this._cars[i]._fitness;
+
+		if (this._time_ratio < best_fitness)
+		{
+			this._time_ratio += 0.1;
+			if (this._time_ratio > best_fitness)
+				this._time_ratio = best_fitness;
+		}
+		else if (this._time_ratio > best_fitness)
+		{
+			this._time_ratio -= 0.2;
+			if (this._time_ratio < best_fitness)
+				this._time_ratio = best_fitness;
+		}
+
+        // gl.uniform1f(in_shader_exp.uMagikIndex, this._time_ratio);
+        gl.uniform1f(in_shader_exp.uMagikIndex, this._time_ratio);
+
+        this._circuit.render_exp(in_shader_exp);
 	}
 
 

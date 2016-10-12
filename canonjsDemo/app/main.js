@@ -47,9 +47,18 @@ define(
     }
     g_shaderProgram_color = new createShaders( gl, shader_opt );
 
+    var shader_opt = {
+        vs_id: "shader-vs-experimental",
+        fs_id: "shader-fs-experimental",
+        arr_attrib: ['aVertexPosition','aVertexColor','aVertexNormal','aVertexIndex'],
+        arr_uniform: ['uMVMatrix','uPMatrix','uColorApha','uMagikIndex']
+    }
+    g_shaderProgram_experimental = new createShaders( gl, shader_opt );
+
     //
 
     var shader_color = g_shaderProgram_color;
+    var shader_exp = g_shaderProgram_experimental
 
     // shader
     //
@@ -222,7 +231,7 @@ define(
         var tmp_viewMatrix = glm.mat4.create();
 
         // glm.mat4.lookAt( tmp_viewMatrix, [pos.x+30, pos.y+30, pos.z+30], [pos.x, pos.y, pos.z], [0,0,1] );
-        glm.mat4.lookAt( tmp_viewMatrix, [center.x+30, center.y+30, center.z+30], [center.x, center.y, center.z], [0,0,1] );
+        glm.mat4.lookAt( tmp_viewMatrix, [center.x-50, center.y+50, center.z+50], [center.x, center.y, center.z], [0,0,1] );
 
 
         ////// /matrices
@@ -256,6 +265,14 @@ define(
             geom_axis.render(shader_color);
 
             simulation.render(shader_color, tmp_viewMatrix, car_index);
+
+        gl.useProgram(shader_exp);
+
+            gl.uniformMatrix4fv(shader_exp.uPMatrix, false, tmp_pMatrix);
+            gl.uniformMatrix4fv(shader_exp.uMVMatrix, false, tmp_viewMatrix);
+            gl.uniform1f(shader_exp.uColorApha, 1.0);
+
+            simulation.render_exp(shader_exp);
 
         gl.useProgram(null);
 
@@ -294,6 +311,14 @@ define(
             geom_axis.render(shader_color);
 
             simulation.render(shader_color, tmp_viewMatrix, car_index);
+
+        gl.useProgram(shader_exp);
+
+            gl.uniformMatrix4fv(shader_exp.uPMatrix, false, tmp_pMatrix);
+            gl.uniformMatrix4fv(shader_exp.uMVMatrix, false, tmp_viewMatrix);
+            gl.uniform1f(shader_exp.uColorApha, 1.0);
+
+            simulation.render_exp(shader_exp);
 
         gl.useProgram(null);
 

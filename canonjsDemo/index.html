@@ -51,6 +51,69 @@
 
 
 
+		<script id="shader-fs-experimental" type="x-shader/x-fragment">
+
+			precision mediump float;
+
+			varying vec4 vColor;
+
+			void main(void) {
+
+				if (vColor.a == 0.0)
+					discard;
+				else
+					gl_FragColor = vColor;
+			}
+		</script>
+
+		<script id="shader-vs-experimental" type="x-shader/x-vertex">
+
+			attribute vec3 aVertexPosition;
+			attribute vec3 aVertexColor;
+			attribute vec3 aVertexNormal;
+			attribute float aVertexIndex;
+
+			varying vec4 vColor;
+
+			uniform mat4 uMVMatrix;
+			uniform mat4 uPMatrix;
+			uniform float uColorApha;
+			uniform float uMagikIndex;
+
+			void main(void) {
+
+				float ratio = 0.0;
+
+				if (aVertexIndex < uMagikIndex)
+				{
+					vColor = vec4(aVertexColor, uColorApha);
+				}
+				else if (aVertexIndex >= uMagikIndex+1.0)
+				{
+					vColor = vec4(0,0,0, 0.0);
+				}
+				else
+				{
+					float my_alpha = 1.0 - (aVertexIndex - uMagikIndex);
+					ratio = 1.0 - my_alpha;
+					vColor = vec4(aVertexColor, my_alpha);
+				}
+
+				vec3	tmp_pos;
+				tmp_pos.x = aVertexPosition.x - aVertexNormal.x * 1.0 * ratio;
+				tmp_pos.y = aVertexPosition.y - aVertexNormal.y * 1.0 * ratio;
+				tmp_pos.z = aVertexPosition.z - aVertexNormal.z * 1.0 * ratio;
+
+				gl_Position = uPMatrix * uMVMatrix * vec4(tmp_pos.xyz, 1.0);
+			}
+		</script>
+
+
+
+	<!--  -->
+
+
+
 <style>
 /*	.my_cells {*/
 	#my_table td {

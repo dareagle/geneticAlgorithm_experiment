@@ -9,6 +9,8 @@ define(
 		, './world.js'
 
         , '../geometries/geometryColor.js'
+
+        , '../geometries/geometryExperimental.js'
 	],
 	function(
 		  unused_CANNON // <- use CANNON
@@ -16,6 +18,8 @@ define(
 		, world
 
         , createGeometryColor
+
+        , createGeometryExperimental
 	)
 {
 	function createCircuit(arr_checkpoints)
@@ -33,6 +37,7 @@ define(
 
 		var geom_vertices = [];
 		var geom_vertices_wall = [];
+		var geom_vertices_exp = [];
 
 
 		function calculate_normal(v0, v1, v2)
@@ -70,6 +75,7 @@ define(
 			var vertices_wall1 = [];
 			var vertices_wall2 = [];
 			var colors = [];
+			var normals = [];
 
 			//
 			// repeatable
@@ -138,6 +144,15 @@ define(
 				vertices_wall2.push( p22[0], p22[1], p22[2] );
 				vertices_wall2.push( p22[0]+normal[0], p22[1]+normal[1], p22[2]+normal[2] );
 
+				//
+
+				normals.push(prev_normal[0], prev_normal[1], prev_normal[2]);
+				normals.push(normal[0], normal[1], normal[2]);
+				normals.push(prev_normal[0], prev_normal[1], prev_normal[2]);
+				normals.push(normal[0], normal[1], normal[2]);
+
+				//
+
 				prev_normal = normal;
 			}
 
@@ -195,6 +210,26 @@ define(
 				geom_vertices_wall.push( vertices_wall2[vertexi+0], vertices_wall2[vertexi+1], vertices_wall2[vertexi+2], 0,0.5,0.5 );
 			}
 
+			var curr_len = geom_vertices_exp.length / 10 / indices.length;
+
+			// console.log(curr_len);
+
+			for (var index2 in indices)
+			{
+				var vertexi = indices[index2] * 3;
+
+				// if (vertexi == 0 || vertexi == 3)
+				// 	geom_vertices_exp.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], 1,1,1, curr_len );
+				// else
+				// 	// geom_vertices_exp.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], colors[0],colors[1],colors[2] );
+				// 	geom_vertices_exp.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], 0,0,1, curr_len );
+
+				if (vertexi == 0 || vertexi == 3)
+					geom_vertices_exp.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], 1,1,1, normals[vertexi+0], normals[vertexi+1], normals[vertexi+2], curr_len );
+				else
+					geom_vertices_exp.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], colors[0],colors[1],colors[2], normals[vertexi+0], normals[vertexi+1], normals[vertexi+2], curr_len );
+			}
+
 		} // for (var index = 1; index < arr_checkpoints.length; index += 2)
 
 		var geom_cube2 = new createGeometryColor(geom_vertices, gl.TRIANGLES);
@@ -203,6 +238,7 @@ define(
 		var geom_cube2 = new createGeometryColor(geom_vertices_wall, gl.TRIANGLES);
 		this._arr_geoms.push(geom_cube2);
 
+		this._geom_exp = new createGeometryExperimental(geom_vertices_exp, gl.TRIANGLES);
 	}
 
 	//
@@ -222,6 +258,26 @@ define(
         this._arr_geoms[1].render(shader_color);
 
         gl.uniform1f(shader_color.uColorApha, 1.0);
+	}
+
+	//
+	//
+
+	createCircuit.prototype.render_exp = function(shader_exp)
+	{
+        gl.uniform1f(shader_exp.uColorApha, 1.0);
+
+        // gl.uniform1f(shader_exp.uMagikIndex, 2.0);
+
+        this._geom_exp.render(shader_exp);
+
+        // this._arr_geoms[0].render(shader_exp);
+
+        // gl.uniform1f(shader_exp.uColorApha, 0.2);
+
+        // this._arr_geoms[1].render(shader_exp);
+
+        gl.uniform1f(shader_exp.uColorApha, 1.0);
 	}
 
 	return createCircuit;
