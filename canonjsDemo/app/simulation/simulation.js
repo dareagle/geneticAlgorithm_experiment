@@ -10,6 +10,8 @@ define(
         , 'BSpline' // in /lib
 
         , '../geometries/geometryColor.js'
+
+        , '../ai/ArtificialIntelligence.js'
     ],
     function(
 		  world
@@ -20,6 +22,8 @@ define(
         , BSpline
 
         , createGeometryColor
+
+		, createArtificialIntelligence
     )
 {
 
@@ -460,6 +464,7 @@ define(
 		}
 
 		this._playable_car = new createCar();
+		this._playable_ai = new createArtificialIntelligence();
 
 		this._playMode = false;
 
@@ -480,6 +485,7 @@ define(
         if (this._playMode == true)
         {
         	this._playable_car.processEvent();
+        	this._playable_car.processANN( this._playable_ai );
         	this._playable_car.update();
         	return;
         }

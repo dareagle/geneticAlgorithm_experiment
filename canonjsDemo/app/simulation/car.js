@@ -81,7 +81,6 @@ define(
 	    this._chassisBody = new CANNON.Body({ mass: mass });
 	    this._chassisBody.addShape(chassisShape);
 	    this._chassisBody.position.set(-10, 5, 7);
-	    // this._chassisBody.position.set(0, 0, 14);
 	    this._chassisBody.angularVelocity.set(0, 0, 0.5);
 
 	    this._chassisBody.collisionFilterGroup = 0;
@@ -134,9 +133,6 @@ define(
 	        wheelBody.type = CANNON.Body.KINEMATIC;
 	        wheelBody.collisionFilterGroup = 0; // turn off collisions
 
-	        // var q = new CANNON.Quaternion();
-	        // q.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2);
-	        // wheelBody.addShape(cylinderShape, new CANNON.Vec3(), q);
 	        this._wheelBodies.push(wheelBody);
 
 	        world.addBody(wheelBody);
@@ -174,14 +170,6 @@ define(
 
         this._sensors = [];
 
-        // var angles = [
-        //     -Math.PI/2.0,
-        //     -Math.PI/4.0,
-        //     0.0,
-        //     Math.PI/4.0,
-        //     Math.PI/2.0
-        // ];
-
         var angles = [
             -Math.PI/4.0,
             -Math.PI/8.0,
@@ -189,14 +177,6 @@ define(
             Math.PI/8.0,
             Math.PI/4.0,
         ];
-
-        // var angles = [
-        //     -Math.PI/8.0,
-        //     -Math.PI/16.0,
-        //     0.0,
-        //     Math.PI/16.0,
-        //     Math.PI/8.0,
-        // ];
 
         var elevations = [-6, 0, 6];
 
@@ -246,9 +226,9 @@ define(
         this._alive = true;
         this._min_update = 100000;
 
-        var maxSteerVal = 0.5;// * 0.25;
-        var maxForce = 1000;
-        var brakeForce = 1000000;
+        // var maxSteerVal = 0.5;// * 0.25;
+        // var maxForce = 1000;
+        // var brakeForce = 1000000;
 
 
         if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.KEY_R ))
@@ -257,41 +237,41 @@ define(
         }
 
 
-        // look up
-        if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_UP ))
-        {
-            this._vehicle.applyEngineForce(-maxForce, 0);
-            this._vehicle.applyEngineForce(-maxForce, 1);
-        }
-        // look down
-        else if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_DOWN ))
-        {
-            this._vehicle.applyEngineForce(maxForce, 0);
-            this._vehicle.applyEngineForce(maxForce, 1);
-        }
-        else
-        {
-            this._vehicle.applyEngineForce(0, 0);
-            this._vehicle.applyEngineForce(0, 1);
-        }
+        // // look up
+        // if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_UP ))
+        // {
+        //     this._vehicle.applyEngineForce(-maxForce, 0);
+        //     this._vehicle.applyEngineForce(-maxForce, 1);
+        // }
+        // // look down
+        // else if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_DOWN ))
+        // {
+        //     this._vehicle.applyEngineForce(maxForce, 0);
+        //     this._vehicle.applyEngineForce(maxForce, 1);
+        // }
+        // else
+        // {
+        //     this._vehicle.applyEngineForce(0, 0);
+        //     this._vehicle.applyEngineForce(0, 1);
+        // }
 
-        // look left
-        if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_LEFT ))
-        {
-            this._vehicle.setSteeringValue(maxSteerVal, 0);
-            this._vehicle.setSteeringValue(maxSteerVal, 1);
-        }
-        // look right
-        else if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_RIGHT ))
-        {
-            this._vehicle.setSteeringValue(-maxSteerVal, 0);
-            this._vehicle.setSteeringValue(-maxSteerVal, 1);
-        }
-        else
-        {
-            this._vehicle.setSteeringValue(0, 0);
-            this._vehicle.setSteeringValue(0, 1);
-        }
+        // // look left
+        // if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_LEFT ))
+        // {
+        //     this._vehicle.setSteeringValue(maxSteerVal, 0);
+        //     this._vehicle.setSteeringValue(maxSteerVal, 1);
+        // }
+        // // look right
+        // else if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_RIGHT ))
+        // {
+        //     this._vehicle.setSteeringValue(-maxSteerVal, 0);
+        //     this._vehicle.setSteeringValue(-maxSteerVal, 1);
+        // }
+        // else
+        // {
+        //     this._vehicle.setSteeringValue(0, 0);
+        //     this._vehicle.setSteeringValue(0, 1);
+        // }
     }
 
     //
@@ -302,7 +282,6 @@ define(
         var input = [];
 
         for (var i = 0; i < this._sensors.length; ++i)
-        // for (var i = 5; i < 10; ++i)
             input.push( this._sensors[i].value );
 
         var vel = this._chassisBody.velocity;
@@ -325,46 +304,9 @@ define(
         var brakeForce = 1000000;
 
 
-        // // look up
-        // if (speedValue > 0.1)
-        // // if (speedValue > 0.0)
-        // {
-        //     this._vehicle.applyEngineForce(-maxForce * speedValue*2, 0);
-        //     this._vehicle.applyEngineForce(-maxForce * speedValue*2, 1);
-        // }
-        // // look down
-        // else if (speedValue < -0.1)
-        // {
-        //     this._vehicle.applyEngineForce(maxForce * speedValue*2, 0);
-        //     this._vehicle.applyEngineForce(maxForce * speedValue*2, 1);
-        // }
-        // else
-        // {
-        //     this._vehicle.applyEngineForce(0, 0);
-        //     this._vehicle.applyEngineForce(0, 1);
-        //     // this._vehicle.applyEngineForce(-maxForce/2, 0);
-        //     // this._vehicle.applyEngineForce(-maxForce/2, 1);
-        // }
         this._vehicle.applyEngineForce(-maxForce * speedValue, 0);
         this._vehicle.applyEngineForce(-maxForce * speedValue, 1);
 
-        // // look left
-        // if (steerValue < -0.1)
-        // {
-        //     this._vehicle.setSteeringValue(maxSteerVal * steerValue*2, 0);
-        //     this._vehicle.setSteeringValue(maxSteerVal * steerValue*2, 1);
-        // }
-        // // look right
-        // else if (steerValue > 0.1)
-        // {
-        //     this._vehicle.setSteeringValue(-maxSteerVal * steerValue*2, 0);
-        //     this._vehicle.setSteeringValue(-maxSteerVal * steerValue*2, 1);
-        // }
-        // else
-        // {
-        //     this._vehicle.setSteeringValue(0, 0);
-        //     this._vehicle.setSteeringValue(0, 1);
-        // }
         this._vehicle.setSteeringValue(-maxSteerVal * steerValue, 0);
         this._vehicle.setSteeringValue(-maxSteerVal * steerValue, 1);
     }
@@ -386,16 +328,6 @@ define(
 
             var pos = this._chassisBody.position;
 
-            // var vel = this._chassisBody.velocity;
-
-            // this._ground_sensor.from = [pos.x, pos.y, pos.z+100];
-            // this._ground_sensor.to = [pos.x, pos.y, pos.z-100];
-            // this._ground_sensor.from = [0,0,100];
-            // this._ground_sensor.to = [0,0-100];
-            // this._ground_sensor.from = [0, 0, 0];
-            // this._ground_sensor.to = [0, 0, -100];
-
-
             var from = [0,0,0];
             var to = [0,0,-10];
 
@@ -407,10 +339,6 @@ define(
 
             var result = new CANNON.RaycastResult();
             world.raycastClosest(
-                // new CANNON.Vec3(pos.x,pos.y,pos.z),
-                // new CANNON.Vec3(pos.x,pos.y,pos.z-10),
-                // new CANNON.Vec3(pos.x,pos.y,pos.z),
-                // new CANNON.Vec3(pos_to[0],pos_to[1],pos_to[2]),
                 new CANNON.Vec3(pos_from[0],pos_from[1], pos_from[2]),
                 new CANNON.Vec3(pos_to[0],pos_to[1], pos_to[2]),
                 { skipBackfaces: true },
@@ -425,16 +353,7 @@ define(
                 this._ground_sensor.to = [result.hitPointWorld.x, result.hitPointWorld.y, result.hitPointWorld.z];
 
                 tmp_checkpoint_id = result.body.id;
-                // result.body.id
             }
-
-            // console.log('start', this._ground_sensor.from, this._ground_sensor.to);
-            // console.log('stop ', this._ground_sensor.from, this._ground_sensor.to);
-
-            // console.log(result.body.id);
-            // console.log(result);
-            // result.hasHit
-            // result.hitPointWorld
         }
 
         {
@@ -672,7 +591,6 @@ define(
             var x = gl.viewportWidth*0.9 - (i % 5) * 25;
             var y = gl.viewportHeight*0.85 - 25*5 - Math.floor(i / 5) * 25;
 
-            // var my_gradient = ctx.createLinearGradient(x-25,y-25,x+100 * value,y+25);
             var my_gradient = ctx.createLinearGradient(0,0,3000 * value,0);
             my_gradient.addColorStop(0,"white");
             my_gradient.addColorStop(1,"red");
@@ -682,7 +600,6 @@ define(
 
             ctx.beginPath();
             ctx.arc(x, y, 12.5, 0, 2 * Math.PI, false);
-            // ctx.stroke();
             ctx.fill();
         }
 
