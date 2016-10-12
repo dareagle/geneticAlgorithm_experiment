@@ -38,6 +38,8 @@ define(
 		var geom_vertices = [];
 		var geom_vertices_wall = [];
 		var geom_vertices_exp = [];
+		var geom_vertices_Wexp = [];
+		var geom_vertices_W2exp = [];
 
 
 		function calculate_normal(v0, v1, v2)
@@ -228,6 +230,9 @@ define(
 					geom_vertices_exp.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], 1,1,1, normals[vertexi+0], normals[vertexi+1], normals[vertexi+2], curr_len );
 				else
 					geom_vertices_exp.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], colors[0],colors[1],colors[2], normals[vertexi+0], normals[vertexi+1], normals[vertexi+2], curr_len );
+
+				geom_vertices_Wexp.push( vertices_wall1[vertexi+0], vertices_wall1[vertexi+1], vertices_wall1[vertexi+2], 0,0.5,0.5, normals[vertexi+0], normals[vertexi+2], normals[vertexi+1], curr_len );
+				geom_vertices_W2exp.push( vertices_wall2[vertexi+0], vertices_wall2[vertexi+1], vertices_wall2[vertexi+2], 0,0.5,0.5, -normals[vertexi+0], -normals[vertexi+2], -normals[vertexi+1], curr_len );
 			}
 
 		} // for (var index = 1; index < arr_checkpoints.length; index += 2)
@@ -239,6 +244,9 @@ define(
 		this._arr_geoms.push(geom_cube2);
 
 		this._geom_exp = new createGeometryExperimental(geom_vertices_exp, gl.TRIANGLES);
+		this._geom_Wexp = new createGeometryExperimental(geom_vertices_Wexp, gl.TRIANGLES);
+		this._geom_W2exp = new createGeometryExperimental(geom_vertices_W2exp, gl.TRIANGLES);
+
 	}
 
 	//
@@ -273,7 +281,10 @@ define(
 
         // this._arr_geoms[0].render(shader_exp);
 
-        // gl.uniform1f(shader_exp.uColorApha, 0.2);
+        gl.uniform1f(shader_exp.uColorApha, 0.2);
+
+        this._geom_Wexp.render(shader_exp);
+        this._geom_W2exp.render(shader_exp);
 
         // this._arr_geoms[1].render(shader_exp);
 

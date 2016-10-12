@@ -615,7 +615,7 @@ define(
 		}
 		else if (this._time_ratio > best_fitness)
 		{
-			this._time_ratio -= 0.2;
+			this._time_ratio -= 0.3;
 			if (this._time_ratio < best_fitness)
 				this._time_ratio = best_fitness;
 		}

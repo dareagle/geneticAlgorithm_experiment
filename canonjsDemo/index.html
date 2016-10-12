@@ -62,7 +62,7 @@
 				if (vColor.a == 0.0)
 					discard;
 				else
-					gl_FragColor = vColor;
+				gl_FragColor = vColor;
 			}
 		</script>
 
@@ -96,13 +96,13 @@
 				{
 					float my_alpha = 1.0 - (aVertexIndex - uMagikIndex);
 					ratio = 1.0 - my_alpha;
-					vColor = vec4(aVertexColor, my_alpha);
+					vColor = vec4(aVertexColor, my_alpha * uColorApha);
 				}
 
 				vec3	tmp_pos;
-				tmp_pos.x = aVertexPosition.x - aVertexNormal.x * 1.0 * ratio;
-				tmp_pos.y = aVertexPosition.y - aVertexNormal.y * 1.0 * ratio;
-				tmp_pos.z = aVertexPosition.z - aVertexNormal.z * 1.0 * ratio;
+				tmp_pos.x = aVertexPosition.x - aVertexNormal.x * 2.0 * ratio;
+				tmp_pos.y = aVertexPosition.y - aVertexNormal.y * 2.0 * ratio;
+				tmp_pos.z = aVertexPosition.z - aVertexNormal.z * 2.0 * ratio;
 
 				gl_Position = uPMatrix * uMVMatrix * vec4(tmp_pos.xyz, 1.0);
 			}
