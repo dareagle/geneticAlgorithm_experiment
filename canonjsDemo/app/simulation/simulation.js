@@ -188,7 +188,7 @@ define(
 				// points.push([20,0,0]); points2.push([20,0,0]);
 
 
-                points.push([0,0,0]); points2.push([0,15,0]); colors.push([0,0,1]);
+                points.push([0,0,0]); points2.push([0,10,0]); colors.push([0,0,1]);
                 points.push([90,0,0]); points2.push([90,0,0]); colors.push([0,0,1]);
 
 
@@ -207,10 +207,10 @@ define(
                     points.push([40,0,40]); points2.push([40,0,40]); colors.push(color);
                     points.push([-40,0,40]); points2.push([-40,0,40]); colors.push(color);
 
-                    points.push([-40,40,-15]); points2.push([-40,25,0]); colors.push(color);
-                    points.push([20,40,0]); points2.push([0,40,-15]); colors.push(color);
+                    points.push([-40,40,-10]); points2.push([-40,30,0]); colors.push(color);
+                    points.push([20,40,0]); points2.push([0,40,-10]); colors.push(color);
 
-                    points.push([20,20,0]); points2.push([35,35,0]); colors.push(color);
+                    points.push([20,20,0]); points2.push([35,30,0]); colors.push(color);
                     points.push([40,0,0]); points2.push([45,0,0]); colors.push(color);
 
                 } // turned looping
@@ -250,7 +250,7 @@ define(
                     var pente = 7;
 
                     var height = 6;
-                    var inner_radius = 35;
+                    var inner_radius = 50;
                     var outer_radius = 60;
 
 
@@ -283,6 +283,7 @@ define(
 
                 points.push([30,0,0]); points2.push([30,0,0]); colors.push([1,0,0])
 
+
                 {
                     points.push([30,0,0]); points2.push([30,0,0]); colors.push([1,0,1])
 
@@ -290,8 +291,8 @@ define(
 
                     points.push([10,0,40]); points2.push([10,0,40]); colors.push([1,0,1])
 
-                    points.push([10,30,30]); points2.push([10,15,15]); colors.push([1,0,1])
-                    points.push([-10,30,-30]); points2.push([-10,15,-15]); colors.push([1,0,1])
+                    points.push([10,30,30]); points2.push([10,20,15]); colors.push([1,0,1])
+                    points.push([-10,30,-30]); points2.push([-10,20,-15]); colors.push([1,0,1])
 
                     points.push([-10,0,-40]); points2.push([-10,0,-40]); colors.push([1,0,1])
 
@@ -301,7 +302,6 @@ define(
                 }
 
                 points.push([-30,0,0]); points2.push([-30,0,0]); colors.push([1,0,0])
-
 
 
 

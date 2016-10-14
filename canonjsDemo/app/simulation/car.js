@@ -616,7 +616,7 @@ define(
     createCar.prototype.reset = function()
     {
         // this._chassisBody.position.set(-10, 5, 7);
-        this._chassisBody.position.set(5, 7.5, 1.1);
+        this._chassisBody.position.set(5, 5, 1.1);
         this._chassisBody.quaternion.set(0,0,0,1);
 
         this._chassisBody.velocity.set(0, 0, 0);
