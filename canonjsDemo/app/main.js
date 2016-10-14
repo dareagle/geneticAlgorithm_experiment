@@ -1,4 +1,6 @@
 
+'use strict'
+
 define(
     [
           './gl-context.js'
@@ -45,7 +47,7 @@ define(
         arr_attrib: ['aVertexPosition','aVertexColor'],
         arr_uniform: ['uMVMatrix','uPMatrix','uColorApha']
     }
-    g_shaderProgram_color = new createShaders( gl, shader_opt );
+    var g_shaderProgram_color = new createShaders( gl, shader_opt );
 
     var shader_opt = {
         vs_id: "shader-vs-experimental",
@@ -53,7 +55,7 @@ define(
         arr_attrib: ['aVertexPosition','aVertexColor','aVertexNormal','aVertexIndex'],
         arr_uniform: ['uMVMatrix','uPMatrix','uColorApha','uMagikIndex','uMagikLimit']
     }
-    g_shaderProgram_experimental = new createShaders( gl, shader_opt );
+    var g_shaderProgram_experimental = new createShaders( gl, shader_opt );
 
     //
 
@@ -98,9 +100,15 @@ define(
     //
     // FPS METER
 
-    var myFpsmeter_elem = document.getElementById('canvasesdiv');
+    var myFpsmeter_elem = document.getElementById('fpsmeter1');
     var myFpsmeter = new window.FPSMeter(
         myFpsmeter_elem,
+        window.FPSMeter.theme.transparent
+    );
+
+    var myFpsmeter2_elem = document.getElementById('fpsmeter2');
+    var myFpsmeter2 = new window.FPSMeter(
+        myFpsmeter2_elem,
         window.FPSMeter.theme.transparent
     );
 
@@ -141,6 +149,10 @@ define(
 
         simulation.update(time);
 
+
+        myFpsmeter.tick();
+
+        myFpsmeter2.tickStart();
 
 
         //
@@ -332,7 +344,7 @@ define(
 
 
 
-        myFpsmeter.tick();
+        myFpsmeter2.tick();
 
 
     } // function tick(in_event)

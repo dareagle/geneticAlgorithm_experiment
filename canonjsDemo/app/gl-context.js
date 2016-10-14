@@ -1,4 +1,6 @@
 
+'use strict'
+
 define([
         'webgl/WebGLUtils'
     ], function(
@@ -10,7 +12,7 @@ define([
 
 	var canvas = document.getElementById("main-canvas");
 
-    gl = WebGLUtils.setupWebGL(canvas);
+    var gl = WebGLUtils.setupWebGL(canvas);
 
     gl.viewportWidth = canvas.clientWidth;
     gl.viewportHeight = canvas.clientHeight;

@@ -1,4 +1,6 @@
 
+'use strict'
+
 define(function() {
 
     function createCubeVertices(arr_size, arr_color) {

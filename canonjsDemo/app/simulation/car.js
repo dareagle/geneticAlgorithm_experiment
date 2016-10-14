@@ -1,4 +1,5 @@
 
+'use strict'
 
 // create
 // render
@@ -388,9 +389,9 @@ define(
         var pos = this._chassisBody.position;
         glm.mat4.translate(this._modelMatrix,this._modelMatrix, [pos.x,pos.y,pos.z]);
 
-        axisAndAngle = this._chassisBody.quaternion.toAxisAngle();
-        axis = axisAndAngle[0];
-        angle = axisAndAngle[1];
+        var axisAndAngle = this._chassisBody.quaternion.toAxisAngle();
+        var axis = axisAndAngle[0];
+        var angle = axisAndAngle[1];
         glm.mat4.rotate(this._modelMatrix,this._modelMatrix, angle, [axis.x,axis.y,axis.z]);
     }
 
@@ -490,9 +491,9 @@ define(
             var pos = wheelBody.position;
             glm.mat4.translate(tmp_mvMatrix2,in_viewMatrix, [pos.x,pos.y,pos.z]);
 
-            axisAndAngle = wheelBody.quaternion.toAxisAngle();
-            axis = axisAndAngle[0];
-            angle = axisAndAngle[1];
+            var axisAndAngle = wheelBody.quaternion.toAxisAngle();
+            var axis = axisAndAngle[0];
+            var angle = axisAndAngle[1];
             glm.mat4.rotate(tmp_mvMatrix2,tmp_mvMatrix2, angle, [axis.x,axis.y,axis.z]);
 
             gl.uniformMatrix4fv(in_shader_color.uMVMatrix, false, tmp_mvMatrix2);

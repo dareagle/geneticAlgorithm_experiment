@@ -1,8 +1,11 @@
 
+'use strict'
 
 define(
     [
-          './world.js'
+          '../gl-context.js'
+
+        , './world.js'
         , './circuit.js'
         , './car.js'
         , '../ai/geneticAlgo.js'
@@ -14,7 +17,9 @@ define(
         , '../ai/ArtificialIntelligence.js'
     ],
     function(
-		  world
+    	  gl
+
+		, world
 		, createCircuit
 		, createCar
 		, createGeneticAlgo

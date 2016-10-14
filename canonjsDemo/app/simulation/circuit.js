@@ -1,10 +1,15 @@
 
+'use strict'
+
+
 // create
 // render
 
 define(
 	[
-		  'cannon.min' // in /lib
+		  '../gl-context.js'
+
+        , 'cannon.min' // in /lib
 
 		, './world.js'
 
@@ -13,7 +18,9 @@ define(
         , '../geometries/geometryExperimental.js'
 	],
 	function(
-		  unused_CANNON // <- use CANNON
+		  gl
+
+        , unused_CANNON // <- use CANNON
 
 		, world
 

@@ -1,4 +1,6 @@
 
+'use strict'
+
 define(
 	[
           'cannon.min' // in /lib

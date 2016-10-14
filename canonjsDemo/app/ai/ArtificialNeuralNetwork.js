@@ -1,4 +1,5 @@
 
+'use strict'
 
 define([],function()
 {
@@ -164,13 +165,13 @@ define([],function()
 
 		var weights_inc = 0;
 
-		for (i in this._layerHidden)
-			for (j in this._layerHidden[i])
-				for (k in this._layerHidden[i][j])
+		for (var i in this._layerHidden)
+			for (var j in this._layerHidden[i])
+				for (var k in this._layerHidden[i][j])
 					this._layerHidden[i][j][k] = arr_weights[ weights_inc++ ];
 
-		for (i in this._layerOutput)
-			for (j in this._layerOutput[i])
+		for (var i in this._layerOutput)
+			for (var j in this._layerOutput[i])
 				this._layerOutput[i][j] = arr_weights[ weights_inc++ ];
 	}
 
@@ -180,13 +181,13 @@ define([],function()
 	{
 		var out_weights = [];
 
-		for (i in this._layerHidden)
-			for (j in this._layerHidden[i])
-				for (k in this._layerHidden[i][j])
+		for (var i in this._layerHidden)
+			for (var j in this._layerHidden[i])
+				for (var k in this._layerHidden[i][j])
 					out_weights.push( this._layerHidden[i][j][k] );
 
-		for (i in this._layerOutput)
-			for (j in this._layerOutput[i])
+		for (var i in this._layerOutput)
+			for (var j in this._layerOutput[i])
 				out_weights.push( this._layerOutput[i][j] );
 
 		return out_weights;
