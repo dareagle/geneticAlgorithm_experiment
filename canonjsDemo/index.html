@@ -62,7 +62,7 @@
 				if (vColor.a == 0.0)
 					discard;
 				else
-				gl_FragColor = vColor;
+					gl_FragColor = vColor;
 			}
 		</script>
 
@@ -79,32 +79,34 @@
 			uniform mat4 uPMatrix;
 			uniform float uColorApha;
 			uniform float uMagikIndex;
+			uniform float uMagikLimit;
 
 			void main(void) {
 
-				float ratio = 0.0;
+				vec3	tmp_pos = aVertexPosition;
 
-				if (aVertexIndex < uMagikIndex)
+				if (aVertexIndex <= uMagikIndex)
 				{
 					vColor = vec4(aVertexColor, uColorApha);
 				}
-				else if (aVertexIndex >= uMagikIndex+1.0)
+				else if (aVertexIndex >= uMagikLimit)
 				{
-					vColor = vec4(0,0,0, 0.0);
+					vColor = vec4(0,0,0, 0);
 				}
 				else
 				{
-					float my_alpha = 1.0 - (aVertexIndex - uMagikIndex);
-					ratio = 1.0 - my_alpha;
+					float ratio = (aVertexIndex - uMagikIndex) / (uMagikLimit - uMagikIndex);
+
+					float my_alpha = 1.0 - ratio;
+
 					vColor = vec4(aVertexColor, my_alpha * uColorApha);
+
+					tmp_pos.x = aVertexPosition.x - aVertexNormal.x * ratio;
+					tmp_pos.y = aVertexPosition.y - aVertexNormal.y * ratio;
+					tmp_pos.z = aVertexPosition.z - aVertexNormal.z * ratio;
 				}
 
-				vec3	tmp_pos;
-				tmp_pos.x = aVertexPosition.x - aVertexNormal.x * 2.0 * ratio;
-				tmp_pos.y = aVertexPosition.y - aVertexNormal.y * 2.0 * ratio;
-				tmp_pos.z = aVertexPosition.z - aVertexNormal.z * 2.0 * ratio;
-
-				gl_Position = uPMatrix * uMVMatrix * vec4(tmp_pos.xyz, 1.0);
+				gl_Position = uPMatrix * uMVMatrix * vec4(tmp_pos, 1.0);
 			}
 		</script>
 

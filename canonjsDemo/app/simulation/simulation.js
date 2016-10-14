@@ -477,6 +477,7 @@ define(
 
 
         this._time_ratio = 0;
+        this._magik_limit = 0;
 	};
 
 	//
@@ -607,21 +608,38 @@ define(
 				best_fitness < this._cars[i]._fitness)
 				best_fitness = this._cars[i]._fitness;
 
-		if (this._time_ratio < best_fitness)
+		var target = best_fitness + 1;
+
+		if (this._time_ratio < target)
 		{
 			this._time_ratio += 0.1;
-			if (this._time_ratio > best_fitness)
-				this._time_ratio = best_fitness;
+			if (this._time_ratio > target)
+				this._time_ratio = target;
 		}
-		else if (this._time_ratio > best_fitness)
+		else if (this._time_ratio > target)
 		{
 			this._time_ratio -= 0.3;
-			if (this._time_ratio < best_fitness)
-				this._time_ratio = best_fitness;
+			if (this._time_ratio < target)
+				this._time_ratio = target;
 		}
 
         // gl.uniform1f(in_shader_exp.uMagikIndex, this._time_ratio);
         gl.uniform1f(in_shader_exp.uMagikIndex, this._time_ratio);
+
+		if (this._magik_limit < target)
+		{
+			this._magik_limit += 0.3;
+			if (this._magik_limit > target)
+				this._magik_limit = target;
+		}
+		else if (this._magik_limit > target)
+		{
+			this._magik_limit -= 0.1;
+			if (this._magik_limit < target)
+				this._magik_limit = target;
+		}
+
+        gl.uniform1f(in_shader_exp.uMagikLimit, this._magik_limit);
 
         this._circuit.render_exp(in_shader_exp);
 	}

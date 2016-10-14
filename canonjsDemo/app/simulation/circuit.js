@@ -94,11 +94,11 @@ define(
 				indices.push( indices[3]+step, indices[4]+step, indices[5]+step );
 			}
 
-			for (var index2 = index; index2 < arr_checkpoints.length && index2 < index+geometry_step; ++index2)
+			for (var index5 = index; index5 < arr_checkpoints.length && index5 < index+geometry_step; ++index5)
 			{
-				// console.log(index2);
-				var c1 = arr_checkpoints[index2-1];
-				var c2 = arr_checkpoints[index2];
+				// console.log(index5);
+				var c1 = arr_checkpoints[index5-1];
+				var c2 = arr_checkpoints[index5];
 
 				var p11 = [ c1[0], c1[1], c1[2] ];
 				var p12 = [ c1[3], c1[4], c1[5] ];
@@ -212,12 +212,20 @@ define(
 				geom_vertices_wall.push( vertices_wall2[vertexi+0], vertices_wall2[vertexi+1], vertices_wall2[vertexi+2], 0,0.5,0.5 );
 			}
 
-			var curr_len = geom_vertices_exp.length / 10 / indices.length;
+			// var tmp_step = 1 / geometry_step;
+			// console.log(tmp_step);
+			var curr_len = geom_vertices_exp.length / 10 / indices.length// + tmp_step;
 
 			// console.log(curr_len);
 
 			for (var index2 in indices)
 			{
+				// console.log(tmp_step);
+				// var curr_len = geom_vertices_exp.length / 10 / indices.length;// + tmp_step * Math.floor(index / 6);
+				// console.log(tmp_step);
+
+				curr_len += 1.0 / indices.length
+
 				var vertexi = indices[index2] * 3;
 
 				// if (vertexi == 0 || vertexi == 3)

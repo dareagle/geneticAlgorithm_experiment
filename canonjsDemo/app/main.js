@@ -51,7 +51,7 @@ define(
         vs_id: "shader-vs-experimental",
         fs_id: "shader-fs-experimental",
         arr_attrib: ['aVertexPosition','aVertexColor','aVertexNormal','aVertexIndex'],
-        arr_uniform: ['uMVMatrix','uPMatrix','uColorApha','uMagikIndex']
+        arr_uniform: ['uMVMatrix','uPMatrix','uColorApha','uMagikIndex','uMagikLimit']
     }
     g_shaderProgram_experimental = new createShaders( gl, shader_opt );
 
