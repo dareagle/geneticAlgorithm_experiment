@@ -186,6 +186,7 @@ define(
             {
                 var sensor = {
                       angle: angles[i]
+                    , dir: [ Math.cos(angles[i]), Math.sin(angles[i]) ]
                     , elevation: elevations[j]
                     , value: 1
                     , from: [0,0,0]
@@ -323,6 +324,8 @@ define(
         this._updateModelMatrix();
         this._updateSensors();
 
+        // return;
+
         var tmp_checkpoint_id = -1;
 
         { // raycast to get the checkpoints validation
@@ -360,7 +363,7 @@ define(
         {
             if (this._current_checkpoint_id < tmp_checkpoint_id)
             {
-                this._min_update = 100;
+                this._min_update = 200;
                 this._current_checkpoint_id = tmp_checkpoint_id;
                 this._fitness++;
             }
@@ -397,29 +400,42 @@ define(
 
     createCar.prototype._updateSensors = function()
     {
+        var result = new CANNON.RaycastResult();
+        var from = new CANNON.Vec3(0,0,0);
+        var to = new CANNON.Vec3(0,0,0);
+
+        var ray_opt = {
+            skipBackfaces: false,
+            collisionFilterGroup: world._GROUP_sensor,
+            collisionFilterMask: world._GROUP_wall
+        };
+
         for (var i = 0; i < this._sensors.length; ++i)
         {
-            var angle = this._sensors[i].angle;
+            var dir = this._sensors[i].dir;
             var elevation = this._sensors[i].elevation;
 
             var pos1 = [0, 0, 0];
-            // var pos2 = [20*Math.cos(angle), 20*Math.sin(angle), 0];
-            var pos2 = [50*Math.cos(angle), 50*Math.sin(angle), elevation];
+            var pos2 = [50*dir[0], 50*dir[1], elevation];
+
 
             var pos_from = glm.post_mult(this._modelMatrix, pos1)
             var pos_to = glm.post_mult(this._modelMatrix, pos2)
 
             var pos = this._chassisBody.position;
 
-            var result = new CANNON.RaycastResult();
+            from.x = pos_from[0];
+            from.y = pos_from[1];
+            from.z = pos_from[2];
+
+            to.x = pos_to[0];
+            to.y = pos_to[1];
+            to.z = pos_to[2];
+
             world.raycastClosest(
-                new CANNON.Vec3(pos_from[0],pos_from[1],pos_from[2]),
-                new CANNON.Vec3(pos_to[0],pos_to[1],pos_to[2]),
-                {
-                    skipBackfaces: false,
-                    collisionFilterGroup: world._GROUP_sensor,
-                    collisionFilterMask: world._GROUP_wall
-                },
+                from,
+                to,
+                ray_opt,
                 result
             );
 
@@ -628,7 +644,7 @@ define(
 
         this._alive = true;
         this._current_checkpoint_id = -1;
-        this._min_update = 100;
+        this._min_update = 1000;
         this._fitness = 0;
     }
 
