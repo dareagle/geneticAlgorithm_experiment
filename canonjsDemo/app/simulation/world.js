@@ -27,12 +27,13 @@ define(
 
     world._my_update = function (time)
     {
-        if (lastTime !== undefined)
-        {
-            var dt = (time - lastTime) / 1000;
-            world.step(fixedTimeStep, dt, maxSubSteps);
-        }
-        lastTime = time;
+        world.step(fixedTimeStep, 0, 0);
+        // if (lastTime !== undefined)
+        // {
+        //     var dt = (time - lastTime) / 1000;
+        //     world.step(fixedTimeStep, dt, maxSubSteps);
+        // }
+        // lastTime = time;
     }
 
     //
