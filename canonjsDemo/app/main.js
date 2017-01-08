@@ -10,8 +10,6 @@ define(
 
         , 'fpsmeter' // in /lib
 
-        , 'cannon.min' // in /lib
-
         , './geometries/geometryColor.js'
 
         , './simulation/simulation.js'
@@ -23,8 +21,6 @@ define(
         , myShaders
 
         , unused_fpsmeter // <- use window.FPSMeter
-
-        , unused_CANNON // <- use CANNON
 
         , createGeometryColor
 
