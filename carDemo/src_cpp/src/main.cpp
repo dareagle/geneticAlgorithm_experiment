@@ -141,6 +141,8 @@ int	main()
 	// Create the main window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
 
+	window.setFramerateLimit(60);
+
 	sf::Vector2f	camera_center;
 
 	// Start the game loop
@@ -208,7 +210,7 @@ int	main()
             camera_center.y += diff.y * 0.1;
 
 			// view.setCenter(400,300);
-			if (iteration_nbr <= 3)
+			// if (iteration_nbr <= 3)
 				view.setCenter(camera_center);
 
 			window.setView(view);
