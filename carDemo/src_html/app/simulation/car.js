@@ -208,6 +208,8 @@ define(
 				this._min_updates = 50;
 
 				++this._fitness;
+
+				break;
 			}
 			else
 			{

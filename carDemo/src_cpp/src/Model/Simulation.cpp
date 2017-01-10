@@ -593,6 +593,7 @@ void	Car::collideCheckpoints()
 			it = m_current_checkpoints.erase(it);
 			m_min_updates = 50;
 			++m_fitness;
+			break;
 		}
 		else
 		{
