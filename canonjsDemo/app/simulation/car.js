@@ -156,13 +156,13 @@ define(
     	    resourceManager.geom_car_wheel = new createGeometryColor(vertices, gl.LINES);
         }
 
-		//
-		//
-		//
-		// EVENT
+		// //
+		// //
+		// //
+		// // EVENT
 
-        this._keybrdHdl = new createKeyboardHandler();
-    	this._keybrdHdl.activate();
+  //       this._keybrdHdl = new createKeyboardHandler();
+  //       this._keybrdHdl.activate();
 
         //
         //
@@ -223,58 +223,58 @@ define(
 	//
 	//
 
-	createCar.prototype.processEvent = function()
-	{
-        this._alive = true;
-        this._min_update = 100000;
+	// createCar.prototype.processEvent = function()
+	// {
+ //        this._alive = true;
+ //        this._min_update = 100000;
 
-        // var maxSteerVal = 0.5;// * 0.25;
-        // var maxForce = 1000;
-        // var brakeForce = 1000000;
-
-
-        if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.KEY_R ))
-        {
-            this.reset();
-        }
+ //        // var maxSteerVal = 0.5;// * 0.25;
+ //        // var maxForce = 1000;
+ //        // var brakeForce = 1000000;
 
 
-        // // look up
-        // if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_UP ))
-        // {
-        //     this._vehicle.applyEngineForce(-maxForce, 0);
-        //     this._vehicle.applyEngineForce(-maxForce, 1);
-        // }
-        // // look down
-        // else if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_DOWN ))
-        // {
-        //     this._vehicle.applyEngineForce(maxForce, 0);
-        //     this._vehicle.applyEngineForce(maxForce, 1);
-        // }
-        // else
-        // {
-        //     this._vehicle.applyEngineForce(0, 0);
-        //     this._vehicle.applyEngineForce(0, 1);
-        // }
+ //        if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.KEY_R ))
+ //        {
+ //            this.reset();
+ //        }
 
-        // // look left
-        // if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_LEFT ))
-        // {
-        //     this._vehicle.setSteeringValue(maxSteerVal, 0);
-        //     this._vehicle.setSteeringValue(maxSteerVal, 1);
-        // }
-        // // look right
-        // else if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_RIGHT ))
-        // {
-        //     this._vehicle.setSteeringValue(-maxSteerVal, 0);
-        //     this._vehicle.setSteeringValue(-maxSteerVal, 1);
-        // }
-        // else
-        // {
-        //     this._vehicle.setSteeringValue(0, 0);
-        //     this._vehicle.setSteeringValue(0, 1);
-        // }
-    }
+
+ //        // // look up
+ //        // if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_UP ))
+ //        // {
+ //        //     this._vehicle.applyEngineForce(-maxForce, 0);
+ //        //     this._vehicle.applyEngineForce(-maxForce, 1);
+ //        // }
+ //        // // look down
+ //        // else if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_DOWN ))
+ //        // {
+ //        //     this._vehicle.applyEngineForce(maxForce, 0);
+ //        //     this._vehicle.applyEngineForce(maxForce, 1);
+ //        // }
+ //        // else
+ //        // {
+ //        //     this._vehicle.applyEngineForce(0, 0);
+ //        //     this._vehicle.applyEngineForce(0, 1);
+ //        // }
+
+ //        // // look left
+ //        // if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_LEFT ))
+ //        // {
+ //        //     this._vehicle.setSteeringValue(maxSteerVal, 0);
+ //        //     this._vehicle.setSteeringValue(maxSteerVal, 1);
+ //        // }
+ //        // // look right
+ //        // else if (this._keybrdHdl.isPressed( this._keybrdHdl.keyCodes.ARROW_RIGHT ))
+ //        // {
+ //        //     this._vehicle.setSteeringValue(-maxSteerVal, 0);
+ //        //     this._vehicle.setSteeringValue(-maxSteerVal, 1);
+ //        // }
+ //        // else
+ //        // {
+ //        //     this._vehicle.setSteeringValue(0, 0);
+ //        //     this._vehicle.setSteeringValue(0, 1);
+ //        // }
+ //    }
 
     //
     //
