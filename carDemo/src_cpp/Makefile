@@ -17,13 +17,13 @@ MAIN=		$(PATH_MAIN)/main.cpp	\
 
 #### SFML
 
-SFML_PATH=		/home/barbie/Documents/Programming/Libraries/git/SFML-2.1
+SFML_PATH=		/home/barbie/Documents/Programming/Library/sfml/SFML-2.4.0
 SFML_INC_PATH=	$(SFML_PATH)/include
 SFML_LIB_PATH=	$(SFML_PATH)/lib
 SFML_LIB=		-Wl,--rpath=$(SFML_LIB_PATH)				\
-				$(SFML_LIB_PATH)/libsfml-graphics.so.2.1	\
-				$(SFML_LIB_PATH)/libsfml-window.so.2.1		\
-				$(SFML_LIB_PATH)/libsfml-system.so.2.1
+				$(SFML_LIB_PATH)/libsfml-graphics.so.2.4.0	\
+				$(SFML_LIB_PATH)/libsfml-window.so.2.4.0	\
+				$(SFML_LIB_PATH)/libsfml-system.so.2.4.0
 
 #### /SFML
 
