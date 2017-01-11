@@ -271,7 +271,6 @@ GeneticAlgorithm::GeneticAlgorithm()
 	:	m_current_id(1),
 		m_current_generation(1),
 		m_best_fitness(0.0f),
-		m_stalling_generations(0),
 		// m_pNNTopology(NULL),
 		m_is_a_great_generation(false)
 {
@@ -322,7 +321,7 @@ void	GeneticAlgorithm::generateRandomPopulation()
 
 
 	// reset the genomes
-	m_genomes.resize(30);
+	m_genomes.resize(100);
 
 	for (unsigned int i = 0; i < m_genomes.size(); ++i)
 	{
@@ -359,8 +358,6 @@ void	GeneticAlgorithm::generateRandomPopulation()
 	m_alpha_genome.m_index = -1;
 	m_alpha_genome.m_id = -1;
 	m_alpha_genome.m_fitness = 0.0f;
-
-	m_stalling_generations = 0;
 }
 
 void	GeneticAlgorithm::BreedPopulation()
@@ -371,7 +368,7 @@ void	GeneticAlgorithm::BreedPopulation()
 		return;
 
 	std::vector<t_genome>	bestGenomes;
-	getBestGenomes(4, bestGenomes);
+	getBestGenomes(10, bestGenomes);
 
 
 	// D_MYLOG("current_best=" << bestGenomes[0].m_fitness);
@@ -393,24 +390,13 @@ void	GeneticAlgorithm::BreedPopulation()
 		m_best_fitness = bestGenomes[0].m_fitness;
 
 		D_MYLOG("m_current_generation=" << m_current_generation
-			<< ", m_best_fitness=" << m_best_fitness
-			<< ", m_stalling_generations=" << m_stalling_generations << "/2000");
+			<< std::fixed << ", m_best_fitness=" << m_best_fitness);
 
 		m_is_a_great_generation = true;
-
-		m_stalling_generations = 0;
 	}
 	else
 	{
-		++m_stalling_generations;
-
 		m_is_a_great_generation = false;
-	}
-
-	if (m_stalling_generations >= 2000)
-	{
-		D_MYLOG("stalling generations detected, value=" << m_stalling_generations);
-		m_stalling_generations = 0;
 	}
 
 

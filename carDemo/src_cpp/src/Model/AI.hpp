@@ -187,8 +187,6 @@ private: // attributs
 
 	t_genome				m_alpha_genome;
 
-	unsigned int			m_stalling_generations;
-
 	typedef std::unique_ptr<NeuralNetworkTopology>	t_pNNTopology;
 	t_pNNTopology			m_pNNTopology;
 
