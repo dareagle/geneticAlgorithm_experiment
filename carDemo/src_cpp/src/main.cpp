@@ -210,8 +210,14 @@ int	main()
             camera_center.y += diff.y * 0.1;
 
 			// view.setCenter(400,300);
-			// if (iteration_nbr <= 3)
+			if (iteration_nbr <= 3)
 				view.setCenter(camera_center);
+			else
+			{
+				view.zoom(7.0f);
+				view.setCenter(sf::Vector2f(0, -1700));
+				// view.reset(sf::FloatRect(-800, -600, 1600, 1200));
+			}
 
 			window.setView(view);
 
@@ -301,7 +307,8 @@ int	main()
 
 							sf::RectangleShape line(sf::Vector2f(length, thickness));
 
-							line.setOrigin(thickness/2, thickness/2);
+							// line.setOrigin(thickness/2, thickness/2);
+							line.setOrigin(0, thickness/2);
 							line.setPosition(p1);
 
 
