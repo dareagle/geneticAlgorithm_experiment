@@ -14,7 +14,7 @@ define(
 
         , '../geometries/geometryColor.js'
 
-        , '../ai/ArtificialIntelligence.js'
+        // , '../ai/ArtificialIntelligence.js'
     ],
     function(
     	  gl
