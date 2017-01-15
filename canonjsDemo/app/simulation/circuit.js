@@ -219,27 +219,13 @@ define(
 				geom_vertices_wall.push( vertices_wall2[vertexi+0], vertices_wall2[vertexi+1], vertices_wall2[vertexi+2], 0,0.5,0.5 );
 			}
 
-			// var tmp_step = 1 / geometry_step;
-			// console.log(tmp_step);
-			var curr_len = geom_vertices_exp.length / 10 / indices.length// + tmp_step;
-
-			// console.log(curr_len);
+			var curr_len = geom_vertices_exp.length / 10 / indices.length;
 
 			for (var index2 in indices)
 			{
-				// console.log(tmp_step);
-				// var curr_len = geom_vertices_exp.length / 10 / indices.length;// + tmp_step * Math.floor(index / 6);
-				// console.log(tmp_step);
-
 				curr_len += 1.0 / indices.length
 
 				var vertexi = indices[index2] * 3;
-
-				// if (vertexi == 0 || vertexi == 3)
-				// 	geom_vertices_exp.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], 1,1,1, curr_len );
-				// else
-				// 	// geom_vertices_exp.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], colors[0],colors[1],colors[2] );
-				// 	geom_vertices_exp.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], 0,0,1, curr_len );
 
 				if (vertexi == 0 || vertexi == 3)
 					geom_vertices_exp.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], 1,1,1, normals[vertexi+0], normals[vertexi+1], normals[vertexi+2], curr_len );

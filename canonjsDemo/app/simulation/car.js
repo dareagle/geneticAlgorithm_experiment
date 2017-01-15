@@ -259,8 +259,6 @@ define(
             var pos_to = glm.post_mult(this._modelMatrix, to);
 
 
-            // console.log(pos_to);
-
             var result = new CANNON.RaycastResult();
             world.raycastClosest(
                 new CANNON.Vec3(pos_from[0],pos_from[1], pos_from[2]),

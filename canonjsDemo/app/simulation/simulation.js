@@ -41,16 +41,14 @@ define(
 
 
 
-	    {
-	        var tmp_checkpoint = [];
+	    { // building the circuit
 
 	        var points = [];
 	        var points2 = [];
 	        var colors = [];
 
 	        //
-	        // circuit
-
+	        // circuit skelton
 
                 points.push([0,0,0]); points2.push([0,10,0]); colors.push([0,0,1]);
                 points.push([90,0,0]); points2.push([90,0,0]); colors.push([0,0,1]);
@@ -142,7 +140,8 @@ define(
                 points.push([30,0,0]); points2.push([30,0,0]); colors.push([1,0,0])
 
 
-                {
+                { // vertical corner
+
                     points.push([30,0,0]); points2.push([30,0,0]); colors.push([1,0,1])
 
                     points.push([30,0,30]); points2.push([30,0,30]); colors.push([1,0,1])
@@ -157,17 +156,17 @@ define(
                     points.push([-30,0,-30]); points2.push([-30,0,-30]); colors.push([1,0,1])
 
                     points.push([-30,0,0]); points2.push([-30,0,0]); colors.push([1,1,1])
-                }
+
+                } // vertical corner
 
                 points.push([-30,0,0]); points2.push([-30,0,0]); colors.push([1,0,0])
 
-
-
-
-
-
-	        // circuit
+	        // circuit skelton
 	        //
+
+
+	        //
+	        // concatenate skelton coordinates
 
 	        var points_ex = [];
 	        var points2_ex = [];
@@ -195,9 +194,12 @@ define(
 	            points2_ex.push(curr2);
 	        }
 
+	        // concatenate skelton coordinates
 	        //
 
-	        { // geom
+	        //
+
+	        { // geom (skelton)
 
 	        	var geom_vertices = [];
 
@@ -210,9 +212,6 @@ define(
 				{
 					var vertex1 = points_ex[index];
 					var vertex2 = points2_ex[index];
-
-					// geom_vertices.push(vertex1[0], vertex1[1], vertex1[2], 1,1,1);
-					// geom_vertices.push(vertex2[0], vertex2[1], vertex2[2], 1,1,1);
 
 					var v1 = [ lerp(vertex1[0], vertex2[0], -0.5), lerp(vertex1[1], vertex2[1], -0.5), lerp(vertex1[2], vertex2[2], -0.5) ];
 					var v2 = [ lerp(vertex1[0], vertex2[0], +1.5), lerp(vertex1[1], vertex2[1], +1.5), lerp(vertex1[2], vertex2[2], +1.5) ];
@@ -233,13 +232,20 @@ define(
 
 				this._geom_skelton = new createGeometryColor(geom_vertices, gl.LINES);
 
-	        } // geom
+	        } // geom (skelton)
 
-	        var spline = new BSpline(points_ex,3); //making BSpline
-	        var spline2 = new BSpline(points2_ex,3); //making BSpline
-	        var spline_color = new BSpline(colors,3); //making BSpline
+	        //
 
-	        for (var t = 0; t <= 1; t += 0.001)
+	        //
+	        // smooth skelton with BSpline 
+
+	        var tmp_checkpoint = [];
+
+	        var spline = new BSpline(points_ex,3);
+	        var spline2 = new BSpline(points2_ex,3);
+	        var spline_color = new BSpline(colors,3);
+
+	        for (var t = 0; t <= 1; t += 0.001) // small steps
 	        {
 	            var p = spline.calcAt(t);
 	            var p2 = spline2.calcAt(t);
@@ -267,8 +273,8 @@ define(
 	                var len1 = Math.sqrt(diff[0]*diff[0] + diff[1]*diff[1] + diff[2]*diff[2]);
 	                var len2 = Math.sqrt(diff[3]*diff[3] + diff[4]*diff[4] + diff[5]*diff[5]);
 
+					// do not add steps that are too close from each other
 	                if (len1 < 2 && len2 < 2)
-	                // if (len1 < 4 && len2 < 4)
 	                    continue;
 	            }
 
@@ -276,10 +282,11 @@ define(
 	        }
 
 	        arr_checkpoints = tmp_checkpoint;
-	    }
 
+	        // smooth skelton with BSpline 
+	        //
 
-
+	    } // building the circuit
 
 
 	    this._circuit = new createCircuit( arr_checkpoints );
