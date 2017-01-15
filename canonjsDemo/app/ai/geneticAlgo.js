@@ -3,14 +3,10 @@
 
 define(
     [
-		  './ArtificialNeuralNetwork.js'
-
-        // , '../utils/Logger.js'
+		'./ArtificialNeuralNetwork.js'
     ],
     function(
-		  createArtificialNeuralNetwork
-
-		// , createLogger
+		createArtificialNeuralNetwork
     )
 {
 
@@ -60,11 +56,7 @@ define(
 		var children = [];
 
 		if (this._best_fitness < bestGenomes[0].fitness)
-		{
 			this._best_fitness = bestGenomes[0].fitness;
-
-			// console.log("current_generation=" + this._current_generation + ", best_fitness=" + this._best_fitness);
-		}
 
 		if (this._best_fitness > this._alpha_genome.fitness)
 		{
@@ -75,8 +67,6 @@ define(
 			console.log("generation=" + this._current_generation);
 			console.log("fitness=" + this._alpha_genome.fitness);
 			console.log("weights=" + JSON.stringify(this._alpha_genome.weights));
-
-			// this._logger.push_line('generation: ' + this._current_generation + ' => promoted a new genome alpha');
 		}
 		else
 		{
@@ -91,9 +81,6 @@ define(
 
 			this._mutate(bestDude);
 			children.push(bestDude);
-
-			// console.log("alpha reused");
-			// this._logger.push_line('generation: ' + this._current_generation + ' => genome alpha is being reused');
 		}
 
 
@@ -152,15 +139,8 @@ define(
 		this._genomes = children;
 		++this._current_generation;
 
-		// for (var i = 0; i < this._genomes.length; ++i)
-		// 	console.log('=>', i, this._genomes[i].weights);
-
 		for (var i = 0; i < this._genomes.length; ++i)
-		{
-			// console.log(i, ' => ', this._genomes[i].weights);
-
 			this._ANNs[i].setWeights( this._genomes[i].weights );
-		}
 	}
 
 	//
@@ -181,9 +161,6 @@ define(
 
 			var bestFitness = 0;
 			var bestIndex = -1;
-
-			// console.log(out.length, totalAsked);
-			// console.log(this._genomes.length);
 
 			for (var i = 0; i < this._genomes.length; i++)
 			{
@@ -208,8 +185,6 @@ define(
 					bestFitness = this._genomes[bestIndex].fitness;
 				}
 			}
-
-			// console.log('bestIndex', bestIndex);
 
 			if (bestIndex != -1)
 				out.push( this._genomes[bestIndex] );

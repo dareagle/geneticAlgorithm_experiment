@@ -158,49 +158,40 @@ define(
         var car_index = -1;
         var pos = {x:0, y:0, z:0};
 
-        if (simulation._playMode)
+        center_timeout += delta;
+
+        if (center_timeout > 0.5)
         {
-            pos = simulation._playable_car._chassisBody.position;
+            center_timeout = 0.0;
+
+            var curr_checkpoint = -1;
+
+            for (var i = 0; i < simulation._cars.length; ++i)
+            {
+                var car = simulation._cars[i];
+
+                if (!car._alive)
+                    continue;
+
+                if (curr_checkpoint > car._current_checkpoint_id)
+                    continue;
+
+                car_index = i;
+                curr_checkpoint = car._current_checkpoint_id;
+                pos = car._chassisBody.position;
+            }
+
+            center_index = car_index;
+        }
+        else if (simulation._cars[center_index])
+        {
+            var car = simulation._cars[center_index];
+            pos = car._chassisBody.position;
+            car_index = center_index;
         }
         else
         {
-
-            center_timeout += delta;
-
-            if (center_timeout > 0.5)
-            {
-                center_timeout = 0.0;
-
-                var curr_checkpoint = -1;
-
-                for (var i = 0; i < simulation._cars.length; ++i)
-                {
-                    var car = simulation._cars[i];
-
-                    if (!car._alive)
-                        continue;
-
-                    if (curr_checkpoint > car._current_checkpoint_id)
-                        continue;
-
-                    car_index = i;
-                    curr_checkpoint = car._current_checkpoint_id;
-                    pos = car._chassisBody.position;
-                }
-
-                center_index = car_index;
-            }
-            else if (simulation._cars[center_index])
-            {
-                var car = simulation._cars[center_index];
-                pos = car._chassisBody.position;
-                car_index = center_index;
-            }
-            else
-            {
-                pos.x = pos.y = pos.z = 0;
-            }
-
+            pos.x = pos.y = pos.z = 0;
         }
 
         var diff = {
