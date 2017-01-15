@@ -79,7 +79,6 @@ define(
 	        radius: 0.5,
 	        directionLocal: new CANNON.Vec3(0, 0, -1),
 	        suspensionStiffness: 30,
-	        // suspensionRestLength: 0.3,
             suspensionRestLength: 0.8,
 	        frictionSlip: 5,
 	        dampingRelaxation: 2.3,
@@ -88,7 +87,6 @@ define(
 	        rollInfluence:  0.01,
 	        axleLocal: new CANNON.Vec3(0, 1, 0),
 	        chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0),
-	        // maxSuspensionTravel: 0.3,
             maxSuspensionTravel: 0.8,
 	        customSlidingRotationalSpeed: -30,
 	        useCustomSlidingRotationalSpeed: true
@@ -242,8 +240,6 @@ define(
 
         this._updateModelMatrix();
         this._updateSensors();
-
-        // return;
 
         var tmp_checkpoint_id = -1;
 
@@ -497,9 +493,7 @@ define(
     createCar.prototype.render_vision = function()
     {
         //
-        //
-        //
-        // CANVAS STUFF (in fact, this still the HUD...)
+        // CANVAS STUFF
 
         var ctx = gl.hud;
 
@@ -522,11 +516,6 @@ define(
             ctx.arc(x, y, 12.5, 0, 2 * Math.PI, false);
             ctx.fill();
         }
-
-        // CANVAS STUFF (in fact, this still the HUD...)
-        //
-        //
-        //
     }
 
 

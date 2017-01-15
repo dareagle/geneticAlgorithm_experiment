@@ -201,7 +201,6 @@ define(
 				if (vertexi == 0 || vertexi == 3)
 					geom_vertices.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], 1,1,1 );
 				else
-					// geom_vertices.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], 0,0,1 );
 					geom_vertices.push( vertices[vertexi+0], vertices[vertexi+1], vertices[vertexi+2], colors[0],colors[1],colors[2] );
 			}
 
@@ -255,9 +254,6 @@ define(
 
 	createCircuit.prototype.render = function(shader_color)
 	{
-        // for (var index in this._arr_geoms)
-        //     this._arr_geoms[index].render(shader_color);
-
         gl.uniform1f(shader_color.uColorApha, 1.0);
 
         this._arr_geoms[0].render(shader_color);
@@ -276,18 +272,12 @@ define(
 	{
         gl.uniform1f(shader_exp.uColorApha, 1.0);
 
-        // gl.uniform1f(shader_exp.uMagikIndex, 2.0);
-
         this._geom_exp.render(shader_exp);
-
-        // this._arr_geoms[0].render(shader_exp);
 
         gl.uniform1f(shader_exp.uColorApha, 0.2);
 
         this._geom_Wexp.render(shader_exp);
         this._geom_W2exp.render(shader_exp);
-
-        // this._arr_geoms[1].render(shader_exp);
 
         gl.uniform1f(shader_exp.uColorApha, 1.0);
 	}

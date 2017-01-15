@@ -91,7 +91,6 @@ define(
                     points.push([r,0,0]); points2.push([r,0,0]); colors.push(color);
 
                     points.push([20,0,0]); points2.push([20,0,0]); colors.push(color);
-                    // points.push([20,0,0]); points2.push([20,0,0]); colors.push(color);
 
                 } // looping
 
@@ -228,8 +227,6 @@ define(
 					}
 				}
 
-	        	// console.log(geom_vertices);
-
 				this._geom_skelton = new createGeometryColor(geom_vertices, gl.LINES);
 
 	        } // geom (skelton)
@@ -250,8 +247,6 @@ define(
 	            var p = spline.calcAt(t);
 	            var p2 = spline2.calcAt(t);
 	            var color = spline_color.calcAt(t);
-
-	            // console.log(p, p2);
 
 	            var curr = [ p[0], p[1], p[2], p2[0], p2[1], p2[2], color[0],color[1],color[2] ];
 
