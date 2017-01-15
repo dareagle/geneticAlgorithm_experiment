@@ -65,6 +65,9 @@ define(
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.enable(gl.DEPTH_TEST);
 
+    gl.enable(gl.BLEND);
+    gl.blendEquation(gl.FUNC_ADD);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
 
 
@@ -142,7 +145,6 @@ define(
 
 
 
-
         simulation.update(time);
 
 
@@ -204,7 +206,6 @@ define(
         prev_center.y = center.y;
         prev_center.z = center.z;
 
-        // var lerp_ratio = 0.1;
         var lerp_ratio = 0.05;
 
         center.x = center.x + diff.x * lerp_ratio;
@@ -229,7 +230,6 @@ define(
 
         var tmp_viewMatrix = glm.mat4.create();
 
-        // glm.mat4.lookAt( tmp_viewMatrix, [pos.x+30, pos.y+30, pos.z+30], [pos.x, pos.y, pos.z], [0,0,1] );
         glm.mat4.lookAt( tmp_viewMatrix, [center.x-50, center.y+50, center.z+50], [center.x, center.y, center.z], [0,0,1] );
 
 
@@ -250,10 +250,6 @@ define(
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         /// render scene
-
-        gl.enable(gl.BLEND);
-        gl.blendEquation(gl.FUNC_ADD);
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
         gl.useProgram(shader_color);
 
@@ -285,7 +281,6 @@ define(
         //
         ////// render secondary 3d scene
 
-        // glm.mat4.lookAt( tmp_viewMatrix, [center.x+30, center.y+30, center.z+30], [center.x, center.y, center.z], [0,0,1] );
         glm.mat4.lookAt( tmp_viewMatrix, [prev_center.x, prev_center.y, prev_center.z], [center.x, center.y, center.z], [0,0,1] );
 
         gl.viewport(gl.viewportWidth*0.66, 0, gl.viewportWidth*0.33, gl.viewportHeight*0.33);
@@ -296,10 +291,6 @@ define(
         gl.disable(gl.SCISSOR_TEST);
 
         /// render scene
-
-        gl.enable(gl.BLEND);
-        gl.blendEquation(gl.FUNC_ADD);
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
         gl.useProgram(shader_color);
 
