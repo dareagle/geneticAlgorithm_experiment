@@ -32,7 +32,13 @@ define(
 		//
 		// tmp
 
-		this._ext = gl.getExtension("OES_vertex_array_object");
+		if (gl.getExtension) {
+			this._ext = (
+				gl.getExtension('OES_vertex_array_object') ||
+				gl.getExtension('MOZ_OES_vertex_array_object') ||
+				gl.getExtension('WEBKIT_OES_vertex_array_object')
+			);
+		}
 
 		// /tmp
 		//
