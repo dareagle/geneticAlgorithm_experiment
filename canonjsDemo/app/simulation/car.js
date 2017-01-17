@@ -11,6 +11,7 @@ define(
 		, './world.js'
 
         , '../geometries/geometryColor.js'
+        , '../geometries/createCylinderVertices.js'
         , '../geometries/createCubeVertices.js'
 
         , '../utils/keyboardHandler.js'
@@ -27,6 +28,7 @@ define(
 		, world
 
         , createGeometryColor
+        , createCylinderVertices
         , createCubeVertices
 
         , createKeyboardHandler
@@ -136,7 +138,8 @@ define(
 
         if (!resourceManager.geom_car_wheel) // create once and reuse <- mobile friendly
         {
-    	    var vertices = createCubeVertices([1,0.5,1],[1,1,0]);
+    	    // var vertices = createCubeVertices([1,0.5,1],[1,1,0]);
+            var vertices = createCylinderVertices(0.5, 0.5,[1,1,0]);            
     	    resourceManager.geom_car_wheel = new createGeometryColor(vertices, gl.LINES);
         }
 
