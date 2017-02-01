@@ -1,14 +1,14 @@
 'use strict'
 
 define(
-	[
+    [
           '../gl-context.js'
 
         , 'webgl/gl-matrix-2.1.0' // in /lib
 
-		, 'cannon.min' // in /lib
+        , 'cannon.min' // in /lib
 
-		, './world.js'
+        , './world.js'
 
         , '../geometries/geometryColor.js'
         , '../geometries/createCylinderVertices.js'
@@ -17,15 +17,15 @@ define(
         , '../utils/keyboardHandler.js'
 
         , '../renderer/resourceManager.js'
-	],
-	function(
+    ],
+    function(
           gl
 
         , glm
 
-		, unused_CANNON // <- use CANNON
+        , unused_CANNON // <- use CANNON
 
-		, world
+        , world
 
         , createGeometryColor
         , createCylinderVertices
@@ -34,101 +34,101 @@ define(
         , createKeyboardHandler
 
         , resourceManager
-	)
+    )
 {
-	function createCar()
-	{
+    function createCar()
+    {
 
-		//
-		//
-		//
-		// UTILS
+        //
+        //
+        //
+        // UTILS
 
-	    glm.post_mult = function (in_mat, in_v)
-	    {
-	        var d = 1.0 / ( in_mat[ 3] * in_v[0] +
-	                        in_mat[ 7] * in_v[1] +
-	                        in_mat[11] * in_v[2] +
-	                        in_mat[15] );
+        glm.post_mult = function (in_mat, in_v)
+        {
+            var d = 1.0 / ( in_mat[ 3] * in_v[0] +
+                            in_mat[ 7] * in_v[1] +
+                            in_mat[11] * in_v[2] +
+                            in_mat[15] );
 
-	        return [
-	            (in_mat[ 0] * in_v[0] + in_mat[ 4] * in_v[1] + in_mat[ 8] * in_v[2] + in_mat[12]) * d,
-	            (in_mat[ 1] * in_v[0] + in_mat[ 5] * in_v[1] + in_mat[ 9] * in_v[2] + in_mat[13]) * d,
-	            (in_mat[ 2] * in_v[0] + in_mat[ 6] * in_v[1] + in_mat[10] * in_v[2] + in_mat[14]) * d
-	        ];
-	    }
+            return [
+                (in_mat[ 0] * in_v[0] + in_mat[ 4] * in_v[1] + in_mat[ 8] * in_v[2] + in_mat[12]) * d,
+                (in_mat[ 1] * in_v[0] + in_mat[ 5] * in_v[1] + in_mat[ 9] * in_v[2] + in_mat[13]) * d,
+                (in_mat[ 2] * in_v[0] + in_mat[ 6] * in_v[1] + in_mat[10] * in_v[2] + in_mat[14]) * d
+            ];
+        }
 
-		//
-		//
-		//
-		// PHYSIC
+        //
+        //
+        //
+        // PHYSIC
 
-	    var mass = 150;
+        var mass = 150;
 
-	    var chassisShape;
-	    chassisShape = new CANNON.Box(new CANNON.Vec3(2, 1,0.5));
-	    this._chassisBody = new CANNON.Body({ mass: mass });
-	    this._chassisBody.addShape(chassisShape);
-	    this._chassisBody.position.set(5, 5, 1.1);
-	    this._chassisBody.angularVelocity.set(0, 0, 0.5);
+        var chassisShape;
+        chassisShape = new CANNON.Box(new CANNON.Vec3(2, 1,0.5));
+        this._chassisBody = new CANNON.Body({ mass: mass });
+        this._chassisBody.addShape(chassisShape);
+        this._chassisBody.position.set(5, 5, 1.1);
+        this._chassisBody.angularVelocity.set(0, 0, 0.5);
 
-	    this._chassisBody.collisionFilterGroup = 0;
-	    this._chassisBody.collisionFilterMask = 0;
+        this._chassisBody.collisionFilterGroup = 0;
+        this._chassisBody.collisionFilterMask = 0;
 
 
 
-	    var options = {
-	        radius: 0.5,
-	        directionLocal: new CANNON.Vec3(0, 0, -1),
-	        suspensionStiffness: 30,
+        var options = {
+            radius: 0.5,
+            directionLocal: new CANNON.Vec3(0, 0, -1),
+            suspensionStiffness: 30,
             suspensionRestLength: 0.8,
-	        frictionSlip: 5,
-	        dampingRelaxation: 2.3,
-	        dampingCompression: 4.4,
-	        maxSuspensionForce: 100000,
-	        rollInfluence:  0.01,
-	        axleLocal: new CANNON.Vec3(0, 1, 0),
-	        chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0),
+            frictionSlip: 5,
+            dampingRelaxation: 2.3,
+            dampingCompression: 4.4,
+            maxSuspensionForce: 100000,
+            rollInfluence:  0.01,
+            axleLocal: new CANNON.Vec3(0, 1, 0),
+            chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0),
             maxSuspensionTravel: 0.8,
-	        customSlidingRotationalSpeed: -30,
-	        useCustomSlidingRotationalSpeed: true
-	    };
+            customSlidingRotationalSpeed: -30,
+            useCustomSlidingRotationalSpeed: true
+        };
 
-	    // Create the vehicle
-	    this._vehicle = new CANNON.RaycastVehicle({ chassisBody: this._chassisBody });
+        // Create the vehicle
+        this._vehicle = new CANNON.RaycastVehicle({ chassisBody: this._chassisBody });
 
-	    options.chassisConnectionPointLocal.set(1, 1, 0);
-	    this._vehicle.addWheel(options);
+        options.chassisConnectionPointLocal.set(1, 1, 0);
+        this._vehicle.addWheel(options);
 
-	    options.chassisConnectionPointLocal.set(1, -1, 0);
-	    this._vehicle.addWheel(options);
+        options.chassisConnectionPointLocal.set(1, -1, 0);
+        this._vehicle.addWheel(options);
 
-	    options.chassisConnectionPointLocal.set(-1, 1, 0);
-	    this._vehicle.addWheel(options);
+        options.chassisConnectionPointLocal.set(-1, 1, 0);
+        this._vehicle.addWheel(options);
 
-	    options.chassisConnectionPointLocal.set(-1, -1, 0);
-	    this._vehicle.addWheel(options);
+        options.chassisConnectionPointLocal.set(-1, -1, 0);
+        this._vehicle.addWheel(options);
 
-	    this._vehicle.addToWorld(world);
+        this._vehicle.addToWorld(world);
 
-	    this._wheelBodies = [];
-	    for (var i = 0; i < this._vehicle.wheelInfos.length; i++)
-	    {
-	        var wheel = this._vehicle.wheelInfos[i];
-	        var cylinderShape = new CANNON.Cylinder(wheel.radius, wheel.radius, wheel.radius / 2, 20);
-	        var wheelBody = new CANNON.Body({ mass: 0 });
-	        wheelBody.type = CANNON.Body.KINEMATIC;
-	        wheelBody.collisionFilterGroup = 0; // turn off collisions
+        this._wheelBodies = [];
+        for (var i = 0; i < this._vehicle.wheelInfos.length; i++)
+        {
+            var wheel = this._vehicle.wheelInfos[i];
+            var cylinderShape = new CANNON.Cylinder(wheel.radius, wheel.radius, wheel.radius / 2, 20);
+            var wheelBody = new CANNON.Body({ mass: 0 });
+            wheelBody.type = CANNON.Body.KINEMATIC;
+            wheelBody.collisionFilterGroup = 0; // turn off collisions
 
-	        this._wheelBodies.push(wheelBody);
+            this._wheelBodies.push(wheelBody);
 
-	        world.addBody(wheelBody);
-	    }
+            world.addBody(wheelBody);
+        }
 
-		//
-		//
-		//
-		// RENDER
+        //
+        //
+        //
+        // RENDER
 
         if (!resourceManager.geom_car_chassis) // create once and reuse <- mobile friendly
         {
@@ -138,9 +138,9 @@ define(
 
         if (!resourceManager.geom_car_wheel) // create once and reuse <- mobile friendly
         {
-    	    // var vertices = createCubeVertices([1,0.5,1],[1,1,0]);
+            // var vertices = createCubeVertices([1,0.5,1],[1,1,0]);
             var vertices = createCylinderVertices(0.5, 0.5,[1,1,0]);            
-    	    resourceManager.geom_car_wheel = new createGeometryColor(vertices, gl.LINES);
+            resourceManager.geom_car_wheel = new createGeometryColor(vertices, gl.LINES);
         }
 
         //
@@ -188,13 +188,13 @@ define(
         // LOGIC
 
         this.reset();
-	}
+    }
 
-	//
-	//
+    //
+    //
 
-	//
-	//
+    //
+    //
 
     //
     //
@@ -291,13 +291,13 @@ define(
                     this._alive = false;
             }
         }
-	}
+    }
 
-	//
-	//
+    //
+    //
 
-	//
-	//
+    //
+    //
 
     createCar.prototype._updateModelMatrix = function()
     {
@@ -371,14 +371,14 @@ define(
         }
     }
 
-	//
-	//
+    //
+    //
 
-	//
-	//
+    //
+    //
 
-	createCar.prototype.render = function(in_shader_color, in_viewMatrix)
-	{
+    createCar.prototype.render = function(in_shader_color, in_viewMatrix)
+    {
         if (!this._alive)
             return;
 
@@ -400,9 +400,9 @@ define(
 
         for (var i = 0; i < this._vehicle.wheelInfos.length; i++)
         {
-			//
-			//
-			// update wheelBody
+            //
+            //
+            // update wheelBody
 
             this._vehicle.updateWheelTransform(i);
             var t = this._vehicle.wheelInfos[i].worldTransform;
@@ -410,9 +410,9 @@ define(
             wheelBody.position.copy(t.position);
             wheelBody.quaternion.copy(t.quaternion);
 
-			//
-			//
-			// render wheel
+            //
+            //
+            // render wheel
 
             var tmp_mvMatrix2 = glm.mat4.create();
 
@@ -488,7 +488,7 @@ define(
             local_render_line(in_shader_color, this._ground_sensor.from, this._ground_sensor.to, [1,0,0]);
             local_render_cross(in_shader_color, this._ground_sensor.to, [1,0,0]);
         }
-	}
+    }
 
     //
     //
@@ -543,5 +543,5 @@ define(
     }
 
 
-	return createCar;
+    return createCar;
 });

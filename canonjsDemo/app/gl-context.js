@@ -1,7 +1,8 @@
 
 'use strict'
 
-define([
+define(
+    [
         'webgl/WebGLUtils'
     ], function(
         WebGLUtils
@@ -10,7 +11,7 @@ define([
 
     // WEBGL
 
-	var canvas = document.getElementById("main-canvas");
+    var canvas = document.getElementById("main-canvas");
 
     var gl = WebGLUtils.setupWebGL(canvas);
 
@@ -19,7 +20,7 @@ define([
 
     // CANVAS 2D
 
-	var canvas_hud = document.getElementById("second-canvas");
+    var canvas_hud = document.getElementById("second-canvas");
     var ctx_hud = canvas_hud.getContext("2d");
 
     gl.hud = ctx_hud;

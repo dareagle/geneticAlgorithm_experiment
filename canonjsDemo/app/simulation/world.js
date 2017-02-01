@@ -2,7 +2,7 @@
 'use strict'
 
 define(
-	[
+    [
           'cannon.min' // in /lib
     ],
     function(
@@ -10,6 +10,13 @@ define(
     )
 {
     var world = new CANNON.World();
+
+    // world.broadphase = new CANNON.GridBroadphase(new CANNON.Vec3(0,0,0), new CANNON.Vec3(100,100,100), 100, 100, 100); // <- not working
+    // world.broadphase = new CANNON.NaiveBroadphase(); // working
+    // world.broadphase = new CANNON.SAPBroadphase(world);
+
+    // world.solver.tolerance = 0.001;
+
     world.gravity.set(0, 0, -9.82); // m/s²
 
     world._GROUP_sensor = 1 << 0;
