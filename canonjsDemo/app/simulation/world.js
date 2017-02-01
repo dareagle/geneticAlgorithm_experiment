@@ -3,7 +3,7 @@
 
 define(
     [
-          'cannon.min' // in /lib
+          'physic/cannon.min' // in /lib
     ],
     function(
           unused_CANNON // <- use CANNON

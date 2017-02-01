@@ -10,7 +10,7 @@ define(
         , './car.js'
         , '../ai/geneticAlgo.js'
 
-        , 'BSpline' // in /lib
+        , 'utils/BSpline' // in /lib
 
         , '../geometries/geometryColor.js'
 

@@ -8,7 +8,7 @@ define(
         , 'webgl/gl-matrix-2.1.0' // in /lib
         , 'webgl/myShaders' // in /lib
 
-        , 'fpsmeter' // in /lib
+        , 'utils/fpsmeter' // in /lib
 
         , './geometries/geometryColor.js'
 

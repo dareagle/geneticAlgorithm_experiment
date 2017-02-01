@@ -9,7 +9,7 @@ define(
     [
           '../gl-context.js'
 
-        , 'cannon.min' // in /lib
+        , 'physic/cannon.min' // in /lib
 
         , './world.js'
 

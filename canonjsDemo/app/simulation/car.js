@@ -6,7 +6,7 @@ define(
 
         , 'webgl/gl-matrix-2.1.0' // in /lib
 
-        , 'cannon.min' // in /lib
+        , 'physic/cannon.min' // in /lib
 
         , './world.js'
 
