@@ -26,23 +26,6 @@ define(
         // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
         this._vbuffer.numItems = vertices.length / 10;
-
-
-
-        //
-        // tmp
-
-        if (gl.getExtension) {
-            this._ext = (
-                gl.getExtension('OES_vertex_array_object') ||
-                gl.getExtension('MOZ_OES_vertex_array_object') ||
-                gl.getExtension('WEBKIT_OES_vertex_array_object')
-            );
-        }
-
-
-        // /tmp
-        //
     }
 
     //
@@ -64,7 +47,7 @@ define(
         gl.deleteBuffer(this._vbuffer);
 
         if (this._vao)
-            this._ext.deleteVertexArrayOES( this._vao );
+            gl._extension_vao.deleteVertexArrayOES( this._vao );
 
         // console.log('dispose called');
     }
@@ -73,25 +56,25 @@ define(
 
     createGeometryExperimental.prototype.render = function(shader) {
 
-        if (this._ext)
+        if (gl._extension_vao)
         {
             if (this._vao)
             {
-                this._ext.bindVertexArrayOES( this._vao );
+                gl._extension_vao.bindVertexArrayOES( this._vao );
 
                     gl.drawArrays( this._primitive, 0, this._vbuffer.numItems );
 
-                this._ext.bindVertexArrayOES( null );
+                gl._extension_vao.bindVertexArrayOES( null );
             }
             else
             {
-                this._vao = this._ext.createVertexArrayOES();
+                this._vao = gl._extension_vao.createVertexArrayOES();
 
-                this._ext.bindVertexArrayOES( this._vao );
+                gl._extension_vao.bindVertexArrayOES( this._vao );
 
                     this.render_backup(shader, true);
 
-                this._ext.bindVertexArrayOES( null );
+                gl._extension_vao.bindVertexArrayOES( null );
             }
         }
         else

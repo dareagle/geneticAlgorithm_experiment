@@ -25,6 +25,16 @@ define(
 
     gl.hud = ctx_hud;
 
+    // EXTENSIONS
+
+    if (gl.getExtension) {
+
+        gl._extension_vao =
+            gl.getExtension('OES_vertex_array_object') ||
+            gl.getExtension('MOZ_OES_vertex_array_object') ||
+            gl.getExtension('WEBKIT_OES_vertex_array_object');
+    }
+
     //
 
     return gl;
