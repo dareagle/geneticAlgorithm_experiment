@@ -1,10 +1,6 @@
 
 'use strict'
 
-
-// create
-// render
-
 define(
     [
           '../gl-context.js'
