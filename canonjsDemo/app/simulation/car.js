@@ -11,8 +11,6 @@ define(
         , './world.js'
 
         , '../geometries/geometryColor.js'
-        , '../geometries/createCylinderVertices.js'
-        , '../geometries/createCubeVertices.js'
 
         , '../utils/keyboardHandler.js'
 
@@ -27,9 +25,7 @@ define(
 
         , world
 
-        , createGeometryColor
-        , createCylinderVertices
-        , createCubeVertices
+        , createGeometryColor // used to render the sensors
 
         , createKeyboardHandler
 
@@ -123,24 +119,6 @@ define(
             this._wheelBodies.push(wheelBody);
 
             world.addBody(wheelBody);
-        }
-
-        //
-        //
-        //
-        // RENDER
-
-        if (!resourceManager.geom_car_chassis) // create once and reuse <- mobile friendly
-        {
-            var vertices = createCubeVertices([4,2,1],[1,0,0]);
-            resourceManager.geom_car_chassis = new createGeometryColor(vertices, gl.LINES);
-        }
-
-        if (!resourceManager.geom_car_wheel) // create once and reuse <- mobile friendly
-        {
-            // var vertices = createCubeVertices([1,0.5,1],[1,1,0]);
-            var vertices = createCylinderVertices(0.5, 0.5,[1,1,0]);            
-            resourceManager.geom_car_wheel = new createGeometryColor(vertices, gl.LINES);
         }
 
         //

@@ -10,9 +10,13 @@ define(
 
         , 'utils/fpsmeter' // in /lib
 
-        , './geometries/geometryColor.js'
-
         , './simulation/simulation.js'
+
+        , './geometries/geometryColor.js'
+        , './geometries/createCylinderVertices.js'
+        , './geometries/createCubeVertices.js'
+
+        , './renderer/resourceManager.js'
     ],
     function(
           gl
@@ -22,9 +26,13 @@ define(
 
         , unused_fpsmeter // <- use window.FPSMeter
 
-        , createGeometryColor
-
         , createSimulation
+
+        , createGeometryColor
+        , createCylinderVertices
+        , createCubeVertices
+
+        , resourceManager
     )
 {
 
@@ -88,6 +96,20 @@ define(
     // create axis geometry
     //
 
+
+
+    //
+    // create car geometries
+
+    var vertices = createCubeVertices([4,2,1],[1,0,0]);
+    resourceManager.geom_car_chassis = new createGeometryColor(vertices, gl.LINES);
+
+    // var vertices = createCubeVertices([1,0.5,1],[1,1,0]);
+    var vertices = createCylinderVertices(0.5, 0.5,[1,1,0]);
+    resourceManager.geom_car_wheel = new createGeometryColor(vertices, gl.LINES);
+
+    // create car geometries
+    //
 
 
 
