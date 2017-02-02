@@ -67,7 +67,7 @@ define(
 
     gl.enable(gl.BLEND);
     gl.blendEquation(gl.FUNC_ADD);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.blendFunc( gl.SRC_ALPHA, gl.ONE_MINUS_SRC_COLOR );
 
 
 
