@@ -1,3 +1,4 @@
+
 'use strict'
 
 define(
@@ -61,8 +62,7 @@ define(
 
         var mass = 150;
 
-        var chassisShape;
-        chassisShape = new CANNON.Box(new CANNON.Vec3(2, 1,0.5));
+        var chassisShape = new CANNON.Box(new CANNON.Vec3(2, 1,0.5));
         this._chassisBody = new CANNON.Body({ mass: mass });
         this._chassisBody.addShape(chassisShape);
         this._chassisBody.position.set(5, 5, 1.1);
@@ -165,6 +165,8 @@ define(
         //
         // LOGIC
 
+        this._current_steer = 0.0;
+
         this.reset();
     }
 
@@ -188,12 +190,19 @@ define(
         var vel_length = Math.sqrt(vel.x*vel.x + vel.y*vel.y + vel.z*vel.z);
         input.push( vel_length / 100 );
 
+        input.push( this._current_steer );
+
+        //
+
         var output = in_ANN.process( input );
 
-        var steerValue = Math.max(-1.0, Math.min(output[0], 1.0));
+        //
+
+        var steerValue = Math.max(-0.1, Math.min(output[0], 0.1));
+        this._current_steer += steerValue;
+        this._current_steer = Math.max(-1.0, Math.min(this._current_steer, 1.0));
+
         var speedValue = Math.max(-1.0, Math.min(output[1], 1.0));
-
-
 
         //
         //
@@ -207,8 +216,8 @@ define(
         this._vehicle.applyEngineForce(-maxForce * speedValue, 0);
         this._vehicle.applyEngineForce(-maxForce * speedValue, 1);
 
-        this._vehicle.setSteeringValue(-maxSteerVal * steerValue, 0);
-        this._vehicle.setSteeringValue(-maxSteerVal * steerValue, 1);
+        this._vehicle.setSteeringValue(-maxSteerVal * this._current_steer, 0);
+        this._vehicle.setSteeringValue(-maxSteerVal * this._current_steer, 1);
     }
 
     //
@@ -518,6 +527,8 @@ define(
         this._current_checkpoint_id = -1;
         this._min_update = 1000;
         this._fitness = 0;
+
+        this._current_steer = 0.0;
     }
 
 

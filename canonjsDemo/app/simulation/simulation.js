@@ -289,7 +289,7 @@ define(
 
 
         var genome_size = 30;
-        this._ann_topology = [16, 4, 2];
+        this._ann_topology = [17, 4, 2];
 
         this._geneticAlgo = new createGeneticAlgo( genome_size, this._ann_topology );
 
