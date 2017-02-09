@@ -1,4 +1,5 @@
 
+'use strict'
 
 define(
     [
@@ -114,7 +115,7 @@ define(
 				car._angle = this._circuit._start_angle;
 
 				car._checkpoints = [];
-				for (j in this._circuit._checkpoints)
+				for (var j in this._circuit._checkpoints)
 					car._checkpoints.push( this._circuit._checkpoints[j] );
 
 				car._alive = true;

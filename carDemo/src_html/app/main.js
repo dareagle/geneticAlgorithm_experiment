@@ -1,4 +1,6 @@
 
+'use strict'
+
 define(
     [
           'requestAnimationFrame' // in /lib

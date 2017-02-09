@@ -1,4 +1,5 @@
 
+'use strict'
 
 define([],function()
 {
@@ -40,7 +41,7 @@ define([],function()
 		//
 
 		this._elem.innerHTML = "";
-		for (index in this._arr_data)
+		for (var index in this._arr_data)
 			this._elem.innerHTML += this._arr_data[index] + '\n';
 	};
 
