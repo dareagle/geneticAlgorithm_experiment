@@ -390,8 +390,6 @@ void	GeneticAlgorithm::BreedPopulation()
 	for (unsigned int i = 0; i < bestGenomes.size(); ++i)
 		for (unsigned int j = i+1; j < bestGenomes.size(); ++j)
 		{
-			// D_MYLOG("i=" << i << ", j=" << j);
-
 			t_genome	baby1, baby2;
 
 			CrossBreed(bestGenomes[i], bestGenomes[j], baby1, baby2);
@@ -401,14 +399,16 @@ void	GeneticAlgorithm::BreedPopulation()
 			baby1.m_index = current_index++;
 			baby2.m_index = current_index++;
 
-			children.push_back(baby1);
-			children.push_back(baby2);
+			if (children.size() < children.capacity())
+				children.push_back(baby1);
+			if (children.size() < children.capacity())
+				children.push_back(baby2);
 		}
 
 	// For the remainding n population, add some random kiddies.
-	unsigned int remainingChildren = (m_genomes.size() - children.size());
+	int remainingChildren = static_cast<int>(m_genomes.size() - children.size());
 
-	for (unsigned int i = 0; i < remainingChildren; i++)
+	for (int i = 0; i < remainingChildren; i++)
 	{
 		t_genome	genome;
 		genome.m_id = m_current_id++;
