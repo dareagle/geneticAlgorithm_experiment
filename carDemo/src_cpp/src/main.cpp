@@ -60,7 +60,7 @@ void drawPoint(sf::RenderWindow& rwindow, const t_vec2f& point, const sf::Color&
 	rwindow.draw(vertices, 4, sf::Lines);
 }
 
-void drawCar(sf::RenderWindow& rwindow, const Car& car, const sf::Color& color)
+void drawCar(sf::RenderWindow& rwindow, const Car& car, const sf::Color& color, bool render_sensors)
 {
 	const t_vec2f& position = car.getPosition();
 	float angle = car.getAngle();
@@ -95,7 +95,7 @@ void drawCar(sf::RenderWindow& rwindow, const Car& car, const sf::Color& color)
 
 	///
 
-	if (!car.isAlive())
+	if (!car.isAlive() || !render_sensors)
 		return;
 
 	const Car::t_sensors&	sensors = car.getSensors();
@@ -143,6 +143,7 @@ int	main()
 
 	window.setFramerateLimit(60);
 
+	int	index_target_car = -1;
 	sf::Vector2f	camera_center;
 
 	// Start the game loop
@@ -201,6 +202,8 @@ int	main()
 				if (tmp_sim.getCars()[index].isAlive())
 					break;
 
+			index_target_car = index;
+
 			if (index < tmp_sim.getCars().size())
 				target = tmp_sim.getCars()[index].getPosition();
 
@@ -233,23 +236,36 @@ int	main()
 		drawLines(window, checkpoints, sf::Color(255,255,255), sf::Color(128,128,128));
 		drawLines(window, walls, sf::Color::Blue, sf::Color(128,128,128));
 
-		// render cars
-		for (auto& elem :  tmp_sim.getCars())
-			drawCar(window, elem, sf::Color::Green);
+		{ // render cars
 
-		// render trails
-		const std::vector< std::vector<t_line> >&	trails = tmp_sim.getTrails();
-		if (!trails.empty())
-		{
-			for (unsigned int i = 0; i < trails.size() - 1; ++i)
+			// render cars (except targetted car)
+			auto arr_cars = tmp_sim.getCars();
+			for (int index = 0; index < static_cast<int>(arr_cars.size()); ++index)
+				if (index != index_target_car)
+					drawCar(window, arr_cars[index], sf::Color::Green, false);
+
+			// render targetted car
+			if (index_target_car != -1)
+				drawCar(window, arr_cars[index_target_car], sf::Color::Blue, true);
+
+		} // render cars
+
+		{ // render trails
+
+			const std::vector< std::vector<t_line> >&	trails = tmp_sim.getTrails();
+			if (!trails.empty())
 			{
-				sf::Color	color = sf::Color::Black;
-				color.g = 128 + ((float)i / trails.size()) * 128;
-				drawLines(window, trails[i], color, color);
+				for (unsigned int i = 0; i < trails.size() - 1; ++i)
+				{
+					sf::Color	color = sf::Color::Black;
+					color.g = 128 + ((float)i / trails.size()) * 128;
+					drawLines(window, trails[i], color, color);
+				}
+
+				drawLines(window, trails.back(), sf::Color::White, sf::Color::White);
 			}
 
-			drawLines(window, trails.back(), sf::Color::White, sf::Color::White);
-		}
+		} // render trails
 
 		{ // hud
 
