@@ -436,7 +436,8 @@ Car::Car()
 		m_fitness(0.0f),
 		m_alive(true),
 		m_min_updates(50),
-		m_total_updates(0)
+		m_total_updates(0),
+		m_current_checkpoint(0)
 {
 	updateSensors();
 }
@@ -470,7 +471,7 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 
 	this->updateSensors();
 	this->collideSensors(circuit);
-	this->collideCheckpoints();
+	this->collideCheckpoints(circuit);
 	this->collideWalls( circuit.getWalls() );
 
 	// return;
@@ -486,8 +487,6 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 
 	in_NN.process(input, output);
 
-	// float leftTheta		= M_PI/32.0f * output[0];
-	// float rightTheta	= M_PI/32.0f * output[1];
 	float leftTheta		= output[0];
 	float rightTheta	= output[1];
 
@@ -496,19 +495,10 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 
 
 
-
-	// leftTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, leftTheta));
-	// rightTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, rightTheta));
-
-	// m_angle += (leftTheta - rightTheta) * step;
-
-	// float speed = ((fabs(leftTheta + rightTheta)) / 2) * 160.0f;
-	// speed = std::min(15.0f, std::max(10.0f, speed));
-
-
-
-	leftTheta = std::min<float>(M_PI/32.0f, std::max<float>(-M_PI/32.0f, leftTheta));
+	float steer_range = M_PI/32.0f;
+	leftTheta = std::min(steer_range, std::max(-steer_range, leftTheta));
 	m_angle += leftTheta * step;
+
 	float speed = rightTheta * 3.0f;
 	speed = std::min(15.0f, std::max(-10.0f, speed));
 
@@ -524,7 +514,6 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 
 	m_trail.push_back( t_line(prev_pos, m_position) );
 
-	// m_fitness += speed * 0.01f;
 	++m_total_updates;
 }
 
@@ -589,25 +578,20 @@ void	Car::collideSensors(const Circuit& circuit)
 	}
 }
 
-void	Car::collideCheckpoints()
+void	Car::collideCheckpoints(const Circuit& circuit)
 {
-	t_lines::iterator it = m_current_checkpoints.begin();
-	while (it != m_current_checkpoints.end())
+	if (m_current_checkpoint < circuit.getCheckpoints().size())
 	{
-		if (CollisionSegmentCercle(it->p1, it->p2, m_position, 5.0f))
+		auto& checkpoint = circuit.getCheckpoints()[m_current_checkpoint];
+		if (CollisionSegmentCercle(checkpoint.p1, checkpoint.p2, m_position, 5.0f))
 		{
-			it = m_current_checkpoints.erase(it);
 			m_min_updates = 50;
 			++m_fitness;
-			break;
-		}
-		else
-		{
-			++it;
+			++m_current_checkpoint;
 		}
 	}
 
-	if (m_current_checkpoints.empty())
+	if (m_current_checkpoint >= circuit.getCheckpoints().size())
 	{
 		// this line reward a faster car once the circuit is completed
 		m_fitness += (1000.0f / m_total_updates);
@@ -626,13 +610,17 @@ void	Car::collideWalls(const t_lines& walls)
 		}
 }
 
-void	Car::revive()
+void	Car::reset(const Circuit& circuit)
 {
+	m_position = circuit.getStartingPositon();
+	m_angle = circuit.getStartingAngle();
+
 	m_alive = true;
 	m_fitness = 0;
 	m_total_updates = 0;
 	m_trail.clear();
 	m_min_updates = 50;
+	m_current_checkpoint = 0;
 }
 
 // CAR
@@ -658,10 +646,7 @@ void	Car::revive()
 // SIMULATION
 
 Simulation::Simulation(const std::string& filename)
-	// :	m_pNNTopology(NULL)
 {
-	// m_start_to_stop_sens = true;
-
 	m_Circuit.loadMap(filename);
 
 	// at that point the geneticAlgo class constructor
@@ -672,10 +657,7 @@ Simulation::Simulation(const std::string& filename)
 	for (unsigned int i = 0; i < m_Cars.size(); ++i)
 	{
 		Car& car = m_Cars[i];
-		car.setCheckpoints( m_Circuit.getCheckpoints() );
-
-		car.setPosition( m_Circuit.getStartingPositon() );
-		car.setAngle( m_Circuit.getStartingAngle() );
+		car.reset(m_Circuit);
 	}
 }
 
@@ -704,23 +686,6 @@ void	Simulation::update(float step)
 	if (someone_is_alive)
 		return;
 
-
-
-	// // pick the best car
-	// unsigned int bestIndex = 0;
-	// for (unsigned int i = 1; i < m_Cars.size(); ++i)
-	// 	if (m_Cars[i].getFitness() > m_Cars[bestIndex].getFitness())
-	// 		bestIndex = i;
-
-	// D_MYLOG("next generation, total updates => " << m_Cars[bestIndex].getTotalUpdates());
-
-
-	// if (m_genAlgo.getCurrentGeneration() >= 1000)
-	// 	exit(0);
-
-	// D_MYLOG("next generation, current generation => " << m_genAlgo.getCurrentGeneration());
-	// D_MYLOG("next generation, current fitness => " << m_genAlgo.getBestFitness());
-
 	// rate genomes
 	for (unsigned int i = 0; i < m_Cars.size(); ++i)
 		m_genAlgo.rateGenome(i, m_Cars[i].getFitness());
@@ -740,31 +705,8 @@ void	Simulation::update(float step)
 	//
 	//
 
-	// m_start_to_stop_sens = !m_start_to_stop_sens;
-
-	// if (m_start_to_stop_sens)
-	{
-		for (Car& car : m_Cars)
-		{
-			// restart the car
-			car.setPosition( m_Circuit.getStartingPositon() );
-			car.setAngle( m_Circuit.getStartingAngle() );
-			car.setCheckpoints( m_Circuit.getCheckpoints() );
-			car.revive();
-		}
-	}
-	// else
-	// {
-	// 	for (Car& car : m_Cars)
-	// 	{
-	// 		// restart the car
-	// 		car.setPosition( m_Circuit.getStoppingPositon() );
-	// 		car.setAngle( m_Circuit.getStoppingAngle() );
-	// 		car.setCheckpoints( m_Circuit.getCheckpoints() );
-	// 		car.revive();
-	// 	}
-	// }
-
+	for (Car& car : m_Cars)
+		car.reset(m_Circuit);
 }
 
 // SIMULATION

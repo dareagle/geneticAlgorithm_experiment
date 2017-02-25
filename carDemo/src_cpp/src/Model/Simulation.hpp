@@ -137,7 +137,7 @@ private: // attributs
 	// TODO : use enumeration
 	t_sensors	m_sensors;
 
-	t_lines		m_current_checkpoints;
+	unsigned int	m_current_checkpoint;
 
 	std::vector<t_line>	m_trail;
 
@@ -146,19 +146,16 @@ public: // ctor/dtor
 
 public: // methods
 	void	update(float step, const Circuit& circuit, const NeuralNetwork& nn);
-	void	revive();
+	void	reset(const Circuit& circuit);
 
 private: // methods
 	void	updateSensors();
 	void	collideSensors(const Circuit& circuit);
-	void	collideCheckpoints();
+	void	collideCheckpoints(const Circuit& circuit);
 	void	collideWalls(const t_lines& walls);
 
 public: // setter/getter
 
-	inline void	setCheckpoints(const t_lines& checkpoints)	{ m_current_checkpoints = checkpoints; }
-	inline void	setPosition(const t_vec2f& pos) { m_position = pos; }
-	inline void	setAngle(float angle) { m_angle = angle; }
 	inline const t_vec2f&	getPosition() const { return m_position; }
 	inline float			getAngle() const { return m_angle; }
 
