@@ -7,9 +7,9 @@ NAME=		exec
 
 PATH_MAIN=	./src
 MAIN=		$(PATH_MAIN)/main.cpp	\
-			$(PATH_MAIN)/Model/Simulation.cpp	\
-			$(PATH_MAIN)/Model/TraceLogger.cpp	\
-			$(PATH_MAIN)/Model/AI.cpp
+			$(PATH_MAIN)/Experiment/Simulation.cpp	\
+			$(PATH_MAIN)/Experiment/TraceLogger.cpp	\
+			$(PATH_MAIN)/Experiment/AI.cpp
 
 #### /MAIN
 

@@ -1,7 +1,7 @@
 
 
-#include "Model/Simulation.hpp"
-#include "Model/TraceLogger.hpp"
+#include "Experiment/Simulation.hpp"
+#include "Experiment/TraceLogger.hpp"
 
 
 #include <iostream>
