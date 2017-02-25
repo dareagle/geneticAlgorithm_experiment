@@ -53,14 +53,14 @@ typedef std::vector<t_line>	t_lines;
 
 ///
 
-bool	CollisionDroiteSeg(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P);
-float	CollisionSegSeg_partial(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P);
-bool	CollisionSegSeg(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P);
+bool	CollisionLineSeg(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P);
+float	CollisionSegmentSegment_partial(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P);
+bool	CollisionSegmentSegment(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P);
 
 // cercle
 
 bool	CollisionPointCercle(const t_vec2f& P, const t_vec2f& C, float radius);
-bool	CollisionDroiteCercle(const t_vec2f& A, const t_vec2f&  B, const t_vec2f& C, float radius);
+bool	CollisionLineCercle(const t_vec2f& A, const t_vec2f&  B, const t_vec2f& C, float radius);
 bool	CollisionSegmentCercle(const t_vec2f& A, const t_vec2f&  B, const t_vec2f& C, float radius);
 
 t_vec2f	rotateVec2(const t_vec2f& point, const t_vec2f& center, float angle);
@@ -193,7 +193,7 @@ private: // attributs
 
 	std::vector< std::vector<t_line> >	m_trails;
 
-	bool						m_start_to_stop_sens;
+	// bool						m_start_to_stop_sens;
 
 public: // ctor/dtor
 	Simulation(const std::string& filename);

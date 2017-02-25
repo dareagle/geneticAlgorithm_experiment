@@ -285,8 +285,8 @@ int	main()
 			{
 				const GeneticAlgorithm::t_genome& genome = tmp_sim.getGenomes()[index];
 
-				unsigned int	ann_topology_length = 4;
-				unsigned int	ann_topology[] = {5,4,3,2};
+				unsigned int	ann_topology_length = 3;
+				unsigned int	ann_topology[] = {5,4,2};
 
 				unsigned int	windex = 0;
 

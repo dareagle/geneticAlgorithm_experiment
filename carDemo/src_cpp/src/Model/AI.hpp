@@ -54,11 +54,6 @@ inline float	randomClamped()
 	return my_rangeRand(-1.0f, 1.0f);
 }
 
-// inline float	sigmoid(float a, float p)
-// {
-// 	return (1.0f / (1.0f + expf( (-a) / p )));
-// }
-
 // UTILS
 //
 //
@@ -197,7 +192,6 @@ private: // attributs
 
 public: // ctor/dtor
 	GeneticAlgorithm();
-	// ~GeneticAlgorithm();
 
 public: // getters/setters
 	inline unsigned int getCurrentGeneration() const { return m_current_generation; }

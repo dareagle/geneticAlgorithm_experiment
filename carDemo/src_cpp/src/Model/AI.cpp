@@ -271,51 +271,17 @@ GeneticAlgorithm::GeneticAlgorithm()
 	:	m_current_id(1),
 		m_current_generation(1),
 		m_best_fitness(0.0f),
-		// m_pNNTopology(NULL),
 		m_is_a_great_generation(false)
 {
 	my_srand( time(NULL) );
 
-	// float min = 1.0f;
-	// float max = -1.0f;
-	// for (int i = 0; i < 1000; ++i)
-	// 	// std::cout << randomFloat() << std::endl;
-	// {
-	// 	float	v = randomClamped();
-	// 	// float	v = randomFloat();
-	// 	std::cout << v << std::endl;
-	// 	max = std::max(v, max);
-	// 	min = std::min(v, min);
-	// }
-	// std::cout << "max=" << max << std::endl;
-	// std::cout << "min=" << min << std::endl;
-
 	this->generateRandomPopulation();
 }
-
-// GeneticAlgorithm::~GeneticAlgorithm()
-// {
-// 	delete m_pNNTopology, m_pNNTopology = NULL;
-// }
 
 void	GeneticAlgorithm::generateRandomPopulation()
 {
 	std::vector<unsigned int> tmp_hidden;
-	// tmp_hidden.push_back(8);
 	tmp_hidden.push_back(4);
-	tmp_hidden.push_back(3);
-	// tmp_hidden.push_back(7);
-	// tmp_hidden.push_back(7);
-	// tmp_hidden.push_back(7);
-	// tmp_hidden.push_back(6);
-	// tmp_hidden.push_back(7);
-	// tmp_hidden.push_back(7);
-	// tmp_hidden.push_back(7);
-	// tmp_hidden.push_back(6);
-	// tmp_hidden.push_back(5);
-	// tmp_hidden.push_back(4);
-	// tmp_hidden.push_back(4);
-	// tmp_hidden.push_back(3);
 	m_pNNTopology = t_pNNTopology(new NeuralNetworkTopology(5, tmp_hidden, 2));
 
 
@@ -362,8 +328,6 @@ void	GeneticAlgorithm::generateRandomPopulation()
 
 void	GeneticAlgorithm::BreedPopulation()
 {
-	// D_MYLOG("step");
-
 	if (m_genomes.empty())
 		return;
 
@@ -371,20 +335,10 @@ void	GeneticAlgorithm::BreedPopulation()
 	getBestGenomes(10, bestGenomes);
 
 
-	// D_MYLOG("current_best=" << bestGenomes[0].m_fitness);
-
-
-	// D_MYLOG("step");
-
-	// for (t_genome& g : bestGenomes)
-	// 	D_MYLOG("g=" << g.m_id);
-
 	std::vector<t_genome>	children;
 	children.reserve( m_genomes.size() );
-
 	
 
-	// m_best_fitness = std::max(m_best_fitness, bestGenomes[0].m_fitness);
 	if (m_best_fitness < bestGenomes[0].m_fitness)
 	{
 		m_best_fitness = bestGenomes[0].m_fitness;
@@ -405,7 +359,6 @@ void	GeneticAlgorithm::BreedPopulation()
 	if (m_best_fitness > m_alpha_genome.m_fitness)
 	{
 		m_alpha_genome = bestGenomes[0];
-		// D_MYLOG("new alpha");
 	}
 	else
 	{
@@ -417,8 +370,6 @@ void	GeneticAlgorithm::BreedPopulation()
 
 		mutate(bestDude);
 		children.push_back(bestDude);
-
-		// D_MYLOG("alpha reused");
 	}
 
 
@@ -433,9 +384,6 @@ void	GeneticAlgorithm::BreedPopulation()
 		mutate(bestDude);
 		children.push_back(bestDude);
 	}
-
-
-	// D_MYLOG("step");
 
 	// breed best genomes
 
@@ -457,14 +405,8 @@ void	GeneticAlgorithm::BreedPopulation()
 			children.push_back(baby2);
 		}
 
-	// D_MYLOG("step");
-
 	// For the remainding n population, add some random kiddies.
 	unsigned int remainingChildren = (m_genomes.size() - children.size());
-
-	// D_MYLOG("step m_genomes.size()" << m_genomes.size());
-	// D_MYLOG("step children.size()" << children.size());
-	// D_MYLOG("step remainingChildren" << remainingChildren);
 
 	for (unsigned int i = 0; i < remainingChildren; i++)
 	{
@@ -481,12 +423,8 @@ void	GeneticAlgorithm::BreedPopulation()
 		children.push_back( genome );
 	}
 
-	// D_MYLOG("step");
-
 	m_genomes = children;
 	++m_current_generation;
-
-	// D_MYLOG("/step");
 
 	for (unsigned int i = 0; i < m_genomes.size(); ++i)
 		m_NNetworks[i].setWeights( m_genomes[i].m_weights );
@@ -533,8 +471,6 @@ void	GeneticAlgorithm::CrossBreed(const t_genome& g1, const t_genome& g2, t_geno
 	unsigned int totalWeights = g1.m_weights.size();
 	unsigned int crossover = std::min(randomFloat(), 0.99f) * totalWeights;
 
-	// D_MYLOG("crossover=" << crossover << "/" << totalWeights);
-
 	baby1.m_id = m_current_id++;
 	baby1.m_weights.resize(totalWeights);
 
@@ -565,8 +501,6 @@ void	GeneticAlgorithm::mutate(t_genome& genome) const
 
 			++total_mutated;
 		}
-
-	// D_MYLOG("total_mutated=" << ((float)total_mutated / genome.m_weights.size()) * 100);
 }
 
 // GeneticAlgorithm

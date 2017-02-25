@@ -15,20 +15,26 @@
 //
 // UTILS
 
-bool CollisionDroiteSeg_BBox(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P)
-{
-	t_vec2f minAB(std::min(A.x, B.x), std::min(A.y, B.y));
-	t_vec2f minOP(std::min(O.x, P.x), std::min(O.y, P.y));
-	t_vec2f maxAB(std::max(A.x, B.x), std::max(A.y, B.y));
-	t_vec2f maxOP(std::max(O.x, P.x), std::max(O.y, P.y));
+//
+// UNUSED AS SLOWER
 
-	return !(maxAB.x < minOP.x ||
-			 minAB.x > maxOP.x ||
-			 maxAB.y < minOP.y ||
-			 minAB.y > maxOP.y);
-}
+// bool CollisionLineSeg_BBox(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P)
+// {
+// 	t_vec2f minAB(std::min(A.x, B.x), std::min(A.y, B.y));
+// 	t_vec2f minOP(std::min(O.x, P.x), std::min(O.y, P.y));
+// 	t_vec2f maxAB(std::max(A.x, B.x), std::max(A.y, B.y));
+// 	t_vec2f maxOP(std::max(O.x, P.x), std::max(O.y, P.y));
 
-bool CollisionDroiteSeg(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P)
+// 	return !(maxAB.x < minOP.x ||
+// 			 minAB.x > maxOP.x ||
+// 			 maxAB.y < minOP.y ||
+// 			 minAB.y > maxOP.y);
+// }
+
+// UNUSED AS SLOWER
+//
+
+bool CollisionLineSeg(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P)
 {
 	t_vec2f AO,AP,AB;
 	AB.x = B.x - A.x;
@@ -41,14 +47,14 @@ bool CollisionDroiteSeg(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, co
 	return ((AB.x * AP.y - AB.y * AP.x) * (AB.x * AO.y - AB.y * AO.x) < 0.0f);
 }
 
-float CollisionSegSeg_partial(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P)
+float CollisionSegmentSegment_partial(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P)
 {
 	// THIS IS SLOWER
-	// if (!CollisionDroiteSeg_BBox(A,B,O,P))
+	// if (!CollisionLineSeg_BBox(A,B,O,P))
 	// 	return 1.0f;
 	// /THIS IS SLOWER
 
-	if (!CollisionDroiteSeg(A,B,O,P))
+	if (!CollisionLineSeg(A,B,O,P))
 		return 1.0f;
 
 	t_vec2f AB,OP;
@@ -60,9 +66,9 @@ float CollisionSegSeg_partial(const t_vec2f& A, const t_vec2f& B, const t_vec2f&
 	return -(A.x * OP.y - O.x * OP.y - OP.x * A.y + OP.x * O.y) / (AB.x * OP.y - AB.y * OP.x);
 }
 
-bool CollisionSegSeg(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P)
+bool CollisionSegmentSegment(const t_vec2f& A, const t_vec2f& B, const t_vec2f& O, const t_vec2f& P)
 {
-	float k = CollisionSegSeg_partial(A, B, O, P);
+	float k = CollisionSegmentSegment_partial(A, B, O, P);
 
 	return (!(k < 0.0f || k > 1.0f));
 }
@@ -78,7 +84,7 @@ bool	CollisionPointCercle(const t_vec2f& P, const t_vec2f& C, float radius)
 	return (d2 <= radius * radius);
 }
 
-bool	CollisionDroiteCercle_BBox(const t_vec2f& A, const t_vec2f&  B, const t_vec2f& C, float radius)
+bool	CollisionLineCercle_BBox(const t_vec2f& A, const t_vec2f&  B, const t_vec2f& C, float radius)
 {
 	t_vec2f minAB(std::min(A.x, B.x), std::min(A.y, B.y));
 	t_vec2f maxAB(std::max(A.x, B.x), std::max(A.y, B.y));
@@ -91,9 +97,9 @@ bool	CollisionDroiteCercle_BBox(const t_vec2f& A, const t_vec2f&  B, const t_vec
 			 minAB.y > maxC.y);
 }
 
-bool	CollisionDroiteCercle(const t_vec2f& A, const t_vec2f&  B, const t_vec2f& C, float radius)
+bool	CollisionLineCercle(const t_vec2f& A, const t_vec2f&  B, const t_vec2f& C, float radius)
 {
-	if (!CollisionDroiteCercle_BBox(A,B,C,radius))
+	if (!CollisionLineCercle_BBox(A,B,C,radius))
 		return false;
 
 	t_vec2f	u(B.x - A.x, B.y - A.y);
@@ -112,7 +118,7 @@ bool	CollisionDroiteCercle(const t_vec2f& A, const t_vec2f&  B, const t_vec2f& C
 
 bool	CollisionSegmentCercle(const t_vec2f& A, const t_vec2f&  B, const t_vec2f& C, float radius)
 {
-	if (CollisionDroiteCercle(A, B, C, radius) == false)
+	if (CollisionLineCercle(A, B, C, radius) == false)
 		return false;  // si on ne touche pas la droite, on ne touchera jamais le segment
 
 	t_vec2f AB, AC, BC;
@@ -575,7 +581,7 @@ void	Car::collideSensors(const Circuit& circuit)
 
 		for (const t_line& wall : walls)
 		{
-			float v = CollisionSegSeg_partial(sensor.m_line.p1, sensor.m_line.p2, wall.p1, wall.p2);
+			float v = CollisionSegmentSegment_partial(sensor.m_line.p1, sensor.m_line.p2, wall.p1, wall.p2);
 
 			if (v >= 0.0f && v < 1.0f && sensor.m_value > v)
 				sensor.m_value = v;
@@ -654,7 +660,7 @@ void	Car::revive()
 Simulation::Simulation(const std::string& filename)
 	// :	m_pNNTopology(NULL)
 {
-	m_start_to_stop_sens = true;
+	// m_start_to_stop_sens = true;
 
 	m_Circuit.loadMap(filename);
 
