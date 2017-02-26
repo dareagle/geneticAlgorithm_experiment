@@ -31,7 +31,7 @@ createRenderer.prototype.clear = function(in_x, in_y, in_w, in_h)
 
 	// this._ctx.fillRect(0,0,800,600);
 	this._ctx.fillRect(x,y,w,h);
-	};
+};
 
 //
 
@@ -39,7 +39,7 @@ createRenderer.prototype.setCenter = function(x, y)
 {
 	this._center_x = x;
 	this._center_y = y;
-	};
+};
 
 
 //
