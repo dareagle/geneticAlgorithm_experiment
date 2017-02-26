@@ -13,11 +13,13 @@
 class RendererSFML
 {
 private: // attributs
+	Simulation&	m_Simulation;
+
 public: // ctor/dtor
-	RendererSFML();
+	RendererSFML(Simulation& simulation);
 
 public: // method(s)
-	void	run(Simulation& my_Simulation, std::function<void()> simulation_callback);
+	void	run(std::function<void()> simulation_callback);
 };
 
 

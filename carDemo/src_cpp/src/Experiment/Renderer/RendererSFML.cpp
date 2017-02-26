@@ -3,6 +3,8 @@
 #include "RendererSFML.hpp"
 
 
+#include "../Simulation/utils/utils.hpp"
+#include "../Simulation/utils/TraceLogger.hpp"
 
 
 #include <SFML/Graphics.hpp>
@@ -146,17 +148,18 @@ void drawCar(sf::RenderWindow& rwindow, const Car& car, const sf::Color& color, 
 
 
 
-RendererSFML::RendererSFML()
+RendererSFML::RendererSFML(Simulation& simulation)
+	: m_Simulation(simulation)
 {
 }
 
 
 
 
-void	RendererSFML::run(Simulation& my_Simulation, std::function<void()> simulation_callback)
+void	RendererSFML::run(std::function<void()> simulation_callback)
 {
-	const t_lines&	checkpoints = my_Simulation.getCircuit().getCheckpoints();
-	const t_lines&	walls = my_Simulation.getCircuit().getWalls();
+	const t_lines&	checkpoints = m_Simulation.getCircuit().getCheckpoints();
+	const t_lines&	walls = m_Simulation.getCircuit().getWalls();
 
 	// Create the main window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
@@ -185,17 +188,17 @@ void	RendererSFML::run(Simulation& my_Simulation, std::function<void()> simulati
 
 			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::P))
 			{
-				D_MYLOG("getCurrentGeneration=" << my_Simulation.getCurrentGeneration());
-				D_MYLOG("getBestFitness=" << my_Simulation.getBestFitness());
+				D_MYLOG("getCurrentGeneration=" << m_Simulation.getCurrentGeneration());
+				D_MYLOG("getBestFitness=" << m_Simulation.getBestFitness());
 
-				for (unsigned int i = 0; i < my_Simulation.getCars().size(); ++i)
+				for (unsigned int i = 0; i < m_Simulation.getCars().size(); ++i)
 				{
-					const Car& c = my_Simulation.getCars()[i];
+					const Car& c = m_Simulation.getCars()[i];
 
 					const t_vec2f& pos = c.getPosition();
 					float angle = c.getAngle();
 
-					D_MYLOG("[" << i << "] pos=" << pos.x << "/" << pos.y << ", angle=" << angle << ", alive=" << c.isAlive() << ", id=" << my_Simulation.getGenomes()[i].m_id);
+					D_MYLOG("[" << i << "] pos=" << pos.x << "/" << pos.y << ", angle=" << angle << ", alive=" << c.isAlive() << ", id=" << m_Simulation.getGenomes()[i].m_id);
 				}
 			}
 		}
@@ -217,7 +220,7 @@ void	RendererSFML::run(Simulation& my_Simulation, std::function<void()> simulati
 
 		for (int i = 0; i < iteration_nbr; ++i)
 			simulation_callback();
-			// my_Simulation.update(0.25f);
+			// m_Simulation.update(0.25f);
 
 
 		//
@@ -233,14 +236,14 @@ void	RendererSFML::run(Simulation& my_Simulation, std::function<void()> simulati
 			t_vec2f	target;
 			
 			unsigned int index = 0;
-			for (; index < my_Simulation.getCars().size(); ++index)
-				if (my_Simulation.getCars()[index].isAlive())
+			for (; index < m_Simulation.getCars().size(); ++index)
+				if (m_Simulation.getCars()[index].isAlive())
 					break;
 
-			if (index < my_Simulation.getCars().size())
+			if (index < m_Simulation.getCars().size())
 			{
 				index_target_car = index;
-				target = my_Simulation.getCars()[index_target_car].getPosition();
+				target = m_Simulation.getCars()[index_target_car].getPosition();
 			}
 			else
 				index_target_car = -1;
@@ -267,8 +270,8 @@ void	RendererSFML::run(Simulation& my_Simulation, std::function<void()> simulati
 		// Clear screen
 		window.clear();
 
-		// render starting point
-		drawPoint(window, my_Simulation.getCircuit().getStartingPositon(), sf::Color::Blue);
+		// // render starting point
+		// drawPoint(window, m_Simulation.getCircuit().getStartingPositon(), sf::Color::Blue);
 
 		// render circuit
 		drawLines(window, checkpoints, sf::Color(255,255,255), sf::Color(128,128,128));
@@ -277,7 +280,7 @@ void	RendererSFML::run(Simulation& my_Simulation, std::function<void()> simulati
 		{ // render cars
 
 			// render cars (except targetted car)
-			auto arr_cars = my_Simulation.getCars();
+			auto arr_cars = m_Simulation.getCars();
 			for (int index = 0; index < static_cast<int>(arr_cars.size()); ++index)
 				if (index != index_target_car)
 					drawCar(window, arr_cars[index], sf::Color::Green, false);
@@ -290,7 +293,7 @@ void	RendererSFML::run(Simulation& my_Simulation, std::function<void()> simulati
 
 		{ // render trails
 
-			const std::vector< std::vector<t_line> >&	trails = my_Simulation.getTrails();
+			const std::vector< std::vector<t_line> >&	trails = m_Simulation.getTrails();
 			if (!trails.empty())
 			{
 				for (unsigned int i = 0; i < trails.size() - 1; ++i)
@@ -317,9 +320,9 @@ void	RendererSFML::run(Simulation& my_Simulation, std::function<void()> simulati
 
 			if (index_target_car != -1)
 			{
-				const GeneticAlgorithm::t_genome& genome = my_Simulation.getGenomes()[index_target_car];
+				const GeneticAlgorithm::t_genome& genome = m_Simulation.getGenomes()[index_target_car];
 
-				const auto& ann_topology = my_Simulation.getNNTopology();
+				const auto& ann_topology = m_Simulation.getNNTopology();
 
 				std::vector<unsigned int> arr_topology;
 				arr_topology.reserve(2 + ann_topology.getHiddens().size());

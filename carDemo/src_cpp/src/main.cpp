@@ -3,7 +3,7 @@
 
 #include "Experiment/Experiment.hpp"
 
-#include "Experiment/Simulation/TraceLogger.hpp"
+#include "Experiment/Simulation/utils/TraceLogger.hpp"
 
 
 #include <typeinfo> // <- for the __cxa_exception_type()->name()

@@ -10,8 +10,18 @@ MAIN=		$(PATH_MAIN)/main.cpp	\
 			$(PATH_MAIN)/Experiment/Experiment.cpp	\
 			$(PATH_MAIN)/Experiment/Renderer/RendererSFML.cpp	\
 			$(PATH_MAIN)/Experiment/Simulation/Simulation.cpp	\
-			$(PATH_MAIN)/Experiment/Simulation/TraceLogger.cpp	\
-			$(PATH_MAIN)/Experiment/Simulation/AI.cpp
+			$(PATH_MAIN)/Experiment/Simulation/utils/t_line.cpp	\
+			$(PATH_MAIN)/Experiment/Simulation/utils/t_vec2f.cpp	\
+			$(PATH_MAIN)/Experiment/Simulation/utils/collision.cpp	\
+			$(PATH_MAIN)/Experiment/Simulation/utils/utils.cpp	\
+			$(PATH_MAIN)/Experiment/Simulation/utils/randomiser.cpp	\
+			$(PATH_MAIN)/Experiment/Simulation/utils/TraceLogger.cpp	\
+			$(PATH_MAIN)/Experiment/Simulation/ai/GeneticAlgorithm.cpp	\
+			$(PATH_MAIN)/Experiment/Simulation/ai/NeuralNetwork.cpp	\
+			$(PATH_MAIN)/Experiment/Simulation/ai/NeuralNetworkTopology.cpp	\
+			$(PATH_MAIN)/Experiment/Simulation/logic/Car.cpp	\
+			$(PATH_MAIN)/Experiment/Simulation/logic/Circuit.cpp
+
 
 #### /MAIN
 
