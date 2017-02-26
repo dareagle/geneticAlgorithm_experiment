@@ -60,11 +60,14 @@ void	my_srand(int seed)
 
 
 
-NeuralNetworkTopology::NeuralNetworkTopology(unsigned int input, const std::vector<unsigned int>& hiddens, unsigned int output)
-	:	m_input(input),
-		m_hiddens(hiddens),
-		m_output(output),
+NeuralNetworkTopology::NeuralNetworkTopology()
+	:	m_input(0),
+		m_output(0),
 		m_totalWeights(0)
+{
+}
+
+void	NeuralNetworkTopology::init(unsigned int input, const t_hidden_layers& hiddens, unsigned int output)
 {
 	if (!input)
 		throw std::invalid_argument( "received invalid number of inputs" );
@@ -81,6 +84,12 @@ NeuralNetworkTopology::NeuralNetworkTopology(unsigned int input, const std::vect
 
 	//
 
+	m_input = input;
+	m_output = output;
+	m_hiddens = hiddens;
+
+	//
+
 	unsigned int prev_layer_num_neuron = input;
 	for (unsigned int num_neuron : hiddens)
 	{
@@ -90,6 +99,17 @@ NeuralNetworkTopology::NeuralNetworkTopology(unsigned int input, const std::vect
 	m_totalWeights += prev_layer_num_neuron * output;
 }
 
+bool NeuralNetworkTopology::isValid() const
+{
+	bool valid = (m_input > 0 && m_output > 0);
+
+	if (valid)
+		for (auto& elem : m_hiddens)
+			if (elem == 0)
+				return false;
+
+	return valid;
+}
 
 
 
@@ -141,9 +161,6 @@ NeuralNetwork::NeuralNetwork(const NeuralNetworkTopology& topology)
 
 void NeuralNetwork::process(const std::vector<float>& input, std::vector<float>& output) const
 {
-	if (input.size() != 5)
-	    throw std::invalid_argument( "received invalid number of inputs" );
-
 	output.clear();
 
 	//
@@ -275,17 +292,15 @@ GeneticAlgorithm::GeneticAlgorithm()
 {
 	my_srand( time(NULL) );
 
+	std::vector<unsigned int> tmp_hidden;
+	tmp_hidden.push_back(6);
+	m_NNTopology.init(5, tmp_hidden, 2);
+
 	this->generateRandomPopulation();
 }
 
 void	GeneticAlgorithm::generateRandomPopulation()
 {
-	std::vector<unsigned int> tmp_hidden;
-	tmp_hidden.push_back(4);
-	m_pNNTopology = t_pNNTopology(new NeuralNetworkTopology(5, tmp_hidden, 2));
-
-
-
 	// reset the genomes
 	m_genomes.resize(100);
 
@@ -297,7 +312,7 @@ void	GeneticAlgorithm::generateRandomPopulation()
 		genome.m_id = m_current_id++;
 		genome.m_fitness = 0.0f;
 
-		genome.m_weights.resize( m_pNNTopology->getTotalWeights() );
+		genome.m_weights.resize( m_NNTopology.getTotalWeights() );
 
 		for (float& weight : genome.m_weights)
 			weight = randomClamped();
@@ -309,7 +324,7 @@ void	GeneticAlgorithm::generateRandomPopulation()
 	m_NNetworks.reserve( m_genomes.size() );
 	for (unsigned int i = 0; i < m_genomes.size(); ++i)
 	{
-		m_NNetworks.push_back( NeuralNetwork(*m_pNNTopology) );
+		m_NNetworks.push_back( NeuralNetwork(m_NNTopology) );
 
 		m_NNetworks[i].setWeights( m_genomes[i].m_weights );
 	}
@@ -414,7 +429,7 @@ void	GeneticAlgorithm::BreedPopulation()
 		genome.m_id = m_current_id++;
 		genome.m_fitness = 0.0f;
 
-		genome.m_weights.resize( m_pNNTopology->getTotalWeights() );
+		genome.m_weights.resize( m_NNTopology.getTotalWeights() );
 
 		for (float& weight : genome.m_weights)
 			weight = randomClamped();

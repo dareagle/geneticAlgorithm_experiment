@@ -485,7 +485,13 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 	for (t_sensor& sensor : m_sensors)
 		input.push_back( sensor.m_value );
 
+	// if (input.size() != 5)
+	//     throw std::invalid_argument( "about to use an invalid number of inputs" );
+
 	in_NN.process(input, output);
+
+	// if (output.size() != 2)
+	//     throw std::invalid_argument( "received invalid number of outputs" );
 
 	float leftTheta		= output[0];
 	float rightTheta	= output[1];

@@ -70,20 +70,28 @@ inline float	randomClamped()
 
 class NeuralNetworkTopology
 {
+private:
+	typedef std::vector<unsigned int>	t_hidden_layers;
+
 private: // attributs
-	unsigned int				m_input;
-	std::vector<unsigned int>	m_hiddens;
-	unsigned int				m_output;
+	unsigned int		m_input;
+	t_hidden_layers		m_hiddens;
+	unsigned int		m_output;
 
 	unsigned int				m_totalWeights;
 
 public:
-	NeuralNetworkTopology(unsigned int input, const std::vector<unsigned int>& hiddens, unsigned int output);
+	NeuralNetworkTopology();
+
+	void	init(unsigned int input, const t_hidden_layers& hiddens, unsigned int output);
+
+public:
+	bool isValid() const;
 
 public:
 	inline unsigned int	getInput() const { return m_input; }
 	inline unsigned int	getOutput() const { return m_output; }
-	inline const std::vector<unsigned int>&	getHiddens() const { return m_hiddens; }
+	inline const t_hidden_layers&	getHiddens() const { return m_hiddens; }
 
 	inline unsigned int	getTotalWeights() const { return m_totalWeights; }
 };
@@ -182,8 +190,7 @@ private: // attributs
 
 	t_genome				m_alpha_genome;
 
-	typedef std::unique_ptr<NeuralNetworkTopology>	t_pNNTopology;
-	t_pNNTopology			m_pNNTopology;
+	NeuralNetworkTopology	m_NNTopology;
 
 	typedef std::vector<NeuralNetwork>	t_NNetworks;
 	t_NNetworks	m_NNetworks;
@@ -204,6 +211,8 @@ public: // getters/setters
 
 	inline const std::vector<t_genome>&	getGenomes() const { return m_genomes; }
 	inline void rateGenome(unsigned int index, float fitness) { m_genomes.at(index).m_fitness = fitness; }
+
+	inline const NeuralNetworkTopology& getNNTopology() const { return m_NNTopology; }
 
 private: // methods
 	void	generateRandomPopulation();

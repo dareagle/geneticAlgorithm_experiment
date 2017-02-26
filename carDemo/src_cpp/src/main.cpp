@@ -33,6 +33,23 @@ void drawLine(sf::RenderWindow& rwindow, const t_line& line, const sf::Color& co
 	rwindow.draw(vertices, 2, sf::Lines);
 }
 
+void drawLine(sf::RenderWindow& rwindow, const t_line& line, const sf::Color& color, float thickness = 1.0f)
+{
+	float length = sqrtf( (line.p1.x-line.p2.x)*(line.p1.x-line.p2.x) + (line.p1.y-line.p2.y)*(line.p1.y-line.p2.y) );
+
+	sf::RectangleShape recline(sf::Vector2f(length, thickness));
+
+	recline.setOrigin(0, thickness/2);
+	recline.setPosition(line.p1.x, line.p1.y);
+
+	recline.setFillColor(color);
+
+	float angle = atan2f(line.p2.y - line.p1.y, line.p2.x - line.p1.x);
+
+	recline.rotate(angle * 180.0f / 3.14f);
+	rwindow.draw(recline);
+}
+
 void drawLines(sf::RenderWindow& rwindow, const t_lines& lines, const sf::Color& color1, const sf::Color& color2)
 {
 	static std::vector<sf::Vertex>	s_vertices;
@@ -110,8 +127,11 @@ void drawCar(sf::RenderWindow& rwindow, const Car& car, const sf::Color& color, 
 		pos.y = sensor.m_line.p1.y + (sensor.m_line.p2.y - sensor.m_line.p1.y) * sensor.m_value;
 
 		t_line	tmp_line(sensor.m_line.p1, pos);
+		t_line	tmp_line2(pos, sensor.m_line.p2);
 
-		drawLine(rwindow, tmp_line, LightBlue, LightBlue);
+		// drawLine(rwindow, tmp_line, LightBlue, LightBlue);
+		drawLine(rwindow, tmp_line, LightBlue, 5.0f);
+		drawLine(rwindow, tmp_line2, sf::Color::Red, 1.0f);
 
 		drawPoint(rwindow, pos, sf::Color::Yellow);
 	}
@@ -131,7 +151,7 @@ void drawCar(sf::RenderWindow& rwindow, const Car& car, const sf::Color& color, 
 
 
 
-int	main()
+int	run()
 {
 	Simulation	tmp_sim("./res/Map_test.txt");
 
@@ -149,7 +169,11 @@ int	main()
 	// Start the game loop
 	while (window.isOpen())
 	{
+		//
+		//
+		//
 		// Process events
+
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -185,10 +209,19 @@ int	main()
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 			iteration_nbr = 1;
 
+		//
+		//
+		//
 		// update
+
 		for (int i = 0; i < iteration_nbr; ++i)
 			tmp_sim.update(0.25f);
 
+
+		//
+		//
+		//
+		// render
 
 		{ // camera
 
@@ -202,10 +235,13 @@ int	main()
 				if (tmp_sim.getCars()[index].isAlive())
 					break;
 
-			index_target_car = index;
-
 			if (index < tmp_sim.getCars().size())
-				target = tmp_sim.getCars()[index].getPosition();
+			{
+				index_target_car = index;
+				target = tmp_sim.getCars()[index_target_car].getPosition();
+			}
+			else
+				index_target_car = -1;
 
 			sf::Vector2f	diff(target.x-camera_center.x-200, target.y-camera_center.y);
 
@@ -267,6 +303,7 @@ int	main()
 
 		} // render trails
 
+		/**/
 		{ // hud
 
 			// window.setView(window.getDefaultView());
@@ -276,39 +313,43 @@ int	main()
 			view.move(-100,-100);
 			window.setView(view);
 
-			unsigned int index = 0;
-			for (; index < tmp_sim.getCars().size(); ++index)
-				if (tmp_sim.getCars()[index].isAlive())
-					break;
-
-			if (index < tmp_sim.getCars().size())
+			if (index_target_car != -1)
 			{
-				const GeneticAlgorithm::t_genome& genome = tmp_sim.getGenomes()[index];
+				const GeneticAlgorithm::t_genome& genome = tmp_sim.getGenomes()[index_target_car];
 
-				unsigned int	ann_topology_length = 3;
-				unsigned int	ann_topology[] = {5,4,2};
+				const auto& ann_topology = tmp_sim.getNNTopology();
+
+				std::vector<unsigned int> arr_topology;
+				arr_topology.reserve(2 + ann_topology.getHiddens().size());
+
+				arr_topology.push_back(ann_topology.getInput());
+				for (auto& elem : ann_topology.getHiddens())
+					arr_topology.push_back(elem);
+				arr_topology.push_back(ann_topology.getOutput());
+
+				unsigned int arr_topology_max = arr_topology[0];
+				for (unsigned int index = 1; index < arr_topology.size(); ++index)
+					arr_topology_max = std::max(arr_topology_max, arr_topology[index]);
 
 				unsigned int	windex = 0;
 
-				for (unsigned int index = 1; index < ann_topology_length; ++index)
+				for (unsigned int index = 1; index < arr_topology.size(); ++index)
 				{
-					int prev_layer = ann_topology[index-1];
-					int curr_layer = ann_topology[index];
+					int prev_layer = arr_topology[index-1];
+					int curr_layer = arr_topology[index];
 
-					float prev_dec_y = (1.0f - ((float)prev_layer / 5)) * 185;
-					float curr_dec_y = (1.0f - ((float)curr_layer / 5)) * 185;
+					float prev_dec_y = (1.0f - ((float)prev_layer / arr_topology_max)) * 185;
+					float curr_dec_y = (1.0f - ((float)curr_layer / arr_topology_max)) * 185;
 
 					for (int pindex = 0; pindex < prev_layer; ++pindex)
 						for (int cindex = 0; cindex < curr_layer; ++cindex)
 						{
-							float curr_x = (index-1) * 75;
-
 							sf::Vector2f	p1;
-							p1.x = curr_x;
+							p1.x = (index-1) * 75;
 							p1.y = prev_dec_y+pindex*75;
 
 							sf::Vector2f	p2;
-							p2.x = curr_x+75;
+							p2.x = (index) * 75;
 							p2.y = curr_dec_y+cindex*75;
 
 							float wvalue = genome.m_weights[windex++];
@@ -317,56 +358,32 @@ int	main()
 							if (ratio < 0)  ratio = -ratio;
 							if (ratio < 1)  ratio = 1;
 
-							float thickness = ratio;
-
-							float length = sqrtf( (p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y) );
-
-							sf::RectangleShape line(sf::Vector2f(length, thickness));
-
-							// line.setOrigin(thickness/2, thickness/2);
-							line.setOrigin(0, thickness/2);
-							line.setPosition(p1);
+							t_line line(p1.x, p1.y, p2.x, p2.y);
 
 
 							if (wvalue > 0)
-								line.setFillColor(sf::Color::Red);
+								drawLine(window, line, sf::Color::Red, ratio);
 							else
-								line.setFillColor(sf::Color::Blue);
-
-							float angle = atan2f(p2.y-p1.y, p2.x-p1.x);
-
-							// line.rotate(angle);
-							// line.rotate(angle * 3.14f / 180.0f);
-							line.rotate(angle * 180.0f / 3.14f);
-							window.draw(line);
-
-
-							// if (wvalue > 0)
-							// 	Renderer.drawLine( curr_x, prev_dec_y+pindex*75, curr_x+75, curr_dec_y+cindex*75, "#ff0000", ratio);
-							// else
-							// 	Renderer.drawLine( curr_x, prev_dec_y+pindex*75, curr_x+75, curr_dec_y+cindex*75, "#0000ff", ratio);
+								drawLine(window, line, sf::Color::Blue, ratio);
 						}
 				}
 
-				for (unsigned int index = 0; index < ann_topology_length; ++index)
+				for (unsigned int index = 0; index < arr_topology.size(); ++index)
 				{
-					int curr_layer = ann_topology[index];
+					int curr_layer = arr_topology[index];
 
-					float curr_dec_y = (1.0f - ((float)curr_layer / 5)) * 185;
+					float curr_dec_y = (1.0f - ((float)curr_layer / arr_topology_max)) * 185;
 
 					for (int cindex = 0; cindex < curr_layer; ++cindex)
 					{
 						int curr_x = (index) * 75;
-
-						// Renderer.drawCircle(curr_x, curr_dec_y+cindex*75, 13, "#ffff00");
-						// Renderer.drawCircle(curr_x, curr_dec_y+cindex*75, 10, "#00ff00");
 
 						sf::CircleShape circle;
 						circle.setRadius(10);
 						circle.setOrigin(10,10);
 						circle.setOutlineColor(sf::Color::Yellow);
 						circle.setOutlineThickness(3);
-						circle.setPosition(curr_x, curr_dec_y+cindex*75);
+						circle.setPosition(curr_x, curr_dec_y + cindex * 75);
 						window.draw(circle);
 					}
 				}
@@ -374,10 +391,24 @@ int	main()
 			}
 
 		} // hud
+		//*/
 
 		// Update the window
 		window.display();
 	}
 
 	return EXIT_SUCCESS;
+}
+
+int	main()
+{
+	try
+	{
+		run();
+	}
+	catch (...)
+	{
+        std::exception_ptr p = std::current_exception();
+        D_MYLOG((p ? p.__cxa_exception_type()->name() : "null"));
+	}
 }
