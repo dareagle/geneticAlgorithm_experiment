@@ -18,6 +18,8 @@ var createCar = function (elem_id)
 
 	this._trail = [];
 
+	this._current_checkpoint = 0;
+
 	this._updateSensors();
 };
 
@@ -191,31 +193,21 @@ createCar.prototype._collideSensors = function(walls)
 
 createCar.prototype._collideCheckpoints = function()
 {
-	var i = 0;
-	while (i < this._checkpoints.length)
+	if (this._current_checkpoint < this._checkpoints.length)
 	{
-		if (utils.CollisionSegmentCercle(this._checkpoints[i].p1, this._checkpoints[i].p2, this._position, 5.0))
-		{
-			// console.log('checkpoint erased');
-			this._checkpoints.splice(i, 1);
+		var checkpoint = this._checkpoints[this._current_checkpoint];
 
+		if (utils.CollisionSegmentCercle(checkpoint.p1, checkpoint.p2, this._position, 5.0))
+		{
 			this._min_updates = 50;
-
 			++this._fitness;
-
-			break;
-		}
-		else
-		{
-			++i;
+			++this._current_checkpoint;
 		}
 	}
 
-	if (this._checkpoints.length == 0)
+	if (this._current_checkpoint >= this._checkpoints.length)
 	{
-		// console.log('last checkpoint erased');
-
-		// // this line reward a faster car once the circuit is completed
+		// this line reward a faster car once the circuit is completed
 		this._fitness += (1000.0 / this._total_update);
 
 		this._alive = false;

@@ -13,7 +13,7 @@ var createSimulation = function (elem_id)
 	this._circuit = new createCircuit(elem_id);
 
 	var genome_size = 40;
-	this._ann_topology = [5, 4, 3, 2];
+	this._ann_topology = [5, 3, 2];
 
 	this._geneticAlgo = new createGeneticAlgo( genome_size, this._ann_topology );
 
@@ -34,9 +34,7 @@ var createSimulation = function (elem_id)
 
 		car._angle = this._circuit._start_angle;
 
-		car._checkpoints = [];
-		for (var j = 0; j < this._circuit._checkpoints.length; ++j)
-			car._checkpoints.push( this._circuit._checkpoints[j] );
+		car._checkpoints = this._circuit._checkpoints;
 
 		this._cars.push(car);
 	}
@@ -90,59 +88,27 @@ createSimulation.prototype.update = function(step)
 
 	this._start_to_stop_sens = !this._start_to_stop_sens;
 
-	// if (this._start_to_stop_sens)
+	for (var i = 0; i < this._cars.length; ++i)
 	{
-		for (var i = 0; i < this._cars.length; ++i)
-		{
-			var car = this._cars[i];
+		var car = this._cars[i];
 
-			this._geneticAlgo._genomes[i].car = car;
+		this._geneticAlgo._genomes[i].car = car;
 
-			car._position = {
-				  x: this._circuit._start_position.x
-				, y: this._circuit._start_position.y
-			};
+		car._position = {
+			  x: this._circuit._start_position.x
+			, y: this._circuit._start_position.y
+		};
 
-			car._angle = this._circuit._start_angle;
+		car._angle = this._circuit._start_angle;
 
-			car._checkpoints = [];
-			for (var j in this._circuit._checkpoints)
-				car._checkpoints.push( this._circuit._checkpoints[j] );
+		car._current_checkpoint = 0;
 
-			car._alive = true;
-			car._fitness = 0;
-			car._total_update = 0;
-			car._trail = [];
-			car._min_updates = 100;
-		}
+		car._alive = true;
+		car._fitness = 0;
+		car._total_update = 0;
+		car._trail = [];
+		car._min_updates = 100;
 	}
-	// else
-	// {
-	// 	for (var i = 0; i < this._cars.length; ++i)
-	// 	{
-	// 		var car = this._cars[i];
-
-	// 		this._geneticAlgo._genomes[i].car = car;
-
-	// 		car._position = {
-	// 			  x: this._circuit._stop_position.x
-	// 			, y: this._circuit._stop_position.y
-	// 		};
-
-	// 		car._angle = this._circuit._stop_angle;
-
-	// 		car._checkpoints = [];
-	// 		for (j in this._circuit._checkpoints)
-	// 			car._checkpoints.push( this._circuit._checkpoints[j] );
-
-	// 		car._alive = true;
-	// 		car._fitness = 0;
-	// 		car._total_update = 0;
-	// 		car._trail = [];
-	// 		car._min_updates = 100;
-	// 	}
-	// }
-
 };
 
 //
