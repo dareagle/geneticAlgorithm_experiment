@@ -22,9 +22,15 @@ var simulation = new createSimulation("circuit-data");
 //
 // FPS METER
 
-var myFpsmeter_elem = document.getElementById('canvasesdiv');
-var myFpsmeter = new window.FPSMeter(
-    myFpsmeter_elem,
+var myFpsmeter_update_elem = document.getElementById('fpsmeter_update');
+var myFpsmeter_update = new window.FPSMeter(
+    myFpsmeter_update_elem,
+    window.FPSMeter.theme.transparent
+);
+
+var myFpsmeter_render_elem = document.getElementById('fpsmeter_render');
+var myFpsmeter_render = new window.FPSMeter(
+    myFpsmeter_render_elem,
     window.FPSMeter.theme.transparent
 );
 
@@ -32,6 +38,7 @@ var myFpsmeter = new window.FPSMeter(
 //
 
 
+var car_index = -1;
 var center_x = 0;
 var center_y = 0;
 
@@ -42,11 +49,10 @@ tick();
 
 function tick(in_event) {
 
-
-    myFpsmeter.tickStart();
-
-
     window.requestAnimFrame( tick );
+
+
+    myFpsmeter_update.tickStart();
 
     ///
 
@@ -63,7 +69,6 @@ function tick(in_event) {
     //
     //
     //
-
 
 
     //
@@ -83,6 +88,8 @@ function tick(in_event) {
 
             if (index < simulation._cars.length)
             {
+                car_index = index;
+
                 target_x = simulation._cars[index]._position.x;
                 target_y = simulation._cars[index]._position.y;
             }
@@ -101,6 +108,10 @@ function tick(in_event) {
     //
     //
 
+
+    myFpsmeter_update.tick();
+
+    myFpsmeter_render.tickStart();
 
 
     //
@@ -145,13 +156,13 @@ function tick(in_event) {
         {
             var car = cars[index];
 
-            render_car(car, "#00ff00", true);
+            render_car(car, "#00ff00", (index == car_index));
         }
 
         //
 
-        function render_car(car, alive_color, show_sensors) {
-
+        function render_car(car, alive_color, show_sensors)
+        {
             var position = car._position;
             var angle = car._angle;
 
@@ -302,7 +313,7 @@ function tick(in_event) {
     //
 
 
-    myFpsmeter.tick();
+    myFpsmeter_render.tick();
 
 
 }
