@@ -1,0 +1,32 @@
+
+= emscripten version
+
+
+== Online demo 3D
+
+http://guillaumebouchetepitech.github.io/geneticAlgorithm_experiment/emscripten/bullet/index.html
+
+
+== Build native C++
+
+modify Makefile top variable this way 'cpp_mode=yes'
+
+  make fclean_bullet
+  make bullet -j
+  make fclean
+  make -j
+
+== Build emscripten C++
+
+requirement: emscripten
+
+modify Makefile top variable this way 'cpp_mode=no'
+modify Makefile CXX and AR variables with emscripten
+
+  make fclean_bullet
+  make bullet -j
+  make fclean
+  make -j
+
+
+== Thanks for watching !
