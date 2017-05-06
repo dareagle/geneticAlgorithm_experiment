@@ -11,127 +11,129 @@
 #include <SFML/OpenGL.hpp>
 
 
-
-
-void drawLine(sf::RenderWindow& rwindow, const t_line& line, const sf::Color& color1, const sf::Color& color2)
+namespace
 {
-	const t_vec2f& p1 = line.p1;
-	const t_vec2f& p2 = line.p2;
 
-	// define a 100x100 square, red, with a 10x10 texture mapped on it
-	sf::Vertex vertices[] = {
-		sf::Vertex( sf::Vector2f(p1.x, p1.y), color1 ),
-		sf::Vertex( sf::Vector2f(p2.x, p2.y), color2 )
-	};
+	// void drawLine(sf::RenderWindow& rwindow, const t_line& line, const sf::Color& color1, const sf::Color& color2)
+	// {
+	// 	const t_vec2f& p1 = line.p1;
+	// 	const t_vec2f& p2 = line.p2;
 
-	// draw it
-	rwindow.draw(vertices, 2, sf::Lines);
-}
+	// 	// define a 100x100 square, red, with a 10x10 texture mapped on it
+	// 	sf::Vertex vertices[] = {
+	// 		sf::Vertex( sf::Vector2f(p1.x, p1.y), color1 ),
+	// 		sf::Vertex( sf::Vector2f(p2.x, p2.y), color2 )
+	// 	};
 
-void drawLine(sf::RenderWindow& rwindow, const t_line& line, const sf::Color& color, float thickness = 1.0f)
-{
-	float length = sqrtf( (line.p1.x-line.p2.x)*(line.p1.x-line.p2.x) + (line.p1.y-line.p2.y)*(line.p1.y-line.p2.y) );
+	// 	// draw it
+	// 	rwindow.draw(vertices, 2, sf::Lines);
+	// }
 
-	sf::RectangleShape recline(sf::Vector2f(length, thickness));
-
-	recline.setOrigin(0, thickness/2);
-	recline.setPosition(line.p1.x, line.p1.y);
-
-	recline.setFillColor(color);
-
-	float angle = atan2f(line.p2.y - line.p1.y, line.p2.x - line.p1.x);
-
-	recline.rotate(angle * 180.0f / 3.14f);
-	rwindow.draw(recline);
-}
-
-void drawLines(sf::RenderWindow& rwindow, const t_lines& lines, const sf::Color& color1, const sf::Color& color2)
-{
-	static std::vector<sf::Vertex>	s_vertices;
-
-	s_vertices.clear();
-	for (unsigned int i = 0; i < lines.size(); ++i)
+	void drawLine(sf::RenderWindow& rwindow, const t_line& line, const sf::Color& color, float thickness = 1.0f)
 	{
-		s_vertices.push_back( sf::Vertex( sf::Vector2f(lines[i].p1.x, lines[i].p1.y), color1 ) );
-		s_vertices.push_back( sf::Vertex( sf::Vector2f(lines[i].p2.x, lines[i].p2.y), color2 ) );
+		float length = sqrtf( (line.p1.x-line.p2.x)*(line.p1.x-line.p2.x) + (line.p1.y-line.p2.y)*(line.p1.y-line.p2.y) );
+
+		sf::RectangleShape recline(sf::Vector2f(length, thickness));
+
+		recline.setOrigin(0, thickness/2);
+		recline.setPosition(line.p1.x, line.p1.y);
+
+		recline.setFillColor(color);
+
+		float angle = atan2f(line.p2.y - line.p1.y, line.p2.x - line.p1.x);
+
+		recline.rotate(angle * 180.0f / 3.14f);
+		rwindow.draw(recline);
 	}
 
-	rwindow.draw(&(s_vertices[0]), s_vertices.size(), sf::Lines);
-}
-
-void drawPoint(sf::RenderWindow& rwindow, const t_vec2f& point, const sf::Color& color)
-{
-	float size = 10.0f;
-	sf::Vertex vertices[] = {
-		sf::Vertex(sf::Vector2f(point.x - size, point.y - size), color),
-		sf::Vertex(sf::Vector2f(point.x + size, point.y + size), color),
-		sf::Vertex(sf::Vector2f(point.x + size, point.y - size), color),
-		sf::Vertex(sf::Vector2f(point.x - size, point.y + size), color)
-	};
-
-	rwindow.draw(vertices, 4, sf::Lines);
-}
-
-void drawCar(sf::RenderWindow& rwindow, const Car& car, const sf::Color& color, bool render_sensors)
-{
-	const t_vec2f& position = car.getPosition();
-	float angle = car.getAngle();
-
-	float size_h = 25.0f;
-	float size_v = 12.5f;
-
-	t_vec2f	positions[4] = {
-		t_vec2f(position.x - size_h, position.y - size_v),
-		t_vec2f(position.x + size_h, position.y - size_v),
-		t_vec2f(position.x + size_h, position.y + size_v),
-		t_vec2f(position.x - size_h, position.y + size_v)
-	};
-
-	for (int i = 0; i < 4; ++i)
-		positions[i] = rotateVec2(positions[i], position, angle);
-
-	sf::Color col = (car.isAlive() ? color : sf::Color::Red);
-
-	sf::Vertex p1(sf::Vector2f(positions[0].x, positions[0].y), col);
-	sf::Vertex p2(sf::Vector2f(positions[1].x, positions[1].y), col);
-	sf::Vertex p3(sf::Vector2f(positions[2].x, positions[2].y), col);
-	sf::Vertex p4(sf::Vector2f(positions[3].x, positions[3].y), col);
-
-	sf::Vertex vertices[] = { p1,p2, p2,p3, p3,p4, p4,p1 };
-
-	glLineWidth(5.0f);
-
-	rwindow.draw(vertices, 8, sf::Lines);
-
-	glLineWidth(1.0f);
-
-	///
-
-	if (!car.isAlive() || !render_sensors)
-		return;
-
-	const Car::t_sensors&	sensors = car.getSensors();
-
-	for (Car::t_sensor sensor : sensors)
+	void drawLines(sf::RenderWindow& rwindow, const t_lines& lines, const sf::Color& color1, const sf::Color& color2)
 	{
-		sf::Color	LightBlue(128,128,255);
-		// drawLine(rwindow, sensor.m_line, LightBlue, LightBlue);
+		static std::vector<sf::Vertex>	s_vertices;
 
-		t_vec2f	pos;
-		pos.x = sensor.m_line.p1.x + (sensor.m_line.p2.x - sensor.m_line.p1.x) * sensor.m_value;
-		pos.y = sensor.m_line.p1.y + (sensor.m_line.p2.y - sensor.m_line.p1.y) * sensor.m_value;
+		s_vertices.clear();
+		for (unsigned int i = 0; i < lines.size(); ++i)
+		{
+			s_vertices.push_back( sf::Vertex( sf::Vector2f(lines[i].p1.x, lines[i].p1.y), color1 ) );
+			s_vertices.push_back( sf::Vertex( sf::Vector2f(lines[i].p2.x, lines[i].p2.y), color2 ) );
+		}
 
-		t_line	tmp_line(sensor.m_line.p1, pos);
-		t_line	tmp_line2(pos, sensor.m_line.p2);
-
-		// drawLine(rwindow, tmp_line, LightBlue, LightBlue);
-		drawLine(rwindow, tmp_line, LightBlue, 5.0f);
-		drawLine(rwindow, tmp_line2, sf::Color::Red, 1.0f);
-
-		drawPoint(rwindow, pos, sf::Color::Yellow);
+		rwindow.draw(&(s_vertices[0]), s_vertices.size(), sf::Lines);
 	}
-}
 
+	void drawPoint(sf::RenderWindow& rwindow, const t_vec2f& point, const sf::Color& color)
+	{
+		float size = 10.0f;
+		sf::Vertex vertices[] = {
+			sf::Vertex(sf::Vector2f(point.x - size, point.y - size), color),
+			sf::Vertex(sf::Vector2f(point.x + size, point.y + size), color),
+			sf::Vertex(sf::Vector2f(point.x + size, point.y - size), color),
+			sf::Vertex(sf::Vector2f(point.x - size, point.y + size), color)
+		};
+
+		rwindow.draw(vertices, 4, sf::Lines);
+	}
+
+	void drawCar(sf::RenderWindow& rwindow, const Car& car, const sf::Color& color, bool render_sensors)
+	{
+		const t_vec2f& position = car.getPosition();
+		float angle = car.getAngle();
+
+		float size_h = 25.0f;
+		float size_v = 12.5f;
+
+		t_vec2f	positions[4] = {
+			t_vec2f(position.x - size_h, position.y - size_v),
+			t_vec2f(position.x + size_h, position.y - size_v),
+			t_vec2f(position.x + size_h, position.y + size_v),
+			t_vec2f(position.x - size_h, position.y + size_v)
+		};
+
+		for (int i = 0; i < 4; ++i)
+			positions[i] = rotateVec2(positions[i], position, angle);
+
+		sf::Color col = (car.isAlive() ? color : sf::Color::Red);
+
+		sf::Vertex p1(sf::Vector2f(positions[0].x, positions[0].y), col);
+		sf::Vertex p2(sf::Vector2f(positions[1].x, positions[1].y), col);
+		sf::Vertex p3(sf::Vector2f(positions[2].x, positions[2].y), col);
+		sf::Vertex p4(sf::Vector2f(positions[3].x, positions[3].y), col);
+
+		sf::Vertex vertices[] = { p1,p2, p2,p3, p3,p4, p4,p1 };
+
+		glLineWidth(5.0f);
+
+		rwindow.draw(vertices, 8, sf::Lines);
+
+		glLineWidth(1.0f);
+
+		///
+
+		if (!car.isAlive() || !render_sensors)
+			return;
+
+		const Car::t_sensors&	sensors = car.getSensors();
+
+		for (Car::t_sensor sensor : sensors)
+		{
+			sf::Color	LightBlue(128,128,255);
+			// drawLine(rwindow, sensor.m_line, LightBlue, LightBlue);
+
+			t_vec2f	pos;
+			pos.x = sensor.m_line.p1.x + (sensor.m_line.p2.x - sensor.m_line.p1.x) * sensor.m_value;
+			pos.y = sensor.m_line.p1.y + (sensor.m_line.p2.y - sensor.m_line.p1.y) * sensor.m_value;
+
+			t_line	tmp_line(sensor.m_line.p1, pos);
+			t_line	tmp_line2(pos, sensor.m_line.p2);
+
+			// drawLine(rwindow, tmp_line, LightBlue, LightBlue);
+			drawLine(rwindow, tmp_line, LightBlue, 5.0f);
+			drawLine(rwindow, tmp_line2, sf::Color::Red, 1.0f);
+
+			drawPoint(rwindow, pos, sf::Color::Yellow);
+		}
+	}
+
+}; // namespace
 
 
 
@@ -207,7 +209,7 @@ void	RendererSFML::run(std::function<void()> simulation_callback)
 		int iteration_nbr = 3;
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-			iteration_nbr = 90;
+			iteration_nbr = 290;
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 			iteration_nbr = 1;
 
@@ -359,7 +361,7 @@ void	RendererSFML::run(std::function<void()> simulation_callback)
 
 							float wvalue = genome.m_weights[windex++];
 
-							float ratio = wvalue * 10;
+							float ratio = wvalue * 5;
 							if (ratio < 0)  ratio = -ratio;
 							if (ratio < 1)  ratio = 1;
 
