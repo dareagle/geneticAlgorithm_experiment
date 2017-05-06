@@ -4,11 +4,15 @@
 A simple introduction to how genetic algorithm works.
 
 
-== Live demo 2D
+== Online demo 2D
 
 link:http://guillaumebouchetepitech.github.io/geneticAlgorithm_experiment/carDemo/src_html/index.html
 
-== Live demo 3D (Prototype!)
+== Online demo 3D (C++ emscripten - new and fast)
+
+http://guillaumebouchetepitech.github.io/geneticAlgorithm_experiment/emscripten/bullet/index.html
+
+== Online demo 3D (Pure Javascript - old and slow)
 
 http://guillaumebouchetepitech.github.io/geneticAlgorithm_experiment/canonjsDemo/index.html
 
