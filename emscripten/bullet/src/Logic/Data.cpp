@@ -51,11 +51,11 @@ Data::Data()
 	(in_container).push_back( (in_z) );
 
 	// centered on 0
-	D_PUSH_POINT(m_arr_skelton_left, -5, -5, 0); D_PUSH_POINT(m_arr_skelton_right, -5, 5, 0);
+	D_PUSH_POINT(m_arr_skelton_left, -5, -5, 1); D_PUSH_POINT(m_arr_skelton_right, -5,  5, 1);
 
 	// forward (x)
-	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 0); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 0);
-	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 0); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 0);
+	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 1); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 1);
+	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 1); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 1);
 
 
 	/**/
@@ -63,17 +63,17 @@ Data::Data()
 	//
 	// first curve
 
-	D_PUSH_POINT(m_arr_skelton_left, 20,-15, 0); D_PUSH_POINT(m_arr_skelton_right, 20,-15, 0);
-	D_PUSH_POINT(m_arr_skelton_left, 20, 15, 0); D_PUSH_POINT(m_arr_skelton_right, 20, 15, 0);
-	D_PUSH_POINT(m_arr_skelton_left, 20, 15, 0); D_PUSH_POINT(m_arr_skelton_right, 20, 15, 0);
-	D_PUSH_POINT(m_arr_skelton_left, 20,-15, 0); D_PUSH_POINT(m_arr_skelton_right, 20,-15, 0);
+	D_PUSH_POINT(m_arr_skelton_left, 20,-15, 1); D_PUSH_POINT(m_arr_skelton_right, 20,-15, 1);
+	D_PUSH_POINT(m_arr_skelton_left, 20, 15, 1); D_PUSH_POINT(m_arr_skelton_right, 20, 15, 1);
+	D_PUSH_POINT(m_arr_skelton_left, 20, 15, 1); D_PUSH_POINT(m_arr_skelton_right, 20, 15, 1);
+	D_PUSH_POINT(m_arr_skelton_left, 20,-15, 1); D_PUSH_POINT(m_arr_skelton_right, 20,-15, 1);
 
 	// first curve
 	//
 
 	// forward (x)
-	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 0); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 0);
-	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 0); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 0);
+	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 1); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 1);
+	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 1); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 1);
 
 	//*/
 
@@ -83,44 +83,44 @@ Data::Data()
 	// start of the first "maze"
 
 	// turn right
-	D_PUSH_POINT(m_arr_skelton_left,  5, -5, 0); D_PUSH_POINT(m_arr_skelton_right, 15,-15, 0);
+	D_PUSH_POINT(m_arr_skelton_left,  5, -5, 1); D_PUSH_POINT(m_arr_skelton_right, 15,-15, 1);
 
 	// forward (-y)
-	D_PUSH_POINT(m_arr_skelton_left,  0,-10, 0); D_PUSH_POINT(m_arr_skelton_right,  0,-10, 0);
-	D_PUSH_POINT(m_arr_skelton_left,  0,-10, 0); D_PUSH_POINT(m_arr_skelton_right,  0,-10, 0);
+	D_PUSH_POINT(m_arr_skelton_left,  0,-10, 1); D_PUSH_POINT(m_arr_skelton_right,  0,-10, 1);
+	D_PUSH_POINT(m_arr_skelton_left,  0,-10, 1); D_PUSH_POINT(m_arr_skelton_right,  0,-10, 1);
 
 	// turn left
-	D_PUSH_POINT(m_arr_skelton_left, 15,-15, 0); D_PUSH_POINT(m_arr_skelton_right,  5, -5, 0);
+	D_PUSH_POINT(m_arr_skelton_left, 15,-15, 1); D_PUSH_POINT(m_arr_skelton_right,  5, -5, 1);
 
 	// forward (x)
-	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 0); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 0);
+	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 1); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 1);
 
 	// turn left
-	D_PUSH_POINT(m_arr_skelton_left, 15, 15, 0); D_PUSH_POINT(m_arr_skelton_right,  5,  5, 0);
+	D_PUSH_POINT(m_arr_skelton_left, 15, 15, 1); D_PUSH_POINT(m_arr_skelton_right,  5,  5, 1);
 
 	// forward (y)
-	D_PUSH_POINT(m_arr_skelton_left,  0, 30, 0); D_PUSH_POINT(m_arr_skelton_right,  0, 30, 0);
-	D_PUSH_POINT(m_arr_skelton_left,  0, 30, 0); D_PUSH_POINT(m_arr_skelton_right,  0, 30, 0);
+	D_PUSH_POINT(m_arr_skelton_left,  0, 30, 1); D_PUSH_POINT(m_arr_skelton_right,  0, 30, 1);
+	D_PUSH_POINT(m_arr_skelton_left,  0, 30, 1); D_PUSH_POINT(m_arr_skelton_right,  0, 30, 1);
 
 	// turn right
-	D_PUSH_POINT(m_arr_skelton_left,  5,  5, 0); D_PUSH_POINT(m_arr_skelton_right, 15, 15, 0);
+	D_PUSH_POINT(m_arr_skelton_left,  5,  5, 1); D_PUSH_POINT(m_arr_skelton_right, 15, 15, 1);
 
 	// forward (x)
-	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 0); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 0);
+	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 1); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 1);
 
 	// turn right
-	D_PUSH_POINT(m_arr_skelton_left,  5, -5, 0); D_PUSH_POINT(m_arr_skelton_right, 15,-15, 0);
+	D_PUSH_POINT(m_arr_skelton_left,  5, -5, 1); D_PUSH_POINT(m_arr_skelton_right, 15,-15, 1);
 
 	// forward (-y)
-	D_PUSH_POINT(m_arr_skelton_left,  0,-10, 0); D_PUSH_POINT(m_arr_skelton_right,  0,-10, 0);
-	D_PUSH_POINT(m_arr_skelton_left,  0,-10, 0); D_PUSH_POINT(m_arr_skelton_right,  0,-10, 0);
+	D_PUSH_POINT(m_arr_skelton_left,  0,-10, 1); D_PUSH_POINT(m_arr_skelton_right,  0,-10, 1);
+	D_PUSH_POINT(m_arr_skelton_left,  0,-10, 1); D_PUSH_POINT(m_arr_skelton_right,  0,-10, 1);
 
 	// turn left
-	D_PUSH_POINT(m_arr_skelton_left, 15,-15, 0); D_PUSH_POINT(m_arr_skelton_right,  5, -5, 0);
+	D_PUSH_POINT(m_arr_skelton_left, 15,-15, 1); D_PUSH_POINT(m_arr_skelton_right,  5, -5, 1);
 
 	// forward (x)
-	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 0); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 0);
-	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 0); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 0);
+	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 1); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 1);
+	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 1); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 1);
 
 	// start of the first "maze"
 	//
@@ -132,7 +132,7 @@ Data::Data()
 	//
 	// looping
 
-	D_PUSH_POINT(m_arr_skelton_left,+40,  0, 0); D_PUSH_POINT(m_arr_skelton_right,+40,  0, 0);
+	D_PUSH_POINT(m_arr_skelton_left,+40,  0, 1); D_PUSH_POINT(m_arr_skelton_right,+40,  0, 1);
 	D_PUSH_POINT(m_arr_skelton_left,+40,  0,40); D_PUSH_POINT(m_arr_skelton_right,+40,  0,40);
 	D_PUSH_POINT(m_arr_skelton_left,-40,  5,40); D_PUSH_POINT(m_arr_skelton_right,-40,  5,40);
 	D_PUSH_POINT(m_arr_skelton_left,-40,  5,-40); D_PUSH_POINT(m_arr_skelton_right,-40,  5,-40);
@@ -146,7 +146,7 @@ Data::Data()
 
 	/**/
 
-	{ // wheels
+	{ // road wheels
 
         float pente = 7;
 
@@ -186,30 +186,9 @@ Data::Data()
 
         D_PUSH_POINT(m_arr_skelton_left, 30,0,0); D_PUSH_POINT(m_arr_skelton_right, 30,0,-pente);
 
-    } // wheels
+    } // road wheels
 
     //*/
-
-
-	// // turn left
-	// D_PUSH_POINT(m_arr_skelton_left,-15, 15, 0); D_PUSH_POINT(m_arr_skelton_right, -5,  5, 0);
-
-	// // forward (-x)
-	// D_PUSH_POINT(m_arr_skelton_left,-40,  0, 0); D_PUSH_POINT(m_arr_skelton_right,-40,  0, 0);
-	// D_PUSH_POINT(m_arr_skelton_left,-20,  0, 0); D_PUSH_POINT(m_arr_skelton_right,-20,  0, 0);
-	// D_PUSH_POINT(m_arr_skelton_left,-20,  0, 0); D_PUSH_POINT(m_arr_skelton_right,-20,  0, 0);
-
-	// // looping
-	// D_PUSH_POINT(m_arr_skelton_left,-40,  0, 0); D_PUSH_POINT(m_arr_skelton_right,-40,  0, 0);
-	// D_PUSH_POINT(m_arr_skelton_left,-40,  0,40); D_PUSH_POINT(m_arr_skelton_right,-40,  0,40);
-	// D_PUSH_POINT(m_arr_skelton_left,+40,  5,40); D_PUSH_POINT(m_arr_skelton_right,+40,  5,40);
-	// D_PUSH_POINT(m_arr_skelton_left,+40,  5,-40); D_PUSH_POINT(m_arr_skelton_right,+40,  5,-40);
-	// D_PUSH_POINT(m_arr_skelton_left,-40,  5,-40); D_PUSH_POINT(m_arr_skelton_right,-40,  5,-40);
-	// D_PUSH_POINT(m_arr_skelton_left,-40,  0, 0); D_PUSH_POINT(m_arr_skelton_right,-40,  0, 0);
-
-	// // forward (-x)
-	// D_PUSH_POINT(m_arr_skelton_left,-20,  0, 0); D_PUSH_POINT(m_arr_skelton_right,-20,  0, 0);
-	// D_PUSH_POINT(m_arr_skelton_left,-20,  0, 0); D_PUSH_POINT(m_arr_skelton_right,-20,  0, 0);
 
 #undef D_PUSH_POINT
 
@@ -261,44 +240,16 @@ Data::Data()
 	//
 	// experimental
 
+#define D_PUSH_VERTEX(container, v1,v2,v3, c1,c2,c3)	\
+	(container).push_back(v1);	\
+	(container).push_back(v2);	\
+	(container).push_back(v3);	\
+	(container).push_back(c1);	\
+	(container).push_back(c2);	\
+	(container).push_back(c3);	\
 
 	m_ShaderColor.initialise();
 	GeometryColor::initialise(&m_ShaderColor);
-
-	{
-		std::vector<float>	buffer;
-		buffer.reserve(3*6);
-
-		// position 1
-		buffer.push_back(0.0f);
-		buffer.push_back(0.5f);
-		buffer.push_back(0.0f);
-		// color: red
-		buffer.push_back(1.0f);
-		buffer.push_back(0.0f);
-		buffer.push_back(0.0f);
-
-		// position 2
-		buffer.push_back(-0.5f);
-		buffer.push_back(-0.5f);
-		buffer.push_back(0.0f);
-		// color: green
-		buffer.push_back(0.0f);
-		buffer.push_back(1.0f);
-		buffer.push_back(0.0f);
-
-		// position 3
-		buffer.push_back(0.5f);
-		buffer.push_back(-0.5f);
-		buffer.push_back(0.0f);
-		// color: blue
-		buffer.push_back(0.0f);
-		buffer.push_back(0.0f);
-		buffer.push_back(1.0f);
-
-		m_GeometryColor.initialise();
-		m_GeometryColor.update(&buffer[0], buffer.size() * sizeof(float));
-	}
 
 	{
 		std::vector<float>	buffer;
@@ -337,19 +288,8 @@ Data::Data()
         {
             int curr_index = indices[i] * 3;
 
-            for (int j = 0; j < 3; ++j)
-                buffer.push_back( vertices[curr_index + j] );
-
-            buffer.push_back( 1.0f );
-            buffer.push_back( 0.0f );
-            buffer.push_back( 0.0f );
-
-            for (int j = 0; j < 3; ++j)
-                buffer2.push_back( vertices[curr_index + j] );
-
-            buffer2.push_back( 1.0f );
-            buffer2.push_back( 1.0f );
-            buffer2.push_back( 1.0f );
+            D_PUSH_VERTEX(buffer, vertices[curr_index+0],vertices[curr_index+1],vertices[curr_index+2], 1,0,0);
+            D_PUSH_VERTEX(buffer2, vertices[curr_index+0],vertices[curr_index+1],vertices[curr_index+2], 1,1,1);
         }
 
 		m_GeometryColor_chassis.initialise();
@@ -413,7 +353,10 @@ Data::Data()
 
         // inter wheels
         // for (int i = 0; i < quality; ++i)
-        //     indices.push_back(i, quality+i);
+        // {
+        //     indices.push_back(i);
+        //     indices.push_back(quality+i);
+        // }
         indices.push_back(0);
         indices.push_back(quality);
 
@@ -423,12 +366,7 @@ Data::Data()
         {
             int curr_index = indices[i] * 3;
 
-            for (int j = 0; j < 3; ++j)
-                buffer.push_back( vertices[curr_index + j] );
-
-            buffer.push_back(1);
-            buffer.push_back(1);
-            buffer.push_back(0);
+            D_PUSH_VERTEX(buffer, vertices[curr_index+0],vertices[curr_index+1],vertices[curr_index+2], 1,1,0);
         }
 
 		m_GeometryColor_wheel.initialise();
@@ -441,64 +379,30 @@ Data::Data()
 
         for (int index = 0; index < points1_ex.size(); index += 3)
         {
-            // var vertex1 = points_ex[index];
-            // var vertex2 = points2_ex[index];
+            D_PUSH_VERTEX(buffer, points1_ex[index+0],points1_ex[index+1],points1_ex[index+2], 0.5,0.5,0.5);
+            D_PUSH_VERTEX(buffer, points2_ex[index+0],points2_ex[index+1],points2_ex[index+2], 0.5,0.5,0.5);
 
-            // var v1 = [ lerp(vertex1[0], vertex2[0], -0.5), lerp(vertex1[1], vertex2[1], -0.5), lerp(vertex1[2], vertex2[2], -0.5) ];
-            // var v2 = [ lerp(vertex1[0], vertex2[0], +1.5), lerp(vertex1[1], vertex2[1], +1.5), lerp(vertex1[2], vertex2[2], +1.5) ];
-            // geom_vertices.push(v1[0], v1[1], v1[2], 1,1,1);
-            // geom_vertices.push(v2[0], v2[1], v2[2], 1,1,1);
+            D_PUSH_VERTEX(buffer, points1_ex[index+0],points1_ex[index+1],0, 0.5,0.5,0.5);
+            D_PUSH_VERTEX(buffer, points2_ex[index+0],points2_ex[index+1],0, 0.5,0.5,0.5);
 
-			buffer.push_back(points1_ex[index+0]);
-			buffer.push_back(points1_ex[index+1]);
-			buffer.push_back(points1_ex[index+2]);
+            D_PUSH_VERTEX(buffer, points1_ex[index+0],points1_ex[index+1],points1_ex[index+2], 0.5,0.5,0.5);
+            D_PUSH_VERTEX(buffer, points1_ex[index+0],points1_ex[index+1],0, 0.5,0.5,0.5);
 
-			buffer.push_back(1);
-			buffer.push_back(1);
-			buffer.push_back(1);
+            D_PUSH_VERTEX(buffer, points2_ex[index+0],points2_ex[index+1],points2_ex[index+2], 0.5,0.5,0.5);
+            D_PUSH_VERTEX(buffer, points2_ex[index+0],points2_ex[index+1],0, 0.5,0.5,0.5);
 
-			buffer.push_back(points2_ex[index+0]);
-			buffer.push_back(points2_ex[index+1]);
-			buffer.push_back(points2_ex[index+2]);
+	        if (index >= 3)
+	        {
+	            D_PUSH_VERTEX(buffer, points1_ex[index-3+0],points1_ex[index-3+1],points1_ex[index-3+2], 0.5,0.5,0.5);
+	            D_PUSH_VERTEX(buffer, points1_ex[index+0],points1_ex[index+1],points1_ex[index+2], 0.5,0.5,0.5);
+	            D_PUSH_VERTEX(buffer, points2_ex[index-3+0],points2_ex[index-3+1],points2_ex[index-3+2], 0.5,0.5,0.5);
+	            D_PUSH_VERTEX(buffer, points2_ex[index+0],points2_ex[index+1],points2_ex[index+2], 0.5,0.5,0.5);
 
-			buffer.push_back(1);
-			buffer.push_back(1);
-			buffer.push_back(1);
-
-            if (index >= 3)
-            {
-				buffer.push_back(points1_ex[index-3+0]);
-				buffer.push_back(points1_ex[index-3+1]);
-				buffer.push_back(points1_ex[index-3+2]);
-
-				buffer.push_back(1);
-				buffer.push_back(1);
-				buffer.push_back(1);
-
-				buffer.push_back(points1_ex[index+0]);
-				buffer.push_back(points1_ex[index+1]);
-				buffer.push_back(points1_ex[index+2]);
-
-				buffer.push_back(1);
-				buffer.push_back(1);
-				buffer.push_back(1);
-
-				buffer.push_back(points2_ex[index-3+0]);
-				buffer.push_back(points2_ex[index-3+1]);
-				buffer.push_back(points2_ex[index-3+2]);
-
-				buffer.push_back(1);
-				buffer.push_back(1);
-				buffer.push_back(1);
-
-				buffer.push_back(points2_ex[index+0]);
-				buffer.push_back(points2_ex[index+1]);
-				buffer.push_back(points2_ex[index+2]);
-
-				buffer.push_back(1);
-				buffer.push_back(1);
-				buffer.push_back(1);
-            }
+	            D_PUSH_VERTEX(buffer, points1_ex[index-3+0],points1_ex[index-3+1],0, 0.5,0.5,0.5);
+	            D_PUSH_VERTEX(buffer, points1_ex[index+0],points1_ex[index+1],0, 0.5,0.5,0.5);
+	            D_PUSH_VERTEX(buffer, points2_ex[index-3+0],points2_ex[index-3+1],0, 0.5,0.5,0.5);
+	            D_PUSH_VERTEX(buffer, points2_ex[index+0],points2_ex[index+1],0, 0.5,0.5,0.5);
+	        }
         }
 
 		m_GeometryColor_circuit_skelton.initialise();
@@ -506,6 +410,8 @@ Data::Data()
 	}
 
 	m_StackRenderer.create();
+
+#undef D_PUSH_VERTEX
 
 	// /experimental
 	//
@@ -570,7 +476,6 @@ void	Data::initialise()
 
 				if (ground)
 				{
-					// if (ii + 3 < indices.size())
 					if (index == 0 ||
 						index == 3)
 					{

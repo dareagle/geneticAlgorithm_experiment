@@ -78,7 +78,7 @@ public:
 	// experimental
 
 	ShaderColor		m_ShaderColor;
-	GeometryColor	m_GeometryColor;
+
 	GeometryColor	m_GeometryColor_chassis;
 	GeometryColor	m_GeometryColor_chassis_dead;
 	GeometryColor	m_GeometryColor_wheel;
