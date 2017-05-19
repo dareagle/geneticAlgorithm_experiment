@@ -132,10 +132,52 @@
       <progress value="0" max="100" id="progress" hidden=1></progress>
     </div>
 
-    
-    <div class="emscripten_border">
-      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
-    </div>
+
+    <table>
+
+      <tr>
+        <td>
+          <div class="emscripten_border">
+            <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+          </div>
+        </td>
+        <td>
+          <h1>Artificial Intelligence</h1>
+          <h2>Self Learning 3D Cars Using A Genetic Algorithm</h2>
+
+          <p><a href="https://github.com/GuillaumeBouchetEpitech/geneticAlgorithm_experiment/tree/master/emscripten/bullet">Source code</a></p>
+
+          <h2>Note</h2>
+          <p>The 'success' of the AI is quite random, which mean that sometime <b>you might want to reload this page</b> and hope for a smarter AI.</p>
+
+          <h2>FAQ:</h2>
+          <p>
+            <u>Camera controls?</u> <i>Just use the "arrows or WASD or ZQSD"</i><br/>
+
+            <u>What are the white strips on the circuit?</u> <i>The checkpoints used to reward the cars, +1 point per checkpoint.</i><br/>
+
+            <u>What are the green lines on the leading car?</u> <i>The car's sensors, the "eye" of the car, it hit the ground and the "walls".</i><br/>
+
+            <u>What is the red line on the leading car?</u> <i>The car's "ground sensor", it help reward the car when passing checkpoints.</i><br/>
+
+            <u>What are the white/grey lines alongside the circuit?</u> <i>The skelton used to build the circuit, interpolated with a BSpline.</i><br/>
+          </p>
+
+          <h2>Technology</h2>
+          <p><u>This project:</u></p>
+          <ul>
+            <li>is develloped in C++.</li>
+            <li>use Bullet for the physic.</li>
+            <li>use OpenGL-ES/WebGL for the rendering.</li>
+            <li>use the emscripten compiler (C++ to JavaScript).</li>
+            <li>was created on a Linux OS (BUT Windows is doable).</li>
+          </ul>
+        </td>
+      </tr>
+
+    </table>
+
+
     <textarea id="output" rows="8"></textarea>
 
     <script type='text/javascript'>
