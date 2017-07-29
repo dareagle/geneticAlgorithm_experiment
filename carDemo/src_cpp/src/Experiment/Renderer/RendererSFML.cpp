@@ -361,7 +361,7 @@ void	RendererSFML::run(std::function<void()> simulation_callback)
 
 							float wvalue = genome.m_weights[windex++];
 
-							float ratio = wvalue * 5;
+							float ratio = wvalue * 10;
 							if (ratio < 0)  ratio = -ratio;
 							if (ratio < 1)  ratio = 1;
 
