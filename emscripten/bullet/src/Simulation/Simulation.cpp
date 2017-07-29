@@ -20,7 +20,8 @@ void	Simulation::initialise(
 	m_Circuit.initialise(m_pPhysicWrapper, arr_left, arr_right, callback);
 
 	std::vector<unsigned int> tmp_hidden;
-	tmp_hidden.push_back(3);
+	tmp_hidden.push_back(10);
+	// tmp_hidden.push_back(5);
 	m_NNTopology.init(15, tmp_hidden, 2);
 
 	m_GenAlgo.init(m_NNTopology);
@@ -37,9 +38,9 @@ void	Simulation::initialise(
 
 }
 
-void	Simulation::update()
+void	Simulation::update(float elapsed_time)
 {
-	m_pPhysicWrapper->step();
+	m_pPhysicWrapper->step(elapsed_time);
 
 	bool	someone_is_alive = false;
 

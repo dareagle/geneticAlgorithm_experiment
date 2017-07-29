@@ -40,7 +40,7 @@ public:
 	);
 
 public:
-	void	update();
+	void	update(float elapsed_time);
 
 public:
 	const std::vector<Car>&	getCars() const { return m_Cars; }
