@@ -7,15 +7,7 @@
 #include <stdexcept>
 
 
-
-NeuralNetworkTopology::NeuralNetworkTopology()
-	:	m_input(0),
-		m_output(0),
-		m_totalWeights(0)
-{
-}
-
-void	NeuralNetworkTopology::init(unsigned int input, const t_hidden_layers& hiddens, unsigned int output)
+void	NeuralNetworkTopology::init(unsigned int input, const t_hidden_layers& hiddens, unsigned int output, bool useBias /*= true*/)
 {
 	if (!input)
 		throw std::invalid_argument( "received invalid number of inputs" );
@@ -35,16 +27,29 @@ void	NeuralNetworkTopology::init(unsigned int input, const t_hidden_layers& hidd
 	m_input = input;
 	m_output = output;
 	m_hiddens = hiddens;
+	m_useBias = useBias;
 
 	//
 
-	unsigned int prev_layer_num_neuron = input;
-	for (unsigned int num_neuron : hiddens)
+	if (m_useBias)
+	{
+ 		// bias neuron on the input
+ 		++m_input;
+
+ 		// bias neuron on the hidden
+		for (unsigned int& num_neuron : m_hiddens)
+			++num_neuron;
+	}
+
+	//
+
+	unsigned int prev_layer_num_neuron = m_input;
+	for (unsigned int num_neuron : m_hiddens)
 	{
 		m_totalWeights += prev_layer_num_neuron * num_neuron;
 		prev_layer_num_neuron = num_neuron;
 	}
-	m_totalWeights += prev_layer_num_neuron * output;
+	m_totalWeights += prev_layer_num_neuron * m_output;
 }
 
 bool NeuralNetworkTopology::isValid() const

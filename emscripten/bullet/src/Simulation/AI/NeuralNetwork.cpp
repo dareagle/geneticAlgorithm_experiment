@@ -58,22 +58,31 @@ void NeuralNetwork::process(const std::vector<float>& input, std::vector<float>&
 
 		for (unsigned int i = 0; i < current_layer.size(); i++)
 		{
-			float activation = 0.0f;
+			auto&& curr_neuron = current_layer[i];
+
+			// We do the sizeof the weights - 1 so that we can add in the bias to the activation afterwards.
+
+			unsigned int hidden_input_size = hidden_input.size();
+			if (m_topology.isUsingBias())
+				--hidden_input_size;
 
 			// Sum the weights to the activation value.
-			// We do the sizeof the weights - 1 so that we can add in the bias to the 
-			// activation afterwards.
-			for (unsigned int j = 0; j < hidden_input.size(); j++)
-				activation += hidden_input[j] * current_layer[i].m_weights[j];
 
-			// // Add the bias, it will act as a threshold value
-			// activation += (-1) * current_layer[i].m_weights[ (hidden_input.size()-1) ];
+			float activation = 0.0f;
+			for (unsigned int j = 0; j < hidden_input_size; j++)
+				activation += hidden_input[j] * curr_neuron.m_weights[j];
+
+			// Add the bias, it will act as a threshold value
+
+			if (m_topology.isUsingBias())
+				activation += (-1) * curr_neuron.m_weights[ hidden_input_size ];
 
 			// hidden_output.push_back( sigmoid(activation, 1.0f) );
 			hidden_output.push_back( activation );
 		}
 
-		hidden_input = hidden_output;
+		// hidden_input = hidden_output;
+		hidden_input = std::move(hidden_output);
 	}
 
 	// process hidden layer
@@ -85,16 +94,24 @@ void NeuralNetwork::process(const std::vector<float>& input, std::vector<float>&
 	// Cycle over all the neurons and sum their weights against the inputs.
 	for (unsigned int i = 0; i < m_layerOutput.size(); i++)
 	{
-		float activation = 0.0f;
+		auto&& curr_neuron = m_layerOutput[i];
+
+		// We do the sizeof the weights - 1 so that we can add in the bias to the activation afterwards.
+
+		unsigned int hidden_input_size = hidden_input.size();
+		if (m_topology.isUsingBias())
+			--hidden_input_size;
 
 		// Sum the weights to the activation value.
-		// We do the sizeof the weights - 1 so that we can add in the bias to the 
-		// activation afterwards.
-		for (unsigned int j = 0; j < hidden_input.size(); j++)
-			activation += hidden_input[j] * m_layerOutput[i].m_weights[j];
 
-		// // Add the bias, it will act as a threshold value
-		// activation += (-1) * m_layerOutput[i].m_weights[ (hidden_output.size() - 1) ];
+		float activation = 0.0f;
+		for (unsigned int j = 0; j < hidden_input_size; j++)
+			activation += hidden_input[j] * curr_neuron.m_weights[j];
+
+		// Add the bias, it will act as a threshold value
+
+		if (m_topology.isUsingBias())
+			activation += (-1) * curr_neuron.m_weights[ hidden_input_size ];
 
 		// output.push_back( sigmoid(activation, 1.0f) );
 		output.push_back( activation );
@@ -107,11 +124,7 @@ void NeuralNetwork::process(const std::vector<float>& input, std::vector<float>&
 void NeuralNetwork::setWeights(const std::vector<float>& in_weights)
 {
 	if (in_weights.size() != m_topology.getTotalWeights())
-	{
-		// TODO : to remove
-		std::cout << in_weights.size() << "/" << m_topology.getTotalWeights() << std::endl;
 	    throw std::invalid_argument( "received invalid number of weights" );
-	}
 
 	unsigned int weights_inc = 0;
 
@@ -127,6 +140,7 @@ void NeuralNetwork::setWeights(const std::vector<float>& in_weights)
 
 void NeuralNetwork::getWeights(std::vector<float>& out_weights) const
 {
+	out_weights.clear();
 	out_weights.reserve( m_topology.getTotalWeights() );
 
 	for (const t_layer& layer : m_layerHidden)
@@ -138,5 +152,7 @@ void NeuralNetwork::getWeights(std::vector<float>& out_weights) const
 		for (const float weight : neuron.m_weights)
 			out_weights.push_back( weight );
 }
+
+
 
 
