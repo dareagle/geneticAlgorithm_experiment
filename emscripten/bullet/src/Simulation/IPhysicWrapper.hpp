@@ -19,7 +19,7 @@ public: // to override
 	//
 	// world
 
-	virtual void	step() = 0;
+	virtual void	step(float elapsed_time) = 0;
 
 	//
 	//
