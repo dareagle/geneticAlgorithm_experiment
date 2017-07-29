@@ -6,9 +6,11 @@
 // #include "../utils/TraceLogger.hpp"
 #include "Utility/randomiser.hpp"
 
+#include "../Utility/TraceLogger.hpp"
 
-#include <ctime> // <- time
-#include <iostream>
+
+#include <ctime> // <= time(NULL)
+// #include <iostream>
 
 
 GeneticAlgorithm::GeneticAlgorithm()
@@ -74,7 +76,7 @@ void	GeneticAlgorithm::BreedPopulation()
 		return;
 
 	std::vector<t_genome>	bestGenomes;
-	getBestGenomes(6, bestGenomes);
+	getBestGenomes(5, bestGenomes);
 
 	std::vector<t_genome>	children;
 	children.reserve( m_genomes.size() );
@@ -87,10 +89,9 @@ void	GeneticAlgorithm::BreedPopulation()
 		// D_MYLOG("m_current_generation=" << m_current_generation
 		// 	<< std::fixed << ", m_best_fitness=" << m_best_fitness);
 
-		std::cout
-			<< "m_current_generation=" << m_current_generation
-			<< std::fixed << ", m_best_fitness=" << m_best_fitness
-			<< std::endl;
+		D_MYLOG(
+			"m_current_generation=" << m_current_generation
+			<< std::fixed << ", m_best_fitness=" << m_best_fitness);
 
 		m_is_a_great_generation = true;
 	}
@@ -105,6 +106,14 @@ void	GeneticAlgorithm::BreedPopulation()
 	if (m_best_fitness > m_alpha_genome.m_fitness)
 	{
 		m_alpha_genome = bestGenomes[0];
+
+#ifdef D_MYLOG
+		std::stringstream	sstr;
+		for (auto weight : m_alpha_genome.m_weights)
+			sstr << weight << " ";
+		std::string str = sstr.str();
+		D_MYLOG(str);
+#endif
 	}
 	else if (m_alpha_genome.m_id != -1)
 	{
@@ -116,8 +125,9 @@ void	GeneticAlgorithm::BreedPopulation()
 		bestDude.m_weights = m_alpha_genome.m_weights;
 		bestDude.m_index = current_index++;
 
-		mutate(bestDude);
+		// mutate(bestDude);
 		children.push_back(bestDude);
+		bestGenomes.push_back(bestDude);
 	}
 
 
@@ -250,7 +260,7 @@ void	GeneticAlgorithm::mutate(t_genome& genome) const
 	for (float& weight : genome.m_weights)
 		if (randomFloat() < 0.1f)
 		{
-			weight += (randomClamped() * 0.2f);
+			weight += (randomClamped() * 0.1f);
 
 			++total_mutated;
 		}
