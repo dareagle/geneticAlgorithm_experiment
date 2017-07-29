@@ -16,6 +16,7 @@ Simulation::Simulation(const std::string& filename)
 	m_Circuit.loadMap(filename);
 
 	std::vector<unsigned int> tmp_hidden;
+	// tmp_hidden.push_back(4);
 	tmp_hidden.push_back(3);
 	m_NNTopology.init(5, tmp_hidden, 2);
 
