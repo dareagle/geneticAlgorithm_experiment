@@ -81,7 +81,6 @@ void	Car::update(const NeuralNetwork& in_NN)
 
 
 
-	float step = 1.0f / 60.0f;
 
 	float steer_range = M_PI/8.0f;
 	float steer = leftTheta * steer_range;
@@ -105,9 +104,17 @@ void	Car::update(const NeuralNetwork& in_NN)
 
 	m_pPhysicWrapper->vehicle_getOpenGLMatrix(m_index, mat4x4);
 
-	m_trail.push_back(mat4x4[12]);
-	m_trail.push_back(mat4x4[13]);
-	m_trail.push_back(mat4x4[14]);
+	// m_trail.push_back(mat4x4[12]);
+	// m_trail.push_back(mat4x4[13]);
+	// m_trail.push_back(mat4x4[14]);
+
+	glm::mat4	tmp_mat = glm::make_mat4((float*)mat4x4);
+	tmp_mat = glm::translate(tmp_mat, glm::vec3(0.0f, 0.0f, 1.0f));
+	glm::vec4	tmp_pos = tmp_mat * glm::vec4(0, 0, 0, 1);
+
+	m_trail.push_back(tmp_pos.x);
+	m_trail.push_back(tmp_pos.y);
+	m_trail.push_back(tmp_pos.z);
 
 	// trail
 	//
