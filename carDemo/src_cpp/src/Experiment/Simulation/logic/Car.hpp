@@ -48,8 +48,8 @@ public: // methods
 
 private: // methods
 	void	updateSensors();
-	void	collideSensors(const Circuit& circuit);
-	void	collideCheckpoints(const Circuit& circuit);
+	void	collideSensors(const t_lines& walls);
+	void	collideCheckpoints(const t_lines& checkpoints);
 	void	collideWalls(const t_lines& walls);
 
 public: // setter/getter

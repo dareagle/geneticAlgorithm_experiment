@@ -50,8 +50,8 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 	// m_fitness += 0.01f;
 
 	this->updateSensors();
-	this->collideSensors(circuit);
-	this->collideCheckpoints(circuit);
+	this->collideSensors( circuit.getWalls() );
+	this->collideCheckpoints( circuit.getCheckpoints() );
 	this->collideWalls( circuit.getWalls() );
 
 	// return;
@@ -146,10 +146,8 @@ void	Car::updateSensors()
 	}
 }
 
-void	Car::collideSensors(const Circuit& circuit)
+void	Car::collideSensors(const t_lines& walls)
 {
-	const t_lines&	walls = circuit.getWalls();
-
 	for (t_sensor& sensor : m_sensors)
 	{
 		sensor.m_value = 1.0f;
@@ -164,11 +162,11 @@ void	Car::collideSensors(const Circuit& circuit)
 	}
 }
 
-void	Car::collideCheckpoints(const Circuit& circuit)
+void	Car::collideCheckpoints(const t_lines& checkpoints)
 {
-	if (m_current_checkpoint < circuit.getCheckpoints().size())
+	if (m_current_checkpoint < checkpoints.size())
 	{
-		auto& checkpoint = circuit.getCheckpoints()[m_current_checkpoint];
+		auto& checkpoint = checkpoints[m_current_checkpoint];
 		if (CollisionSegmentCercle(checkpoint.p1, checkpoint.p2, m_position, 5.0f))
 		{
 			m_min_updates = 50;
@@ -177,7 +175,7 @@ void	Car::collideCheckpoints(const Circuit& circuit)
 		}
 	}
 
-	if (m_current_checkpoint >= circuit.getCheckpoints().size())
+	if (m_current_checkpoint >= checkpoints.size())
 	{
 		// this line reward a faster car once the circuit is completed
 		m_fitness += (1000.0f / m_total_updates);
