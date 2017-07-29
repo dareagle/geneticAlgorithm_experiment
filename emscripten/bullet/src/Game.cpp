@@ -23,7 +23,15 @@ Game::Game()
 
 	m_pStage->setUpdateCallback([this](int deltaTime)
 	{
+#ifdef EMSCRIPTEN
+		EM_ASM(myFpsmeter.tickStart(););
+#endif
+
 		StateManager::get()->update(deltaTime);
+
+#ifdef EMSCRIPTEN
+		EM_ASM(myFpsmeter.tick(););
+#endif
 	});
 
 	m_pStage->setRenderCallback([this](const SDL_Surface& screen)

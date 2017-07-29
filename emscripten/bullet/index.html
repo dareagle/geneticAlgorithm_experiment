@@ -132,6 +132,7 @@
       <progress value="0" max="100" id="progress" hidden=1></progress>
     </div>
 
+    <div id="fpsmeter" style="position:absolute; left:0px; top:0px"></div>
 
     <table>
 
@@ -180,10 +181,18 @@
 
     <textarea id="output" rows="8"></textarea>
 
+    <script type="text/javascript" src="fpsmeter.js"></script>
+
     <script type='text/javascript'>
       var statusElement = document.getElementById('status');
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');
+
+      var myFpsmeter_elem = document.getElementById('fpsmeter');
+      var myFpsmeter = new window.FPSMeter(
+          myFpsmeter_elem,
+          window.FPSMeter.theme.transparent
+      );
 
       var Module = {
         preRun: [],
