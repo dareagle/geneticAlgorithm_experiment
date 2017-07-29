@@ -21,14 +21,35 @@ Vehicle::Vehicle(btDiscreteDynamicsWorld* pDynamicsWorld)
 	btVector3 wheelAxleCS(1,0,0);
 	float	wheelRadius = 0.5f;
 	float	wheelWidth = 0.2f;
-	btScalar suspensionRestLength(0.6);
 
-	float	wheelFriction = 1000;//BT_LARGE_FLOAT;
-	float	suspensionStiffness = 20.f;
-	float	suspensionDamping = 2.3f;
-	float	suspensionCompression = 4.4f;
-	float	rollInfluence = 0.1f;//1.0f;
+	/// The maximum length of the suspension (metres)
+	float	suspensionRestLength = 0.6f;
 
+	/// The maximum distance the suspension can be compressed (centimetres)
+	float	maxSuspensionTravelCm = 50.0f;
+
+	/// The coefficient of friction between the tyre and the ground.
+	/// Should be about 0.8 for realistic cars, but can increased for better handling.
+	/// Set large (10000.0) for kart racers
+	float	wheelFriction = 10000.0f;
+
+	/// The stiffness constant for the suspension. 10.0 - Offroad buggy, 50.0 - Sports car, 200.0 - F1 Car
+	float	suspensionStiffness = 50.f;
+
+	/// The damping coefficient for when the suspension is compressed. Set to k * 2.0 * btSqrt(m_suspensionStiffness) so k is proportional to critical damping.
+	/// k = 0.0 undamped & bouncy, k = 1.0 critical damping
+	/// 0.1 to 0.3 are good values
+	float	wheelsDampingCompression = 1.0f;
+
+	/// The damping coefficient for when the suspension is expanding. See the comments for m_wheelsDampingCompression for how to set k.
+	/// m_wheelsDampingRelaxation should be slightly larger than m_wheelsDampingCompression, eg 0.2 to 0.5
+	float	wheelsDampingRelaxation = 1.0f;
+
+	/// Reduces the rolling torque applied from the wheels that cause the vehicle to roll over.
+	/// This is a bit of a hack, but it's quite effective. 0.0 = no roll, 1.0 = physical behaviour.
+	/// If m_frictionSlip is too high, you'll need to reduce this to stop the vehicle rolling over.
+	/// You should also try lowering the vehicle's centre of mass
+	float	rollInfluence = 0.0f;
 
 	//
 	//
@@ -106,8 +127,8 @@ Vehicle::Vehicle(btDiscreteDynamicsWorld* pDynamicsWorld)
 		btWheelInfo&	wheel = m_pVehicle->getWheelInfo(i);
 
 		wheel.m_suspensionStiffness = suspensionStiffness;
-		wheel.m_wheelsDampingRelaxation = suspensionDamping;
-		wheel.m_wheelsDampingCompression = suspensionCompression;
+		wheel.m_wheelsDampingRelaxation = wheelsDampingRelaxation;
+		wheel.m_wheelsDampingCompression = wheelsDampingCompression;
 		wheel.m_frictionSlip = wheelFriction;
 		wheel.m_rollInfluence = rollInfluence;
 	}
