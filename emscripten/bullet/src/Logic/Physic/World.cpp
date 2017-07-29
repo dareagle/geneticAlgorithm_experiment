@@ -50,9 +50,10 @@ World::~World()
 	delete m_pBroadphase;
 }
 
-void	World::step()
+void	World::step(float elapsed_time)
 {
-	m_pDynamicsWorld->stepSimulation(1 / 60.f, 1);
+	int	maxSubSteps = 0; // <= elapsed_time MUST be constant if not using substeps
+	m_pDynamicsWorld->stepSimulation(elapsed_time, maxSubSteps);
 }
 
 void	World::setDebugDrawer(btIDebugDraw* pDebugDraw)

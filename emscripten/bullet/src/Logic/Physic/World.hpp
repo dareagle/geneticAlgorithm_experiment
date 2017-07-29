@@ -41,7 +41,7 @@ public:
 	// world
 
 public:
-	void	step();
+	void	step(float elapsed_time);
 	void	setDebugDrawer(btIDebugDraw* pDebugDraw);
 	void	debugDrawWorld();
 
