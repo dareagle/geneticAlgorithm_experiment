@@ -152,7 +152,7 @@ void	Circuit::initialise(
     //
     // generate circuit
 
-    int geometry_step = 6;
+    int geometry_step = 3;
 
 	float pPreviousNormal[3];
 
