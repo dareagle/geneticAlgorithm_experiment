@@ -40,6 +40,7 @@ PATH_GLM=		$(PATH_EXTERNAL)
 
 SRC=	$(wildcard	$(PATH_SRC)/*.cpp \
 					$(PATH_SRC)/States/*.cpp \
+					$(PATH_SRC)/Utility/*.cpp \
 					$(PATH_SRC)/Logic/*.cpp \
 					$(PATH_SRC)/Logic/Graphic/*.cpp \
 					$(PATH_SRC)/Logic/Physic/*.cpp \
