@@ -85,7 +85,8 @@ void	State_Main::update(int delta)
 
 		auto&	keys = Data::get()->m_input.keys;
 
-		Data::get()->m_simualtion_step = (keys[SDLK_SPACE] ? 30 : 1);
+		// Data::get()->m_simualtion_step = (keys[SDLK_SPACE] ? 30 : 1);
+		Data::get()->m_simualtion_step = (keys[SDLK_SPACE] ? 1 : 60);
 
 		if (keys[SDLK_LEFT] ||
 			keys[SDLK_a] ||
@@ -191,9 +192,7 @@ void	State_Main::update(int delta)
 
 	for (int i = 0; i < Data::get()->m_simualtion_step; ++i)
 	{
-		Data::get()->m_pSimulation->update();
-
-		// m_GeometryColor_trails
+		Data::get()->m_pSimulation->update(1.0f / 60); // <= MUST be constant
 	}
 }
 
@@ -275,6 +274,9 @@ void	State_Main::render(const SDL_Surface& screen)
 
 		for (unsigned int i = 0; i < PhysicWorld.getVehicleSize(); ++i)
 		{
+			if (!arr_Cars[i].isAlive())
+				continue;
+
 			auto*	pVehicle = PhysicWorld.getVehicle(i);
 
 			//
@@ -288,10 +290,10 @@ void	State_Main::render(const SDL_Surface& screen)
 
 				float*	pMatrix = glm::value_ptr(tmp_mat);
 
-				if (arr_Cars[i].isAlive())
+				// if (arr_Cars[i].isAlive())
 					Data::get()->m_GeometryColor_chassis.render(GL_LINES, pMatrix);
-				else
-					Data::get()->m_GeometryColor_chassis_dead.render(GL_LINES, pMatrix);
+				// else
+				// 	Data::get()->m_GeometryColor_chassis_dead.render(GL_LINES, pMatrix);
 			}
 
 			//
