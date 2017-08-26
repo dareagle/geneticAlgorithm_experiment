@@ -51,14 +51,124 @@ Data::Data()
 	(in_container).push_back( (in_z) );
 
 	// centered on 0
-	D_PUSH_POINT(m_arr_skelton_left, -5, -5, 1); D_PUSH_POINT(m_arr_skelton_right, -5,  5, 1);
+	// D_PUSH_POINT(m_arr_skelton_left, -5, -5, 1); D_PUSH_POINT(m_arr_skelton_right, -5,  5, 1);
+	D_PUSH_POINT(m_arr_skelton_left, -10, -5, 1); D_PUSH_POINT(m_arr_skelton_right, -10,  5, 1);
+
+	//*/
+
+    // D_PUSH_POINT(m_arr_skelton_left, 0,0,0); D_PUSH_POINT(m_arr_skelton_right, 0,10,0);
+    D_PUSH_POINT(m_arr_skelton_left, 90,0,0); D_PUSH_POINT(m_arr_skelton_right, 90,0,0);
+
+
+    D_PUSH_POINT(m_arr_skelton_left, 90,0,0); D_PUSH_POINT(m_arr_skelton_right, 90,0,0);
+
+	/**/
+
+    { // turned looping
+
+		D_PUSH_POINT(m_arr_skelton_left, 40,0,40); D_PUSH_POINT(m_arr_skelton_right, 40,0,40);
+		D_PUSH_POINT(m_arr_skelton_left, -40,0,40); D_PUSH_POINT(m_arr_skelton_right, -40,0,40);
+
+		D_PUSH_POINT(m_arr_skelton_left, -40,40,-10); D_PUSH_POINT(m_arr_skelton_right, -40,30,0);
+		D_PUSH_POINT(m_arr_skelton_left, 20,40,0); D_PUSH_POINT(m_arr_skelton_right, 0,40,-10);
+
+		D_PUSH_POINT(m_arr_skelton_left, 20,20,0); D_PUSH_POINT(m_arr_skelton_right, 35,30,0);
+		D_PUSH_POINT(m_arr_skelton_left, 40,0,0); D_PUSH_POINT(m_arr_skelton_right, 45,0,0);
+
+    } // turned looping
+
+    D_PUSH_POINT(m_arr_skelton_left, 30,0,0); D_PUSH_POINT(m_arr_skelton_right, 30,0,0);
+
+    { // looping
+
+        float r = 60;
+        float d = -20;
+
+        D_PUSH_POINT(m_arr_skelton_left, r,0,0); D_PUSH_POINT(m_arr_skelton_right, r,0,0);
+        D_PUSH_POINT(m_arr_skelton_left, r,0,r); D_PUSH_POINT(m_arr_skelton_right, r,0,r);
+        D_PUSH_POINT(m_arr_skelton_left, -r,d,r); D_PUSH_POINT(m_arr_skelton_right, -r,d,r);
+        D_PUSH_POINT(m_arr_skelton_left, -r,d,-r); D_PUSH_POINT(m_arr_skelton_right, -r,d,-r);
+        D_PUSH_POINT(m_arr_skelton_left, r,d,-r); D_PUSH_POINT(m_arr_skelton_right, r,d,-r);
+        D_PUSH_POINT(m_arr_skelton_left, r,0,0); D_PUSH_POINT(m_arr_skelton_right, r,0,0);
+
+        D_PUSH_POINT(m_arr_skelton_left, 20,0,0); D_PUSH_POINT(m_arr_skelton_right, 20,0,0);
+
+    } // looping
+
+
+    D_PUSH_POINT(m_arr_skelton_left, 30,0,0); D_PUSH_POINT(m_arr_skelton_right, 30,0,0)
+
+
+    { // infinity loop
+
+        float pente = 7;
+
+        float height = 6;
+        float inner_radius = 50;
+        float outer_radius = 60;
+
+
+        D_PUSH_POINT(m_arr_skelton_left, 30,0,+pente); D_PUSH_POINT(m_arr_skelton_right, 30,0,0);
+
+        for (int i = 0; i < 2; ++i)
+        {
+            D_PUSH_POINT(m_arr_skelton_left, outer_radius,outer_radius,height); D_PUSH_POINT(m_arr_skelton_right, inner_radius,inner_radius,height);
+            D_PUSH_POINT(m_arr_skelton_left, -outer_radius,outer_radius,height); D_PUSH_POINT(m_arr_skelton_right, -inner_radius,inner_radius,height);
+
+            D_PUSH_POINT(m_arr_skelton_left, -outer_radius,-outer_radius,height); D_PUSH_POINT(m_arr_skelton_right, -inner_radius,-inner_radius,height);
+            D_PUSH_POINT(m_arr_skelton_left, outer_radius,-outer_radius,height); D_PUSH_POINT(m_arr_skelton_right, inner_radius,-inner_radius,height);
+        }
+
+        D_PUSH_POINT(m_arr_skelton_left, 40,0,0); D_PUSH_POINT(m_arr_skelton_right, 40,0,+pente*2);
+
+        for (int i = 0; i < 2; ++i)
+        {
+            D_PUSH_POINT(m_arr_skelton_left, inner_radius,-inner_radius,height); D_PUSH_POINT(m_arr_skelton_right, outer_radius,-outer_radius,height);
+            D_PUSH_POINT(m_arr_skelton_left, -inner_radius,-inner_radius,height); D_PUSH_POINT(m_arr_skelton_right, -outer_radius,-outer_radius,height);
+
+            D_PUSH_POINT(m_arr_skelton_left, -inner_radius,inner_radius,height); D_PUSH_POINT(m_arr_skelton_right, -outer_radius,outer_radius,height);
+            D_PUSH_POINT(m_arr_skelton_left, inner_radius,inner_radius,height); D_PUSH_POINT(m_arr_skelton_right, outer_radius,outer_radius,height);
+        }
+
+        D_PUSH_POINT(m_arr_skelton_left, 30,0,0); D_PUSH_POINT(m_arr_skelton_right, 30,0,-pente);
+
+    } // infinity loop
+
+
+    D_PUSH_POINT(m_arr_skelton_left, 30,0,0); D_PUSH_POINT(m_arr_skelton_right, 30,0,0);
+
+
+    { // vertical corner
+
+        D_PUSH_POINT(m_arr_skelton_left, 30,0,0); D_PUSH_POINT(m_arr_skelton_right, 30,0,0);
+
+        D_PUSH_POINT(m_arr_skelton_left, 30,0,30); D_PUSH_POINT(m_arr_skelton_right, 30,0,30);
+
+        D_PUSH_POINT(m_arr_skelton_left, 10,0,40); D_PUSH_POINT(m_arr_skelton_right, 10,0,40);
+
+        D_PUSH_POINT(m_arr_skelton_left, 10,30,30); D_PUSH_POINT(m_arr_skelton_right, 10,20,15);
+        D_PUSH_POINT(m_arr_skelton_left, -10,30,-30); D_PUSH_POINT(m_arr_skelton_right, -10,20,-15);
+
+        D_PUSH_POINT(m_arr_skelton_left, -10,0,-40); D_PUSH_POINT(m_arr_skelton_right, -10,0,-40);
+
+        D_PUSH_POINT(m_arr_skelton_left, -30,0,-30); D_PUSH_POINT(m_arr_skelton_right, -30,0,-30);
+
+        D_PUSH_POINT(m_arr_skelton_left, -30,0,0); D_PUSH_POINT(m_arr_skelton_right, -30,0,0);
+
+    } // vertical corner
+
+    D_PUSH_POINT(m_arr_skelton_left, -30,0,0); D_PUSH_POINT(m_arr_skelton_right, -30,0,0)
+
+	//*/
+
+	/**
 
 	// forward (x)
 	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 1); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 1);
 	D_PUSH_POINT(m_arr_skelton_left, 20,  0, 1); D_PUSH_POINT(m_arr_skelton_right, 20,  0, 1);
 
 
-	/**/
+	/**
 
 	//
 	// first curve
@@ -77,7 +187,7 @@ Data::Data()
 
 	//*/
 
-	/**/
+	/**
 
 	//
 	// start of the first "maze"
@@ -127,24 +237,24 @@ Data::Data()
 
 	//*/
 
-    /**/
+    /**
 
 	//
 	// looping
 
-	D_PUSH_POINT(m_arr_skelton_left,+40,  0, 1); D_PUSH_POINT(m_arr_skelton_right,+40,  0, 1);
-	D_PUSH_POINT(m_arr_skelton_left,+40,  0,40); D_PUSH_POINT(m_arr_skelton_right,+40,  0,40);
-	D_PUSH_POINT(m_arr_skelton_left,-40,  5,40); D_PUSH_POINT(m_arr_skelton_right,-40,  5,40);
-	D_PUSH_POINT(m_arr_skelton_left,-40,  5,-40); D_PUSH_POINT(m_arr_skelton_right,-40,  5,-40);
-	D_PUSH_POINT(m_arr_skelton_left,+40,  5,-40); D_PUSH_POINT(m_arr_skelton_right,+40,  5,-40);
-	D_PUSH_POINT(m_arr_skelton_left,+40,  0, 0); D_PUSH_POINT(m_arr_skelton_right,+40,  0, 0);
+	D_PUSH_POINT(m_arr_skelton_left,+40,  0,  1); D_PUSH_POINT(m_arr_skelton_right,+40,  0,  1);
+	D_PUSH_POINT(m_arr_skelton_left,+40,  0, 40); D_PUSH_POINT(m_arr_skelton_right,+40,  0, 40);
+	D_PUSH_POINT(m_arr_skelton_left,-40, 10, 40); D_PUSH_POINT(m_arr_skelton_right,-40, 10, 40);
+	D_PUSH_POINT(m_arr_skelton_left,-40, 10,-40); D_PUSH_POINT(m_arr_skelton_right,-40, 10,-40);
+	D_PUSH_POINT(m_arr_skelton_left,+40, 10,-30); D_PUSH_POINT(m_arr_skelton_right,+40, 10,-30);
+	D_PUSH_POINT(m_arr_skelton_left,+40,  0,  0); D_PUSH_POINT(m_arr_skelton_right,+40,  0,  0);
 
 	// looping
 	//
 
     //*/
 
-	/**/
+	/**
 
 	{ // road wheels
 
@@ -425,15 +535,15 @@ Data::Data()
 	//
 	// world
 
-	m_DebugDraw.setDebugMode(
-		BulletDebugDraw::DBG_DrawWireframe |
-		BulletDebugDraw::DBG_DrawContactPoints |
-		BulletDebugDraw::DBG_NoHelpText |
-		BulletDebugDraw::DBG_DrawConstraints |
-		BulletDebugDraw::DBG_DrawConstraintLimits |
-		BulletDebugDraw::DBG_FastWireframe
-	);
-	m_PhysicWorld.setDebugDrawer(&m_DebugDraw);
+	// m_DebugDraw.setDebugMode(
+	// 	BulletDebugDraw::DBG_DrawWireframe |
+	// 	BulletDebugDraw::DBG_DrawContactPoints |
+	// 	BulletDebugDraw::DBG_NoHelpText |
+	// 	BulletDebugDraw::DBG_DrawConstraints |
+	// 	BulletDebugDraw::DBG_DrawConstraintLimits |
+	// 	BulletDebugDraw::DBG_FastWireframe
+	// );
+	// m_PhysicWorld.setDebugDrawer(&m_DebugDraw);
 
 	//
 	//
