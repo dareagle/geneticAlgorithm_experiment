@@ -24,19 +24,27 @@ Game::Game()
 	m_pStage->setUpdateCallback([this](int deltaTime)
 	{
 #ifdef EMSCRIPTEN
-		EM_ASM(myFpsmeter.tickStart(););
+		EM_ASM(myFpsmeter_update.tickStart(););
 #endif
 
 		StateManager::get()->update(deltaTime);
 
 #ifdef EMSCRIPTEN
-		EM_ASM(myFpsmeter.tick(););
+		EM_ASM(myFpsmeter_update.tick(););
 #endif
 	});
 
 	m_pStage->setRenderCallback([this](const SDL_Surface& screen)
 	{
+#ifdef EMSCRIPTEN
+		EM_ASM(myFpsmeter_render.tickStart(););
+#endif
+
 		StateManager::get()->render(screen);
+
+#ifdef EMSCRIPTEN
+		EM_ASM(myFpsmeter_render.tick(););
+#endif
 	});
 
     glEnable(GL_DEPTH_TEST);

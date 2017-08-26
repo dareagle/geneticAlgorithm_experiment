@@ -132,14 +132,17 @@
       <progress value="0" max="100" id="progress" hidden=1></progress>
     </div>
 
-    <div id="fpsmeter" style="position:absolute; left:0px; top:0px"></div>
+    <!-- <div id="fpsmeter" style="position:absolute; left:0px; top:0px"></div> -->
 
     <table>
 
       <tr>
         <td>
           <div class="emscripten_border">
-            <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+            <div id="fpsmeter_update" style="position:relative; left:0px; top:0px"></div>
+            <div id="fpsmeter_render" style="position:relative; left:0px; top:40px"></div>
+            <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()">
+            </canvas>
           </div>
         </td>
         <td>
@@ -188,9 +191,20 @@
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');
 
-      var myFpsmeter_elem = document.getElementById('fpsmeter');
-      var myFpsmeter = new window.FPSMeter(
-          myFpsmeter_elem,
+      // var myFpsmeter_elem = document.getElementById('fpsmeter');
+      // var myFpsmeter = new window.FPSMeter(
+      //     myFpsmeter_elem,
+      //     window.FPSMeter.theme.transparent
+      // );
+
+      var myFpsmeter_elem_update = document.getElementById('fpsmeter_update');
+      var myFpsmeter_update = new window.FPSMeter(
+          myFpsmeter_elem_update,
+          window.FPSMeter.theme.transparent
+      );
+      var myFpsmeter_elem_render = document.getElementById('fpsmeter_render');
+      var myFpsmeter_render = new window.FPSMeter(
+          myFpsmeter_elem_render,
           window.FPSMeter.theme.transparent
       );
 
