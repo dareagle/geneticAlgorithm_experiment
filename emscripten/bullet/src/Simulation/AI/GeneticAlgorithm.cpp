@@ -13,13 +13,15 @@
 // #include <iostream>
 
 
-GeneticAlgorithm::GeneticAlgorithm()
+GeneticAlgorithm::GeneticAlgorithm(unsigned int number_of_genome /*= 30*/)
 	:	m_current_id(1),
 		m_current_generation(1),
 		m_best_fitness(0.0f),
 		m_is_a_great_generation(false)
 {
 	my_srand( time(NULL) );
+
+	m_genomes.resize(number_of_genome);
 }
 
 void	GeneticAlgorithm::init(NeuralNetworkTopology& NNTopology)
@@ -31,7 +33,6 @@ void	GeneticAlgorithm::init(NeuralNetworkTopology& NNTopology)
 void	GeneticAlgorithm::generateRandomPopulation()
 {
 	// reset the genomes
-	m_genomes.resize(30);
 
 	for (unsigned int i = 0; i < m_genomes.size(); ++i)
 	{
@@ -84,19 +85,25 @@ void	GeneticAlgorithm::BreedPopulation()
 
 	if (m_best_fitness < bestGenomes[0].m_fitness)
 	{
+		float prev_best_fitness = m_best_fitness;
 		m_best_fitness = bestGenomes[0].m_fitness;
 
 		// D_MYLOG("m_current_generation=" << m_current_generation
 		// 	<< std::fixed << ", m_best_fitness=" << m_best_fitness);
 
-		D_MYLOG(
-			"m_current_generation=" << m_current_generation
-			<< std::fixed << ", m_best_fitness=" << m_best_fitness);
+		D_MYLOG("++ m_current_generation=" << m_current_generation
+				<< std::fixed << ", m_best_fitness=" << m_best_fitness
+				<< std::fixed << ", diff=" << (m_best_fitness - prev_best_fitness));
 
 		m_is_a_great_generation = true;
 	}
 	else
 	{
+		D_MYLOG("-- m_current_generation=" << m_current_generation
+				<< std::fixed << ", curr_fitness=" << bestGenomes[0].m_fitness
+				<< std::fixed << ", m_best_fitness=" << m_best_fitness
+				<< std::fixed << ", diff=" << (bestGenomes[0].m_fitness - m_best_fitness));
+
 		m_is_a_great_generation = false;
 	}
 
@@ -258,9 +265,9 @@ void	GeneticAlgorithm::mutate(t_genome& genome) const
 	int total_mutated = 0;
 
 	for (float& weight : genome.m_weights)
-		if (randomFloat() < 0.1f)
+		if (randomFloat() < 0.2f)
 		{
-			weight += (randomClamped() * 0.1f);
+			weight += (randomClamped() * 0.2f);
 
 			++total_mutated;
 		}

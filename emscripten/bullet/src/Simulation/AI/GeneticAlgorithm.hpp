@@ -20,8 +20,9 @@ public:
 
 private: // attributs
 	std::vector<t_genome>	m_genomes;
-	unsigned int			m_current_id;
-	unsigned int			m_current_generation;
+
+	unsigned int			m_current_id; // for the genome id
+	unsigned int			m_current_generation; // generation number
 
 	float					m_best_fitness;
 
@@ -35,7 +36,7 @@ private: // attributs
 	bool	m_is_a_great_generation;
 
 public: // ctor/dtor
-	GeneticAlgorithm();
+	GeneticAlgorithm(unsigned int number_of_genome = 30);
 
 public: // methods
 	void	init(NeuralNetworkTopology& NNTopology);
