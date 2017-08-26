@@ -52,7 +52,7 @@ World::~World()
 
 void	World::step(float elapsed_time)
 {
-	int	maxSubSteps = 0; // <= elapsed_time MUST be constant if not using substeps
+	const int	maxSubSteps = 0; // <= elapsed_time MUST be constant if not using substeps
 	m_pDynamicsWorld->stepSimulation(elapsed_time, maxSubSteps);
 }
 
