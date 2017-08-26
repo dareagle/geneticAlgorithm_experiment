@@ -85,8 +85,8 @@ void	State_Main::update(int delta)
 
 		auto&	keys = Data::get()->m_input.keys;
 
-		// Data::get()->m_simualtion_step = (keys[SDLK_SPACE] ? 30 : 1);
-		Data::get()->m_simualtion_step = (keys[SDLK_SPACE] ? 1 : 60);
+		Data::get()->m_simualtion_step = (keys[SDLK_SPACE] ? 60 : 1);
+		// Data::get()->m_simualtion_step = (keys[SDLK_SPACE] ? 1 : 60);
 
 		if (keys[SDLK_LEFT] ||
 			keys[SDLK_a] ||
