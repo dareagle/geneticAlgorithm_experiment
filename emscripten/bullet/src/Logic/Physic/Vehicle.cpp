@@ -41,12 +41,12 @@ Vehicle::Vehicle(btDiscreteDynamicsWorld* pDynamicsWorld)
 	/// k = 0.0 undamped & bouncy, k = 1.0 critical damping
 	/// 0.1 to 0.3 are good values
 	// float	wheelsDampingCompression = 1.0f;
-	float	wheelsDampingCompression = 0.3f;
+	float	wheelsDampingCompression = 0.2f;
 
 	/// The damping coefficient for when the suspension is expanding. See the comments for m_wheelsDampingCompression for how to set k.
 	/// m_wheelsDampingRelaxation should be slightly larger than m_wheelsDampingCompression, eg 0.2 to 0.5
 	// float	wheelsDampingRelaxation = 1.0f;
-	float	wheelsDampingRelaxation = 0.5f;
+	float	wheelsDampingRelaxation = 0.4f;
 
 	/// Reduces the rolling torque applied from the wheels that cause the vehicle to roll over.
 	/// This is a bit of a hack, but it's quite effective. 0.0 = no roll, 1.0 = physical behaviour.
