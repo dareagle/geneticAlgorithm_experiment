@@ -86,7 +86,7 @@ void	Car::update(const NeuralNetwork& in_NN)
 	float steer = leftTheta * steer_range;
 	leftTheta = std::min(steer_range, std::max(-steer_range, leftTheta));
 
-	float speed_range = 1000.0f;
+	float speed_range = 250.0f;
 	float speed = rightTheta * speed_range;
 	speed = std::min(speed_range, std::max(-speed_range, speed));
 
@@ -139,14 +139,20 @@ void	Car::updateSensors()
 		sensor.near[2] = tmp_from.z;
 	}
 
-	float arr_elevations[] = { -3, 0, +3 };
+	// float arr_elevations[] = { -3, 0, +3 };
+	float arr_elevations[] = { -6, 0, +6 };
 
 	float arr_angles[] = {
+		// -M_PI/8.0f,
+		// -M_PI/16.0f,
+		// 0.0f,
+		// +M_PI/16.0f,
+		// +M_PI/8.0f
+		-M_PI/4.0f,
 		-M_PI/8.0f,
-		-M_PI/16.0f,
 		0.0f,
-		+M_PI/16.0f,
-		+M_PI/8.0f
+		+M_PI/8.0f,
+		+M_PI/4.0f
 	};
 
 	for (unsigned int i = 0; i < 3; ++i)
@@ -239,7 +245,7 @@ void	Car::collideCheckpoints()
     {
         if (m_current_checkpoint < tmp_checkpoint_id)
         {
-            m_min_updates = 100;
+            m_min_updates = 200;
             m_current_checkpoint = tmp_checkpoint_id;
             m_fitness++;
         }
@@ -255,19 +261,21 @@ void	Car::collideCheckpoints()
     }
 }
 
-void	Car::reset()
+void	Car::reset() const
 {
-	m_alive = true;
-	m_fitness = 0;
-	m_total_updates = 0;
-	m_trail.clear();
-	m_min_updates = 100;
-	m_current_checkpoint = 0;
+	Car*	self = const_cast<Car*>(this);
 
-	float	pos[] = {0,0,1};
+	self->m_alive = true;
+	self->m_fitness = 0;
+	self->m_total_updates = 0;
+	self->m_trail.clear();
+	self->m_min_updates = 200;
+	self->m_current_checkpoint = 0;
+
+	float	pos[] = {0,0,1.1f};
 	float	rot[] = {0,0,-1,1};
-	m_pPhysicWrapper->vehicle_reset(m_index, pos, rot);
+	self->m_pPhysicWrapper->vehicle_reset(m_index, pos, rot);
 
-	updateSensors();
+	self->updateSensors();
 }
 

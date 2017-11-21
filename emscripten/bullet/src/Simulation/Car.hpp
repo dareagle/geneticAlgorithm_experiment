@@ -50,7 +50,7 @@ public: // ctor/dtor
 
 public: // methods
 	void	update(const NeuralNetwork& nn);
-	void	reset();
+	void	reset() const;
 
 private: // methods
 	void	updateSensors();
