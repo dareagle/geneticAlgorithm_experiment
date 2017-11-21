@@ -1,7 +1,6 @@
 
 
-#ifndef	D_RANDOMISER_HPP
-#define	D_RANDOMISER_HPP
+#pragma once
 
 
 // #define	D_RAND_MAX	2147483647 // int max positive value : 2,147,483,647
@@ -31,7 +30,3 @@ inline float	randomClamped()
 	// return (randomFloat() - randomFloat());
 	return my_rangeRand(-1.0f, 1.0f);
 }
-
-
-#endif	// D_RANDOMISER_HPP
-

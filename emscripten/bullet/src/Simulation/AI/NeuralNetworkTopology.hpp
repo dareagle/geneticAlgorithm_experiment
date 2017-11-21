@@ -1,7 +1,6 @@
 
 
-#ifndef	D_NEURALNETWORKTOPOLOGY_HPP
-#define	D_NEURALNETWORKTOPOLOGY_HPP
+#pragma once
 
 
 #include <vector>
@@ -38,7 +37,3 @@ public:
 
 	inline unsigned int	getTotalWeights() const { return m_totalWeights; }
 };
-
-
-#endif	// D_NEURALNETWORKTOPOLOGY_HPP
-

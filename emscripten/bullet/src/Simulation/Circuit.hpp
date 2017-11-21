@@ -1,7 +1,6 @@
 
 
-#ifndef	D_CIRCUIT_HPP
-#define	D_CIRCUIT_HPP
+#pragma once
 
 
 #include "IPhysicWrapper.hpp"
@@ -24,7 +23,3 @@ public:
 		t_geometry_callback callback
 	);
 };
-
-
-#endif // D_CIRCUIT_HPP
-

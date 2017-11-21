@@ -3,10 +3,7 @@
 #include "Data.hpp"
 
 
-
 #include <iostream>
-
-// #include <btBulletDynamicsCommon.h>
 
 
 
@@ -23,10 +20,6 @@ Data*	Data::m_pInstance = nullptr;
 
 Data::Data()
 {
-	// memset(m_input.keys, 0, sizeof(m_input));
-
-	// initialiseGraphic();
-
 
 	//
 	// camera

@@ -1,6 +1,6 @@
 
-#ifndef D_DATA_HPP
-#define D_DATA_HPP
+
+#pragma once
 
 
 #include <string>
@@ -10,8 +10,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengles2.h>
 
-// #include <GLES2/gl2.h>
-// #include <GLES2/gl2ext.h>
 
 #include <glm/vec2.hpp> // glm::vec2
 #include <glm/vec3.hpp> // glm::vec3
@@ -30,8 +28,6 @@
 
 #include "../Simulation/Simulation.hpp"
 
-
-// #include <btBulletDynamicsCommon.h>
 
 #include <glm/mat4x4.hpp> // glm::mat4
 
@@ -127,7 +123,3 @@ public:
 	// }
 	// m_error;
 };
-
-
-
-#endif // D_DATA_HPP

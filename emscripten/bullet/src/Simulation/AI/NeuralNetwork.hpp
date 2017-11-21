@@ -1,7 +1,6 @@
 
 
-#ifndef D_NEURALNETWORK_HPP
-#define D_NEURALNETWORK_HPP
+#pragma once
 
 
 #include "NeuralNetworkTopology.hpp"
@@ -36,7 +35,3 @@ public: // setter/getter
 	void getWeights(std::vector<float>& out_weights) const;
 
 };
-
-
-#endif	// D_NEURALNETWORK_HPP
-

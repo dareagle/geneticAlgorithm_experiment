@@ -2,22 +2,13 @@
 
 #include "GeneticAlgorithm.hpp"
 
-
-// #include "../utils/TraceLogger.hpp"
 #include "Utility/randomiser.hpp"
-
-#include "../Utility/TraceLogger.hpp"
-
+#include "Utility/TraceLogger.hpp"
 
 #include <ctime> // <= time(NULL)
-// #include <iostream>
 
 
 GeneticAlgorithm::GeneticAlgorithm(unsigned int number_of_genome /*= 30*/)
-	:	m_current_id(1),
-		m_current_generation(1),
-		m_best_fitness(0.0f),
-		m_is_a_great_generation(false)
 {
 	my_srand( time(NULL) );
 

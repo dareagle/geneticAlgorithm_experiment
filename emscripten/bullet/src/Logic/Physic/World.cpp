@@ -20,7 +20,6 @@ namespace	Physic
 
 
 World::World()
-	// : m_pRaycastedTrimesh(nullptr)
 {
 	m_pBroadphase = new btDbvtBroadphase();
 	m_pCollisionConfiguration = new btDefaultCollisionConfiguration();

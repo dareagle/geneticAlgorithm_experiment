@@ -1,7 +1,6 @@
 
 
-#ifndef	D_IPHYSICWRAPPER_HPP
-#define	D_IPHYSICWRAPPER_HPP
+#pragma once
 
 
 #include <vector>
@@ -44,7 +43,3 @@ public: // to override
 
 	virtual bool	raycast(const float* vec3_from, const float* vec3_to, float* vec3_hit, int* id_hit) = 0;
 };
-
-
-#endif // D_IPHYSICWRAPPER_HPP
-

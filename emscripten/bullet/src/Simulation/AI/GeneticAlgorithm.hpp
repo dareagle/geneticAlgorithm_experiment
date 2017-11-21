@@ -1,7 +1,6 @@
 
 
-#ifndef	D_GENETICALGORITHM_HPP
-#define	D_GENETICALGORITHM_HPP
+#pragma once
 
 
 #include "NeuralNetwork.hpp"
@@ -21,10 +20,10 @@ public:
 private: // attributs
 	std::vector<t_genome>	m_genomes;
 
-	unsigned int			m_current_id; // for the genome id
-	unsigned int			m_current_generation; // generation number
+	unsigned int			m_current_id = 1; // for the genome id
+	unsigned int			m_current_generation = 0; // generation number
 
-	float					m_best_fitness;
+	float					m_best_fitness = 0.0f;
 
 	t_genome				m_alpha_genome;
 
@@ -33,7 +32,7 @@ private: // attributs
 	typedef std::vector<NeuralNetwork>	t_NNetworks;
 	t_NNetworks	m_NNetworks;
 
-	bool	m_is_a_great_generation;
+	bool	m_is_a_great_generation = false;
 
 public: // ctor/dtor
 	GeneticAlgorithm(unsigned int number_of_genome = 30);
@@ -62,7 +61,3 @@ public: // getters/setters
 	inline void rateGenome(unsigned int index, float fitness) { m_genomes.at(index).m_fitness = fitness; }
 
 };
-
-
-#endif	// D_GENETICALGORITHM_HPP
-

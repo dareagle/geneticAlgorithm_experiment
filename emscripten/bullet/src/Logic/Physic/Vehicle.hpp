@@ -1,8 +1,6 @@
 
 
-#ifndef D_VEHICLE_HPP
-#define D_VEHICLE_HPP
-
+#pragma once
 
 
 class	btCollisionShape;
@@ -28,13 +26,13 @@ private:
 	friend World;
 
 private:
-	btCollisionShape*	m_pChassisShape;
-	btCompoundShape*	m_pCompound;
-	btDefaultMotionState*	m_pMotionState;
-	btRigidBody*		m_pCarChassis;
+	btCollisionShape*	m_pChassisShape = nullptr;
+	btCompoundShape*	m_pCompound = nullptr;
+	btDefaultMotionState*	m_pMotionState = nullptr;
+	btRigidBody*		m_pCarChassis = nullptr;
 
-	btDefaultVehicleRaycaster*	m_pVehicleRayCaster;
-	btRaycastVehicle*	m_pVehicle;
+	btDefaultVehicleRaycaster*	m_pVehicleRayCaster = nullptr;
+	btRaycastVehicle*	m_pVehicle = nullptr;
 
 private:
 	Vehicle(btDiscreteDynamicsWorld* pDynamicsWorld);
@@ -59,7 +57,3 @@ public:
 
 
 };
-
-
-#endif // D_VEHICLE_HPP
-

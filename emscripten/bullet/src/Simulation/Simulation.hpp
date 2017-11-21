@@ -1,7 +1,6 @@
 
 
-#ifndef	D_SIMULATION_HPP
-#define	D_SIMULATION_HPP
+#pragma once
 
 
 #include "IPhysicWrapper.hpp"
@@ -52,7 +51,3 @@ public:
 
 	const Car&				getBestCar() const { return *m_pBest_car; }
 };
-
-
-#endif // D_SIMULATION_HPP
-

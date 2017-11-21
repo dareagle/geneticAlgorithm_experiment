@@ -1,7 +1,6 @@
 
 
-#ifndef	D_BSPLINE_HPP
-#define	D_BSPLINE_HPP
+#pragma once
 
 
 #include <vector>
@@ -31,7 +30,3 @@ public:
 	void	calcAt(float t, float* out_arr);
 
 };
-
-
-#endif // D_BSPLINE_HPP
-

@@ -1,7 +1,6 @@
 
 
-#ifndef D_STATE_MAIN_HPP
-#define D_STATE_MAIN_HPP
+#pragma once
 
 
 #include "IState.hpp"
@@ -18,7 +17,3 @@ public:
 	virtual void	update(int) override;
 	virtual void	render(const SDL_Window&) override;
 };
-
-
-#endif // D_STATE_MAIN_HPP
-

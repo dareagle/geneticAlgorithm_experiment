@@ -1,7 +1,6 @@
 
 
-#ifndef	D_PHYSICWRAPPER_HPP
-#define	D_PHYSICWRAPPER_HPP
+#pragma once
 
 
 #include "Simulation/IPhysicWrapper.hpp"
@@ -45,8 +44,4 @@ public: // to override
 	virtual bool	raycast(const float* vec3_from, const float* vec3_to, float* vec3_hit, int* id_hit) override;
 
 };
-
-
-
-#endif // D_PHYSICWRAPPER_HPP
 

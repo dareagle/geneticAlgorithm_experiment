@@ -1,7 +1,6 @@
 
 
-#ifndef D_WORLD_HPP
-#define D_WORLD_HPP
+#pragma once
 
 
 #include <vector>
@@ -26,11 +25,11 @@ class Vehicle;
 class World
 {
 private:
-	btBroadphaseInterface*					m_pBroadphase;
-	btDefaultCollisionConfiguration*		m_pCollisionConfiguration;
-	btCollisionDispatcher*					m_pDispatcher;
-	btSequentialImpulseConstraintSolver*	m_pSolver;
-	btDiscreteDynamicsWorld*				m_pDynamicsWorld;
+	btBroadphaseInterface*					m_pBroadphase = nullptr;
+	btDefaultCollisionConfiguration*		m_pCollisionConfiguration = nullptr;
+	btCollisionDispatcher*					m_pDispatcher = nullptr;
+	btSequentialImpulseConstraintSolver*	m_pSolver = nullptr;
+	btDiscreteDynamicsWorld*				m_pDynamicsWorld = nullptr;
 
 public:
 	World();
@@ -77,7 +76,3 @@ public:
 
 
 };
-
-
-#endif // D_WORLD_HPP
-

@@ -1,7 +1,6 @@
 
 
-#ifndef D_STATEMANAGER_HPP
-#define D_STATEMANAGER_HPP
+#pragma once
 
 
 #include "IState.hpp"
@@ -57,7 +56,3 @@ public:
 	void	update(int);
 	void	render(const SDL_Window&);
 };
-
-
-#endif // D_STATEMANAGER_HPP
-

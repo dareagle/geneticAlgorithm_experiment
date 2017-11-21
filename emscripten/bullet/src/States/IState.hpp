@@ -1,7 +1,6 @@
 
 
-#ifndef	D_ISTATE_HPP
-#define	D_ISTATE_HPP
+#pragma once
 
 
 #include <SDL2/SDL.h>
@@ -14,8 +13,3 @@ public:
 	virtual void	update(int) = 0;
 	virtual void	render(const SDL_Window&) = 0;
 };
-
-
-
-#endif // D_ISTATE_HPP
-

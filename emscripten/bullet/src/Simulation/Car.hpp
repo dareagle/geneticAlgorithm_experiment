@@ -1,7 +1,6 @@
 
 
-#ifndef	D_CAR_HPP
-#define	D_CAR_HPP
+#pragma once
 
 
 #include "IPhysicWrapper.hpp"
@@ -73,7 +72,3 @@ public: // setter/getter
 	inline const std::vector<float>&	getTrail() const { return m_trail; };
 
 };
-
-
-#endif	// D_CAR_HPP
-
