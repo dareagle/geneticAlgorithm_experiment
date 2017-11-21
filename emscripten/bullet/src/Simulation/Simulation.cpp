@@ -21,14 +21,14 @@ void	Simulation::initialise(
 
 	std::vector<unsigned int> tmp_hidden;
 	tmp_hidden.push_back(10);
-	// tmp_hidden.push_back(5);
+	tmp_hidden.push_back(5);
 	m_NNTopology.init(15, tmp_hidden, 2);
 
 	m_GenAlgo.init(m_NNTopology);
 
 	unsigned int	num_car = m_GenAlgo.getGenomes().size();
 
-	m_pPhysicWrapper->createVehicles(num_car);
+	m_pPhysicWrapper->createVehicles(num_car + 1); // plus one for the best car
 
 	Car::initialise(m_pPhysicWrapper);
 
@@ -36,6 +36,7 @@ void	Simulation::initialise(
 	for (unsigned int ii = 0; ii < num_car; ++ii)
 		m_Cars.push_back(Car(ii));
 
+	m_pBest_car = new Car(num_car);
 }
 
 void	Simulation::update(float elapsed_time)
@@ -85,6 +86,27 @@ void	Simulation::update(float elapsed_time)
 
 	for (Car& car : m_Cars)
 		car.reset();
+}
+
+void	Simulation::updateBest(float elapsed_time)
+{
+	if (m_GenAlgo.getAlpha().m_fitness == 0.0f)
+		return;
+
+	m_pPhysicWrapper->step(elapsed_time);
+
+	if (m_pBest_car->isAlive())
+	{
+		NeuralNetwork	tmp_ann(m_NNTopology);
+
+		tmp_ann.setWeights( m_GenAlgo.getAlpha().m_weights );
+
+		m_pBest_car->update( tmp_ann );
+	}
+	else
+	{
+		m_pBest_car->reset();
+	}
 }
 
 

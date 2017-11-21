@@ -28,6 +28,9 @@ private:
 
 	std::list< std::vector<float> >	m_car_trails;
 
+	std::vector<float>			m_best_weights;
+	Car*						m_pBest_car = nullptr;
+
 public:
 	Simulation(IPhysicWrapper* pPhysicWrapper);
 	~Simulation();
@@ -41,10 +44,13 @@ public:
 
 public:
 	void	update(float elapsed_time);
+	void	updateBest(float elapsed_time);
 
 public:
 	const std::vector<Car>&	getCars() const { return m_Cars; }
 	const std::list< std::vector<float> >&	getCarTrails() const { return m_car_trails; }
+
+	const Car&				getBestCar() const { return *m_pBest_car; }
 };
 
 

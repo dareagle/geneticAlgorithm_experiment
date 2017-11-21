@@ -4,7 +4,7 @@
 #define	D_ISTATE_HPP
 
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 
 class IState
@@ -12,7 +12,7 @@ class IState
 public:
 	virtual void	handleEvent(const SDL_Event&) = 0;
 	virtual void	update(int) = 0;
-	virtual void	render(const SDL_Surface&) = 0;
+	virtual void	render(const SDL_Window&) = 0;
 };
 
 

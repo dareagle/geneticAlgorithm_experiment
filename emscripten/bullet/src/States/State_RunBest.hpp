@@ -1,17 +1,17 @@
 
 
-#ifndef D_STATE_MAIN_HPP
-#define D_STATE_MAIN_HPP
+#ifndef D_STATE_RUNBEST_HPP
+#define D_STATE_RUNBEST_HPP
 
 
 #include "IState.hpp"
 
 
-class State_Main : public IState
+class State_RunBest : public IState
 {
 public:
-	State_Main();
-	~State_Main();
+	State_RunBest();
+	~State_RunBest();
 
 public:
 	virtual void	handleEvent(const SDL_Event&) override;
@@ -20,5 +20,5 @@ public:
 };
 
 
-#endif // D_STATE_MAIN_HPP
+#endif // D_STATE_RUNBEST_HPP
 

@@ -5,11 +5,13 @@
 
 #include <string>
 #include <list>
+#include <map>
 
-#include <SDL/SDL.h> // SDLK_LAST define
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengles2.h>
 
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
+// #include <GLES2/gl2.h>
+// #include <GLES2/gl2ext.h>
 
 #include <glm/vec2.hpp> // glm::vec2
 #include <glm/vec3.hpp> // glm::vec3
@@ -80,7 +82,7 @@ public:
 	ShaderColor		m_ShaderColor;
 
 	GeometryColor	m_GeometryColor_chassis;
-	GeometryColor	m_GeometryColor_chassis_dead;
+	// GeometryColor	m_GeometryColor_chassis_dead;
 	GeometryColor	m_GeometryColor_wheel;
 	GeometryColor	m_GeometryColor_circuit_skelton;
 	GeometryColor	m_GeometryColor_circuit_ground;
@@ -114,7 +116,8 @@ public:
 
 	struct t_input
 	{
-		bool	keys[SDLK_LAST];
+		// bool	keys[SDLK_LAST];
+		std::map<int, bool>	keys;
 	}
 	m_input;
 

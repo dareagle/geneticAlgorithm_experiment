@@ -1,6 +1,6 @@
 
 
-#include "State_Main.hpp"
+#include "State_RunBest.hpp"
 
 #include "StateManager.hpp"
 
@@ -16,17 +16,17 @@
 #include <iostream>
 
 
-State_Main::State_Main()
+State_RunBest::State_RunBest()
 {
 }
 
-State_Main::~State_Main()
+State_RunBest::~State_RunBest()
 {
 }
 
 //
 
-void	State_Main::handleEvent(const SDL_Event& event)
+void	State_RunBest::handleEvent(const SDL_Event& event)
 {
 	auto&	keys = Data::get()->m_input.keys;
 
@@ -51,9 +51,11 @@ void	State_Main::handleEvent(const SDL_Event& event)
 			{
 				D_MYLOG("TOUCHED!");
 
-				Data::get()->m_pSimulation->getBestCar().reset();
+				auto&& cars = Data::get()->m_pSimulation->getCars();
+				for (const Car& car : cars)
+					car.reset();
 
-				StateManager::get()->changeState(StateManager::e_States::eRunBest);
+				StateManager::get()->changeState(StateManager::e_States::eMain);
 			}
 		}
 	    break;
@@ -98,7 +100,7 @@ namespace
 
 
 
-void	State_Main::update(int delta)
+void	State_RunBest::update(int delta)
 {
 	float elapsed_time = static_cast<float>(delta) / 1000;
 
@@ -135,43 +137,44 @@ void	State_Main::update(int delta)
 		//
 		//
 
-		auto&	index_targetedCar = Data::get()->m_index_targetedCar;
+		// auto&	index_targetedCar = Data::get()->m_index_targetedCar;
+		int	index_targetedCar = Data::get()->m_pSimulation->getCars().size();
 
 		auto&	timeout_camera = Data::get()->m_timeout_camera;
-		timeout_camera -= delta;
+		// timeout_camera -= delta;
 
 		if (Data::get()->m_simualtion_step == 1)
 		{
-			if (timeout_camera <= 0)
-			{
-				timeout_camera = 500;
+			// if (timeout_camera <= 0)
+			// {
+			// 	timeout_camera = 500;
 
-		        float	curr_fitness = -1;
+		 //        float	curr_fitness = -1;
 
-		        float	mat4x4[16];
+		 //        float	mat4x4[16];
 
-		        auto& Cars = Data::get()->m_pSimulation->getCars();
+		 //        auto& Cars = Data::get()->m_pSimulation->getCars();
 
-		        for (auto& car : Cars)
-		        {
-		            if (!car.isAlive())
-		                continue;
+		 //        for (auto& car : Cars)
+		 //        {
+		 //            if (!car.isAlive())
+		 //                continue;
 
-		            if (curr_fitness > car.getFitness())
-		                continue;
+		 //            if (curr_fitness > car.getFitness())
+		 //                continue;
 
-		            curr_fitness = car.getFitness();
+		 //            curr_fitness = car.getFitness();
 
-					index_targetedCar = car.getIndex();
+			// 		index_targetedCar = car.getIndex();
 
-		        	Data::get()->m_pPhysicWrapper->vehicle_getOpenGLMatrix(index_targetedCar, mat4x4);
+		 //        	Data::get()->m_pPhysicWrapper->vehicle_getOpenGLMatrix(index_targetedCar, mat4x4);
 
-					camera_pos.x = -mat4x4[12];
-					camera_pos.y = -mat4x4[13];
-					camera_pos.z = -mat4x4[14];
-		        }
-			}
-			else if (index_targetedCar >= 0)
+			// 		camera_pos.x = -mat4x4[12];
+			// 		camera_pos.y = -mat4x4[13];
+			// 		camera_pos.z = -mat4x4[14];
+		 //        }
+			// }
+			// else if (index_targetedCar >= 0)
 			{
 		        float	mat4x4[16];
 
@@ -181,10 +184,10 @@ void	State_Main::update(int delta)
 				camera_pos.y = -mat4x4[13];
 				camera_pos.z = -mat4x4[14];
 			}
-			else
-			{
-				camera_pos.x = camera_pos.y = camera_pos.z = 0;
-			}
+			// else
+			// {
+			// 	camera_pos.x = camera_pos.y = camera_pos.z = 0;
+			// }
 		}
 		else
 		{
@@ -215,12 +218,12 @@ void	State_Main::update(int delta)
 
 	for (int i = 0; i < Data::get()->m_simualtion_step; ++i)
 	{
-		Data::get()->m_pSimulation->update(1.0f / 60); // <= MUST be constant
+		Data::get()->m_pSimulation->updateBest(1.0f / 60); // <= MUST be constant
 	}
 }
 
 
-void	State_Main::render(const SDL_Window& window)
+void	State_RunBest::render(const SDL_Window& window)
 {
 
 	// glViewport(0, 0, window.w, window.h);
@@ -238,16 +241,18 @@ void	State_Main::render(const SDL_Window& window)
 		StackRenderer::t_color	sensors_color(0,1,0,1.0);
 		StackRenderer::t_color	ground_sensor(1,0,0,1.0);
 
-		auto&& arr_Cars = Data::get()->m_pSimulation->getCars();
+		// auto&& arr_Cars = Data::get()->m_pSimulation->getCars();
 
-		auto&	index_targetedCar = Data::get()->m_index_targetedCar;
+		// auto&	index_targetedCar = Data::get()->m_index_targetedCar;
 
-		if (index_targetedCar >= 0)
+		// if (index_targetedCar >= 0)
 		// for (auto&& car : arr_Cars)
 		{
-			auto&& car = arr_Cars[index_targetedCar];
+			// auto&& car = arr_Cars[index_targetedCar];
 
-			if (car.isAlive())
+			auto&& car = Data::get()->m_pSimulation->getBestCar();
+
+			// if (car.isAlive())
 			{
 				auto&& sensors = car.getSensors();
 
@@ -287,7 +292,7 @@ void	State_Main::render(const SDL_Window& window)
 	} // trails
 
 	{
-		auto&& arr_Cars = Data::get()->m_pSimulation->getCars();
+		// auto&& arr_Cars = Data::get()->m_pSimulation->getCars();
 
 		auto&	PhysicWorld = Data::get()->m_PhysicWorld;
 
@@ -295,12 +300,13 @@ void	State_Main::render(const SDL_Window& window)
 
 		btScalar	mat4[16];
 
-		for (unsigned int i = 0; i < PhysicWorld.getVehicleSize(); ++i)
+		// for (unsigned int i = 0; i < PhysicWorld.getVehicleSize(); ++i)
 		{
-			if (!arr_Cars[i].isAlive())
-				continue;
+			// if (!arr_Cars[i].isAlive())
+			// 	continue;
 
-			auto*	pVehicle = PhysicWorld.getVehicle(i);
+			// auto*	pVehicle = PhysicWorld.getVehicle(i);
+			auto*	pVehicle = PhysicWorld.getVehicle(PhysicWorld.getVehicleSize() - 1);
 
 			//
 

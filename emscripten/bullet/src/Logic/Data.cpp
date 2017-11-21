@@ -23,7 +23,7 @@ Data*	Data::m_pInstance = nullptr;
 
 Data::Data()
 {
-	memset(m_input.keys, 0, sizeof(m_input));
+	// memset(m_input.keys, 0, sizeof(m_input));
 
 	// initialiseGraphic();
 
@@ -60,44 +60,6 @@ Data::Data()
     D_PUSH_POINT(m_arr_skelton_left, 90,0,0); D_PUSH_POINT(m_arr_skelton_right, 90,0,0);
 
 
-    D_PUSH_POINT(m_arr_skelton_left, 90,0,0); D_PUSH_POINT(m_arr_skelton_right, 90,0,0);
-
-	/**/
-
-    { // turned looping
-
-		D_PUSH_POINT(m_arr_skelton_left, 40,0,40); D_PUSH_POINT(m_arr_skelton_right, 40,0,40);
-		D_PUSH_POINT(m_arr_skelton_left, -40,0,40); D_PUSH_POINT(m_arr_skelton_right, -40,0,40);
-
-		D_PUSH_POINT(m_arr_skelton_left, -40,40,-10); D_PUSH_POINT(m_arr_skelton_right, -40,30,0);
-		D_PUSH_POINT(m_arr_skelton_left, 20,40,0); D_PUSH_POINT(m_arr_skelton_right, 0,40,-10);
-
-		D_PUSH_POINT(m_arr_skelton_left, 20,20,0); D_PUSH_POINT(m_arr_skelton_right, 35,30,0);
-		D_PUSH_POINT(m_arr_skelton_left, 40,0,0); D_PUSH_POINT(m_arr_skelton_right, 45,0,0);
-
-    } // turned looping
-
-    D_PUSH_POINT(m_arr_skelton_left, 30,0,0); D_PUSH_POINT(m_arr_skelton_right, 30,0,0);
-
-    { // looping
-
-        float r = 60;
-        float d = -20;
-
-        D_PUSH_POINT(m_arr_skelton_left, r,0,0); D_PUSH_POINT(m_arr_skelton_right, r,0,0);
-        D_PUSH_POINT(m_arr_skelton_left, r,0,r); D_PUSH_POINT(m_arr_skelton_right, r,0,r);
-        D_PUSH_POINT(m_arr_skelton_left, -r,d,r); D_PUSH_POINT(m_arr_skelton_right, -r,d,r);
-        D_PUSH_POINT(m_arr_skelton_left, -r,d,-r); D_PUSH_POINT(m_arr_skelton_right, -r,d,-r);
-        D_PUSH_POINT(m_arr_skelton_left, r,d,-r); D_PUSH_POINT(m_arr_skelton_right, r,d,-r);
-        D_PUSH_POINT(m_arr_skelton_left, r,0,0); D_PUSH_POINT(m_arr_skelton_right, r,0,0);
-
-        D_PUSH_POINT(m_arr_skelton_left, 20,0,0); D_PUSH_POINT(m_arr_skelton_right, 20,0,0);
-
-    } // looping
-
-
-    D_PUSH_POINT(m_arr_skelton_left, 30,0,0); D_PUSH_POINT(m_arr_skelton_right, 30,0,0)
-
 
     { // infinity loop
 
@@ -133,6 +95,45 @@ Data::Data()
         D_PUSH_POINT(m_arr_skelton_left, 30,0,0); D_PUSH_POINT(m_arr_skelton_right, 30,0,-pente);
 
     } // infinity loop
+
+	/**/
+
+    D_PUSH_POINT(m_arr_skelton_left, 90,0,0); D_PUSH_POINT(m_arr_skelton_right, 90,0,0);
+
+    { // turned looping
+
+		D_PUSH_POINT(m_arr_skelton_left, 40,0,40); D_PUSH_POINT(m_arr_skelton_right, 40,0,40);
+		D_PUSH_POINT(m_arr_skelton_left, -40,0,40); D_PUSH_POINT(m_arr_skelton_right, -40,0,40);
+
+		D_PUSH_POINT(m_arr_skelton_left, -40,40,-10); D_PUSH_POINT(m_arr_skelton_right, -40,30,0);
+		D_PUSH_POINT(m_arr_skelton_left, 20,40,0); D_PUSH_POINT(m_arr_skelton_right, 0,40,-10);
+
+		D_PUSH_POINT(m_arr_skelton_left, 20,20,0); D_PUSH_POINT(m_arr_skelton_right, 35,30,0);
+		D_PUSH_POINT(m_arr_skelton_left, 40,0,0); D_PUSH_POINT(m_arr_skelton_right, 45,0,0);
+
+    } // turned looping
+
+    D_PUSH_POINT(m_arr_skelton_left, 30,0,0); D_PUSH_POINT(m_arr_skelton_right, 30,0,0);
+
+    { // looping
+
+        float r = 60;
+        float d = -20;
+
+        D_PUSH_POINT(m_arr_skelton_left, r,0,0); D_PUSH_POINT(m_arr_skelton_right, r,0,0);
+        D_PUSH_POINT(m_arr_skelton_left, r,0,r); D_PUSH_POINT(m_arr_skelton_right, r,0,r);
+        D_PUSH_POINT(m_arr_skelton_left, -r,d,r); D_PUSH_POINT(m_arr_skelton_right, -r,d,r);
+        D_PUSH_POINT(m_arr_skelton_left, -r,d,-r); D_PUSH_POINT(m_arr_skelton_right, -r,d,-r);
+        D_PUSH_POINT(m_arr_skelton_left, r,d,-r); D_PUSH_POINT(m_arr_skelton_right, r,d,-r);
+        D_PUSH_POINT(m_arr_skelton_left, r,0,0); D_PUSH_POINT(m_arr_skelton_right, r,0,0);
+
+        D_PUSH_POINT(m_arr_skelton_left, 20,0,0); D_PUSH_POINT(m_arr_skelton_right, 20,0,0);
+
+    } // looping
+
+
+    D_PUSH_POINT(m_arr_skelton_left, 30,0,0); D_PUSH_POINT(m_arr_skelton_right, 30,0,0)
+
 
 
     D_PUSH_POINT(m_arr_skelton_left, 30,0,0); D_PUSH_POINT(m_arr_skelton_right, 30,0,0);
@@ -365,8 +366,8 @@ Data::Data()
 		std::vector<float>	buffer;
 		buffer.reserve(400);
 
-		std::vector<float>	buffer2;
-		buffer2.reserve(400);
+		// std::vector<float>	buffer2;
+		// buffer2.reserve(400);
 
         float side_x = 1;
         float side_y = 2;
@@ -399,14 +400,14 @@ Data::Data()
             int curr_index = indices[i] * 3;
 
             D_PUSH_VERTEX(buffer, vertices[curr_index+0],vertices[curr_index+1],vertices[curr_index+2], 1,0,0);
-            D_PUSH_VERTEX(buffer2, vertices[curr_index+0],vertices[curr_index+1],vertices[curr_index+2], 1,1,1);
+            // D_PUSH_VERTEX(buffer2, vertices[curr_index+0],vertices[curr_index+1],vertices[curr_index+2], 1,1,1);
         }
 
 		m_GeometryColor_chassis.initialise();
 		m_GeometryColor_chassis.update(&buffer[0], buffer.size() * sizeof(float));
 
-		m_GeometryColor_chassis_dead.initialise();
-		m_GeometryColor_chassis_dead.update(&buffer2[0], buffer2.size() * sizeof(float));
+		// m_GeometryColor_chassis_dead.initialise();
+		// m_GeometryColor_chassis_dead.update(&buffer2[0], buffer2.size() * sizeof(float));
 	}
 
 	{

@@ -2,19 +2,27 @@
 
 #include "Game.hpp"
 
-#include "Logic/Data.hpp"
 #include "States/StateManager.hpp"
+
+#include "Logic/Data.hpp"
+
+#include "Utility/TraceLogger.hpp"
+// #include "Utility/Clock.hpp"
+
+
+#include <SDL2/SDL.h>
 
 #ifdef EMSCRIPTEN
 #	include <emscripten.h>
 #endif
 
 
+
 Game::Game()
 {
-	m_pStage = new SDLStage(800, 600, 60, SDL_OPENGL);
+	m_pStage = new SDLStage(800, 600);
 
-	m_pStage->setCaption("OpenGL and Bullet");
+	// m_pStage->setCaption("OpenGL and Bullet");
 
 	m_pStage->setEventListener([this](const SDL_Event &event)
 	{
@@ -34,7 +42,7 @@ Game::Game()
 #endif
 	});
 
-	m_pStage->setRenderCallback([this](const SDL_Surface& screen)
+	m_pStage->setRenderCallback([this](const SDL_Window& screen)
 	{
 #ifdef EMSCRIPTEN
 		EM_ASM(myFpsmeter_render.tickStart(););
@@ -50,9 +58,13 @@ Game::Game()
     glEnable(GL_DEPTH_TEST);
 
     glEnable(GL_BLEND);
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE );
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+#ifndef __EMSCRIPTEN__
+	glEnable( GL_TEXTURE_2D ); // <= the C++ version need it
+#endif
+
+	m_time_start = SDL_GetTicks();
 
 	Data::create();
 	StateManager::create();
@@ -66,25 +78,80 @@ Game::~Game()
 	delete m_pStage;
 }
 
+
+
 #ifdef EMSCRIPTEN
 
-void step(void* data)
+void	Game::step(void* data)
 {
-	((SDLStage*)data)->step();
-}
+	Game*	self = ((Game*)data);
 
-#endif
+	unsigned int time_current = SDL_GetTicks();
+	unsigned int delta = time_current - self->m_time_start;
+
+	// D_MYLOG("time_current=" << time_current);
+	self->update(delta);
+
+	self->m_time_start = time_current;
+}
 
 void	Game::run()
 {
-#ifdef EMSCRIPTEN
-
-	emscripten_set_main_loop_arg(step, (void*)m_pStage, 0, true);
+	emscripten_set_main_loop_arg(Game::step, (void*)this, 0, true);
+}
 
 #else
 
-	while (m_pStage->isActive())
-		m_pStage->step();
+void	Game::run()
+{
+	while (m_active)
+	{
+		unsigned int time_current = SDL_GetTicks();
+		unsigned int delta = time_current - m_time_start;
+
+		// D_MYLOG("time_current=" << time_current);
+		this->update(delta);
+
+		m_time_start = time_current;
+		int to_wait = 16 - (int)delta; // <= 16 = 16ms = ~1/60FPS
+		if (to_wait > 0)
+			SDL_Delay(to_wait);
+	}
+}
 
 #endif
+
+void	Game::update(long int deltaTime)
+{
+	// auto*	pWindow = Data::get()->Wrappers.m_pWindow;
+
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+			case SDL_QUIT:
+			{
+				m_active = false;
+				break;
+			}
+			case SDL_KEYUP:
+			{
+				int sym = event.key.keysym.sym;
+				if (sym == SDLK_ESCAPE)
+					m_active = false;
+				break;
+			}
+		}
+
+		// pWindow->ProcessEvent(&event);
+		m_pStage->handleEvent(event);
+	}
+
+	m_pStage->update(deltaTime);
+
+	// if (pWindow->visible)
+	// pWindow->Render();
+	m_pStage->render();
 }
+

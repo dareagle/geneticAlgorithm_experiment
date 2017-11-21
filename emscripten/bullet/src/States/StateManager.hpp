@@ -38,6 +38,7 @@ public:
 	enum /*class*/ e_States
 	{
 		eMain = 0,
+		eRunBest,
 		eTotalStates
 	};
 
@@ -49,12 +50,12 @@ private:
 
 public:
 	// change state
-	// void	 changeState(e_States nextState);
+	void	 changeState(e_States nextState);
 
 public:
 	void	handleEvent(const SDL_Event&);
 	void	update(int);
-	void	render(const SDL_Surface&);
+	void	render(const SDL_Window&);
 };
 
 

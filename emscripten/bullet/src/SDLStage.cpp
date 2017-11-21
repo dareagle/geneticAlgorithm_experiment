@@ -1,31 +1,62 @@
 
 #include "SDLStage.hpp"
 
+#include "../Utility/TraceLogger.hpp"
 
-SDLStage::SDLStage(int width, int height, int frameRate, int flags)
+
+// #include <SDL2/SDL_opengles2.h>
+
+
+SDLStage::SDLStage(int width, int height)
+	: m_ticksPerFrame(1000 / 60)
 {
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0)
+
+	// SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	// SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	// SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+	m_pWindow = SDL_CreateWindow("Test",
+		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+		width, height,
+		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE
+	);
+
+	if (!m_pWindow)
 	{
-		std::cout << "Could not initialize SDL: " << SDL_GetError() << std::endl;
+		D_MYLOG("Could not create the window: " << SDL_GetError());
 		return;
 	}
 
-	m_pScreen = SDL_SetVideoMode(width, height, 0, flags);
+	m_glContextID = SDL_GL_CreateContext(m_pWindow);
+	if (!m_glContextID)
+    {
+        D_MYLOG("Failed to create GL context: " << SDL_GetError());
+        SDL_DestroyWindow(m_pWindow);
+        SDL_Quit();
+        return;
+    }
 
-	if (m_pScreen == nullptr)
-	{
-		std::cout << "Could not set video mode: " << SDL_GetError() << std::endl;
-		return;
-	}
+    if (SDL_GL_MakeCurrent(m_pWindow, m_glContextID) < 0)
+    {
+        D_MYLOG("Failed to make GL context current: " << SDL_GetError());
+        SDL_GL_DeleteContext(m_glContextID);
+        SDL_DestroyWindow(m_pWindow);
+        SDL_Quit();
+        return;
+    }
 
-	m_time_prev = 0;
-	m_ticksPerFrame = (int)(1000 / frameRate);
-	m_active = true;
-	m_paused = false;
+    D_MYLOG("GL_VERSION: " << glGetString(GL_VERSION));
+
+    SDL_GL_SetSwapInterval(1);
+
+	glViewport(0, 0, width, height);
 }
 
 SDLStage::~SDLStage()
 {
+	SDL_GL_DeleteContext(m_glContextID);
+	SDL_DestroyWindow(m_pWindow);
 	SDL_Quit();
 }
 
@@ -33,142 +64,49 @@ void SDLStage::handleEvent(SDL_Event &event)
 {
 	switch (event.type)
 	{
-		case SDL_ACTIVEEVENT:
+		case SDL_WINDOWEVENT:
+		{
+			switch (event.window.event)
 			{
-				if (event.active.state & SDL_APPACTIVE)
-					m_paused = (event.active.gain == 0);
+			case SDL_WINDOWEVENT_SHOWN:
+				m_visible = true;
+				break;
+
+			case SDL_WINDOWEVENT_HIDDEN:
+				m_visible = false;
+				break;
+
+			case SDL_WINDOWEVENT_SIZE_CHANGED:
+			{
+				int local_width = 0, local_height = 0;
+				SDL_GL_GetDrawableSize(m_pWindow, &local_width, &local_height);
+				glViewport(0, 0, local_width, local_height);
 			}
 			break;
-		
-		// case SDL_VIDEOEXPOSE:
-		// 	{
-		// 		render();
-		// 	}
-		// 	break;
-		
-		case SDL_QUIT:
-			{
-				m_active = false;
 			}
-			break;
+		}
+		break;
 	}
-	
+
 	if (m_eventListener)
 		m_eventListener(event);
-	
-	event.type = -1;
 }
 
 void SDLStage::render()
 {
+	if (!m_visible)
+		return;
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	if (m_renderCallback)
-		m_renderCallback(*m_pScreen);
+		m_renderCallback(*m_pWindow);
+
+	SDL_GL_SwapWindow(m_pWindow);
 }
-
-void SDLStage::setCaption(const std::string& title)
-{
-	if (m_active)
-		SDL_WM_SetCaption(title.c_str(), title.c_str());
-}
-
-
-
-void SDLStage::step()
-{
-	SDL_Event event;
-
-#ifndef EMSCRIPTEN
-
-	if (m_paused)
-	{
-		if (SDL_WaitEvent(&event))
-			this->handleEvent(event);
-	}
-	else
-	{
-
-#endif
-
-		while (SDL_PollEvent(&event))
-		{
-			this->handleEvent(event);
-
-			if (!m_active)
-				break;
-		}
-		
-		if (m_active)
-		{
-			int currentTime = SDL_GetTicks();
-			int deltaTime = currentTime - m_time_prev;
-			
-			this->update(deltaTime);
-			this->render();
-
-#ifndef EMSCRIPTEN
-
-			while (deltaTime < m_ticksPerFrame)
-			{
-				SDL_TimerID timer = SDL_AddTimer(m_ticksPerFrame - deltaTime, SDLStage::timer_onComplete, nullptr);
-
-				SDL_WaitEvent(&event);
-				SDL_RemoveTimer(timer);
-
-				if (event.type != SDL_USEREVENT)
-				{
-					this->handleEvent(event);
-					deltaTime = SDL_GetTicks() - m_time_prev;
-				}
-				else
-				{
-					event.type = -1;
-					break;
-				}
-			}
-
-#endif
-
-			m_time_prev = currentTime;
-		}
-
-#ifndef EMSCRIPTEN
-	}
-#endif
-}
-
 
 void SDLStage::update(int deltaTime)
 {	
 	if (m_updateCallback)
 		m_updateCallback(deltaTime);
-}
-
-
-
-
-// Event Handlers
-
-
-
-
-Uint32 SDLStage::timer_onComplete(Uint32 interval, void *param)
-{
-	static_cast<void>(interval);
-	static_cast<void>(param);
-	
-	SDL_Event event;
-	SDL_UserEvent userevent;
-
-	userevent.type = SDL_USEREVENT;
-	userevent.code = 0;
-	userevent.data1 = nullptr;
-	userevent.data2 = nullptr;
-
-	event.type = SDL_USEREVENT;
-	event.user = userevent;
-
-	SDL_PushEvent (&event);
-
-    return 0;
-    
 }
