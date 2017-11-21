@@ -1,7 +1,7 @@
 
 
-cpp_mode=yes
-# cpp_mode=no
+# cpp_mode=yes
+cpp_mode=no
 
 
 ifeq ($(cpp_mode),yes)
@@ -112,7 +112,7 @@ ifeq ($(cpp_mode),yes)
 
 	# CXXFLAGS=	-Wall -W -Wextra -Wunused -O3 -std=c++11	\
 
-	CXXFLAGS=	-O3 -std=c++11	\
+	CXXFLAGS=	-g3 -std=c++11	\
 				-I$(PATH_SRC) \
 				-I$(PATH_GLM) \
 				-I$(PATH_BULLET)
@@ -121,7 +121,9 @@ ifeq ($(cpp_mode),yes)
 						-I$(PATH_SRC) \
 						-I$(PATH_BULLET)
 
-	LDFLAGS=	-lSDL_image -lSDL -lGLESv2 -lEGL \
+
+	LDFLAGS=	-O3 \
+				-lSDL2_image -lSDL2 -lGLESv2 -lEGL \
 				$(BULLETDYNAMICS_NAME) \
 				$(BULLETCOLLISION_NAME) \
 				$(BULLETLINEARMATH_NAME) #\
@@ -129,13 +131,16 @@ ifeq ($(cpp_mode),yes)
 
 else
 
-	CXX=/home/barbie/Documents/Programming/cpp/emscripten/emsdk_portable/emscripten/master/em++
-	AR=/home/barbie/Documents/Programming/cpp/emscripten/emsdk_portable/emscripten/master/emar
+	# CXX=/home/barbie/Documents/Programming/cpp/emscripten/emsdk_portable/emscripten/master/em++
+	# AR=/home/barbie/Documents/Programming/cpp/emscripten/emsdk_portable/emscripten/master/emar
+	CXX=/home/barbie/Documents/Programming/cpp/emscripten/emsdk_portable/emscripten/1.37.22/em++
+	AR=/home/barbie/Documents/Programming/cpp/emscripten/emsdk_portable/emscripten/1.37.22/emar
 
 	# CXXFLAGS=	-Wall -W -Wextra -Wunused -O3 -std=c++11	\
 
 	# CXXFLAGS=	-O3 -std=c++11
 	CXXFLAGS=	-O3 -std=c++11	\
+				-s USE_SDL=2 -s USE_SDL_IMAGE=2 \
 				-I$(PATH_SRC) \
 				-I$(PATH_GLM) \
 				-I$(PATH_BULLET)
@@ -144,12 +149,13 @@ else
 						-I$(PATH_SRC) \
 						-I$(PATH_BULLET)
 
-	LDFLAGS=	-s USE_BULLET=0 \
-				-s FULL_ES2=1 \
-				$(EXTERNAL) -lSDL -lGLESv2 -lEGL \
+	LDFLAGS=	-O3 \
+				-s USE_BULLET=0 -s USE_SDL=2 -s USE_SDL_IMAGE=2 \
+				$(EXTERNAL) \
 				$(BULLETDYNAMICS_NAME) \
 				$(BULLETCOLLISION_NAME) \
-				$(BULLETLINEARMATH_NAME)
+				$(BULLETLINEARMATH_NAME) \
+				-s WASM=1
 
 				# -s FULL_ES2=1	\
 				# --use-preload-plugins	\
@@ -215,7 +221,7 @@ clean_bullet:
 			$(RM) $(BULLETCOLLISION_OBJ)
 			$(RM) $(BULLETDYNAMICS_OBJ)
 
-fclean_bullet:	clean2
+fclean_bullet:	clean_bullet
 				$(RM) $(BULLETLINEARMATH_NAME)
 				$(RM) $(BULLETCOLLISION_NAME)
 				$(RM) $(BULLETDYNAMICS_NAME)

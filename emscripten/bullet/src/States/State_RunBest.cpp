@@ -5,9 +5,9 @@
 #include "StateManager.hpp"
 
 #include "Logic/Data.hpp"
+#include "Logic/Graphic/Shader.hpp"
 
-
-#include "../Utility/TraceLogger.hpp"
+#include "Utility/TraceLogger.hpp"
 
 
 // #include <chrono>
@@ -296,7 +296,7 @@ void	State_RunBest::render(const SDL_Window& window)
 
 		auto&	PhysicWorld = Data::get()->m_PhysicWorld;
 
-		ShaderColor::bind( &(Data::get()->m_ShaderColor) );
+		Shader::bind( Data::get()->m_ShaderColor.getShader() );
 
 		btScalar	mat4[16];
 
@@ -341,11 +341,11 @@ void	State_RunBest::render(const SDL_Window& window)
 			}
 		}
 
-		ShaderColor::bind( nullptr );
+		Shader::bind( nullptr );
 	}
 
 
-	ShaderColor::bind( &(Data::get()->m_ShaderColor) );
+	Shader::bind( Data::get()->m_ShaderColor.getShader() );
 
 		float*	pMatrix = glm::value_ptr(Data::get()->m_composedMatrix);
 
@@ -361,7 +361,7 @@ void	State_RunBest::render(const SDL_Window& window)
 
 		Data::get()->m_GeometryColor_circuit_walls.render(GL_TRIANGLES, pMatrix, 0.2f);
 
-	ShaderColor::bind( nullptr );
+	Shader::bind( nullptr );
 
 
 	{ // HUD
