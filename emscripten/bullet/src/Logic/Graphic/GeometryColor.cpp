@@ -3,6 +3,9 @@
 #include "GeometryColor.hpp"
 
 #include "ShaderColor.hpp"
+#include "Shader.hpp"
+
+#include "Utility/TraceLogger.hpp"
 
 #include <cstdio>
 
@@ -72,13 +75,18 @@ void	GeometryColor::render(GLint primitive, float* matrix, float alpha /*= 1.0f*
 		!m_pShaderColor)
 		return;
 
-	glEnableVertexAttribArray(m_pShaderColor->m_attr_Position);
-	glEnableVertexAttribArray(m_pShaderColor->m_attr_Color);
+	GLint attr_Position = m_pShaderColor->getShader()->getAttribute("a_Position");
+	GLint attr_Color = m_pShaderColor->getShader()->getAttribute("a_Color");
+	GLint unif_ComposedMatrix = m_pShaderColor->getShader()->getUniforms("u_ComposedMatrix");
+	GLint unif_Alpha = m_pShaderColor->getShader()->getUniforms("u_Alpha");
 
-		// glUniformMatrix4fv(m_pShaderColor->m_unif_ComposedMatrix, 1, GL_FALSE, glm::value_ptr(composedMatrix));
+	glEnableVertexAttribArray(attr_Position);
+	glEnableVertexAttribArray(attr_Color);
 
-		glUniformMatrix4fv( m_pShaderColor->m_unif_ComposedMatrix, 1, GL_FALSE, matrix );
-		glUniform1f( m_pShaderColor->m_unif_Alpha, alpha );
+		// glUniformMatrix4fv(unif_ComposedMatrix, 1, GL_FALSE, glm::value_ptr(composedMatrix));
+
+		glUniformMatrix4fv( unif_ComposedMatrix, 1, GL_FALSE, matrix );
+		glUniform1f( unif_Alpha, alpha );
 
 		std::size_t		bpp = sizeof(float);
 		std::size_t 	stride = 6 * bpp;
@@ -87,8 +95,8 @@ void	GeometryColor::render(GLint primitive, float* matrix, float alpha /*= 1.0f*
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_obj_buffer);
 
-			glVertexAttribPointer(m_pShaderColor->m_attr_Position, 3, GL_FLOAT, GL_FALSE, stride, index_pos);
-			glVertexAttribPointer(m_pShaderColor->m_attr_Color, 3, GL_FLOAT, GL_FALSE, stride, index_color);
+			glVertexAttribPointer(attr_Position, 3, GL_FLOAT, GL_FALSE, stride, index_pos);
+			glVertexAttribPointer(attr_Color, 3, GL_FLOAT, GL_FALSE, stride, index_color);
 
 			glDrawArrays(primitive, 0, m_numItems);
 
@@ -96,7 +104,7 @@ void	GeometryColor::render(GLint primitive, float* matrix, float alpha /*= 1.0f*
 
 
 
-	glDisableVertexAttribArray(m_pShaderColor->m_attr_Position);
-	glDisableVertexAttribArray(m_pShaderColor->m_attr_Color);
+	glDisableVertexAttribArray(attr_Position);
+	glDisableVertexAttribArray(attr_Color);
 }
 

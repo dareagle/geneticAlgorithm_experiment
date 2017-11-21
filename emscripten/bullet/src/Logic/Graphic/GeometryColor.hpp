@@ -1,11 +1,11 @@
 
 
-#ifndef D_GEOMETRYCOLOR_CPP
-#define D_GEOMETRYCOLOR_CPP
+#pragma once
 
 
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
+// #include <GLES2/gl2.h>
+// #include <GLES2/gl2ext.h>
+#include <SDL2/SDL_opengles2.h>
 
 
 class	ShaderColor;
@@ -33,7 +33,4 @@ public:
 	void	update(float* pData, unsigned int length);
 	void	render(GLint primitive, float* matrix, float alpha = 1.0f);
 };
-
-
-#endif // D_GEOMETRYCOLOR_CPP
 

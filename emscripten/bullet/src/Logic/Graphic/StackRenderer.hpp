@@ -1,14 +1,16 @@
 
 
-#ifndef D_STACKRENDERER_HPP
-#define D_STACKRENDERER_HPP
+#pragma once
 
 
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
+// #include <GLES2/gl2.h>
+// #include <GLES2/gl2ext.h>
+#include <SDL2/SDL_opengles2.h>
 
 #include <vector>
 
+
+class Shader;
 
 struct StackRenderer
 {
@@ -49,18 +51,15 @@ public:
 	};
 
 public:
-	GLuint m_vboId;
+	GLuint m_vboId = 0;
 	std::vector<t_vertex>	m_vertices;
 
-	GLuint m_programId;
-	GLint m_projectionUniform;
-	GLint m_vertexAttribute;
-	GLint m_colorAttribute;
+	Shader*	m_pShader = nullptr;
 
-	float*	m_pMatrix;
+	float*	m_pMatrix = nullptr;
 
 public:
-	StackRenderer();
+	StackRenderer() = default;
 
 public:
 	void create();
@@ -70,10 +69,5 @@ public:
 	inline void	setMatrix(float* pMatrix) { m_pMatrix = pMatrix; }
 
 	void push_vertex(const t_pos& v, const t_color& c);
-	// inline void push_vertex(const t_vertex& v) { push_vertex(v.pos, v.color); }
     void flush();
 };
-
-
-#endif // D_STACKRENDERER_HPP
-

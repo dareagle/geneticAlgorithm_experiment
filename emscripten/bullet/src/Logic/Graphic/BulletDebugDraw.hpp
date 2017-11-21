@@ -1,7 +1,6 @@
 
 
-#ifndef D_BULLETDEBUGDRAW_HPP
-#define D_BULLETDEBUGDRAW_HPP
+#pragma once
 
 
 #include <Bullet/btBulletDynamicsCommon.h>
@@ -37,7 +36,3 @@ public:
 	}
 
 };
-
-
-#endif // D_BULLETDEBUGDRAW_HPP
-
