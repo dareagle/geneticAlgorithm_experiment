@@ -23,10 +23,10 @@ Vehicle::Vehicle(btDiscreteDynamicsWorld* pDynamicsWorld)
 	float	wheelWidth = 0.2f;
 
 	/// The maximum length of the suspension (metres)
-	float	suspensionRestLength = 0.6f;
+	float	suspensionRestLength = 0.8f;
 
 	/// The maximum distance the suspension can be compressed (centimetres)
-	float	maxSuspensionTravelCm = 50.0f;
+	float	maxSuspensionTravelCm = 70.0f;
 
 	/// The coefficient of friction between the tyre and the ground.
 	/// Should be about 0.8 for realistic cars, but can increased for better handling.
@@ -34,22 +34,25 @@ Vehicle::Vehicle(btDiscreteDynamicsWorld* pDynamicsWorld)
 	float	wheelFriction = 10000.0f;
 
 	/// The stiffness constant for the suspension. 10.0 - Offroad buggy, 50.0 - Sports car, 200.0 - F1 Car
-	float	suspensionStiffness = 50.f;
+	// float	suspensionStiffness = 200.f;
+	float	suspensionStiffness = 30.f;
 
 	/// The damping coefficient for when the suspension is compressed. Set to k * 2.0 * btSqrt(m_suspensionStiffness) so k is proportional to critical damping.
 	/// k = 0.0 undamped & bouncy, k = 1.0 critical damping
 	/// 0.1 to 0.3 are good values
-	float	wheelsDampingCompression = 1.0f;
+	// float	wheelsDampingCompression = 1.0f;
+	float	wheelsDampingCompression = 0.3f;
 
 	/// The damping coefficient for when the suspension is expanding. See the comments for m_wheelsDampingCompression for how to set k.
 	/// m_wheelsDampingRelaxation should be slightly larger than m_wheelsDampingCompression, eg 0.2 to 0.5
-	float	wheelsDampingRelaxation = 1.0f;
+	// float	wheelsDampingRelaxation = 1.0f;
+	float	wheelsDampingRelaxation = 0.5f;
 
 	/// Reduces the rolling torque applied from the wheels that cause the vehicle to roll over.
 	/// This is a bit of a hack, but it's quite effective. 0.0 = no roll, 1.0 = physical behaviour.
 	/// If m_frictionSlip is too high, you'll need to reduce this to stop the vehicle rolling over.
 	/// You should also try lowering the vehicle's centre of mass
-	float	rollInfluence = 0.0f;
+	float	rollInfluence = 0.01f;
 
 	//
 	//
