@@ -78,33 +78,66 @@ namespace
 		const t_vec2f& position = car.getPosition();
 		float angle = car.getAngle();
 
-		float size_h = 25.0f;
-		float size_v = 12.5f;
+		{
+			float size_h = 25.0f;
+			float size_v = 12.5f;
 
-		t_vec2f	positions[4] = {
-			t_vec2f(position.x - size_h, position.y - size_v),
-			t_vec2f(position.x + size_h, position.y - size_v),
-			t_vec2f(position.x + size_h, position.y + size_v),
-			t_vec2f(position.x - size_h, position.y + size_v)
-		};
+			float ratio = car.getLife();
 
-		for (int i = 0; i < 4; ++i)
-			positions[i] = rotateVec2(positions[i], position, angle);
+			t_vec2f	positions[4] = {
+				t_vec2f(position.x - size_h, position.y - size_v),
+				t_vec2f(position.x - size_h + size_h * 2.0f * ratio, position.y - size_v),
+				t_vec2f(position.x - size_h + size_h * 2.0f * ratio, position.y + size_v),
+				t_vec2f(position.x - size_h, position.y + size_v)
+			};
 
-		sf::Color col = (car.isAlive() ? color : sf::Color::Red);
+			for (int i = 0; i < 4; ++i)
+				positions[i] = rotateVec2(positions[i], position, angle);
 
-		sf::Vertex p1(sf::Vector2f(positions[0].x, positions[0].y), col);
-		sf::Vertex p2(sf::Vector2f(positions[1].x, positions[1].y), col);
-		sf::Vertex p3(sf::Vector2f(positions[2].x, positions[2].y), col);
-		sf::Vertex p4(sf::Vector2f(positions[3].x, positions[3].y), col);
+			// sf::Color col = (car.isAlive() ? color : sf::Color::Red);
+			// sf::Color col = sf::Color::Green;
+			sf::Color col = (car.isAlive() ? sf::Color::Green : sf::Color::Yellow);
+			col.g *= ratio;
 
-		sf::Vertex vertices[] = { p1,p2, p2,p3, p3,p4, p4,p1 };
+			sf::Vertex p1(sf::Vector2f(positions[0].x, positions[0].y), col);
+			sf::Vertex p2(sf::Vector2f(positions[1].x, positions[1].y), col);
+			sf::Vertex p3(sf::Vector2f(positions[2].x, positions[2].y), col);
+			sf::Vertex p4(sf::Vector2f(positions[3].x, positions[3].y), col);
 
-		glLineWidth(5.0f);
+			sf::Vertex vertices[] = { p1,p2,p3, p1,p4,p3 };
 
-		rwindow.draw(vertices, 8, sf::Lines);
+			rwindow.draw(vertices, 6, sf::Triangles);
+		}
 
-		glLineWidth(1.0f);
+		{
+			float size_h = 25.0f;
+			float size_v = 12.5f;
+
+			t_vec2f	positions[4] = {
+				t_vec2f(position.x - size_h, position.y - size_v),
+				t_vec2f(position.x + size_h, position.y - size_v),
+				t_vec2f(position.x + size_h, position.y + size_v),
+				t_vec2f(position.x - size_h, position.y + size_v)
+			};
+
+			for (int i = 0; i < 4; ++i)
+				positions[i] = rotateVec2(positions[i], position, angle);
+
+			sf::Color col = (car.isAlive() ? color : sf::Color::Red);
+
+			sf::Vertex p1(sf::Vector2f(positions[0].x, positions[0].y), col);
+			sf::Vertex p2(sf::Vector2f(positions[1].x, positions[1].y), col);
+			sf::Vertex p3(sf::Vector2f(positions[2].x, positions[2].y), col);
+			sf::Vertex p4(sf::Vector2f(positions[3].x, positions[3].y), col);
+
+			sf::Vertex vertices[] = { p1,p2, p2,p3, p3,p4, p4,p1 };
+
+			glLineWidth(5.0f);
+
+			rwindow.draw(vertices, 8, sf::Lines);
+
+			glLineWidth(1.0f);
+		}
 
 		///
 
@@ -168,6 +201,7 @@ void	RendererSFML::run(std::function<void()> simulation_callback)
 	window.setFramerateLimit(60);
 
 	int	index_target_car = -1;
+	int	frames_until_new_target = 30;
 	sf::Vector2f	camera_center;
 
 	// Start the game loop
@@ -237,18 +271,55 @@ void	RendererSFML::run(std::function<void()> simulation_callback)
 
 			t_vec2f	target;
 			
-			unsigned int index = 0;
-			for (; index < m_Simulation.getCars().size(); ++index)
-				if (m_Simulation.getCars()[index].isAlive())
-					break;
 
-			if (index < m_Simulation.getCars().size())
+			auto&& cars = m_Simulation.getCars();
+
+			--frames_until_new_target;
+			if (frames_until_new_target <= 0 ||
+				index_target_car < 0 ||
+				!cars[index_target_car].isAlive())
 			{
-				index_target_car = index;
-				target = m_Simulation.getCars()[index_target_car].getPosition();
+				frames_until_new_target = 60;
+
+		        float	curr_fitness = -1;
+
+		        for (unsigned int ii = 0; ii < cars.size(); ++ii)
+		        {
+		        	auto& car = cars[ii];
+
+		            if (!car.isAlive())
+		                continue;
+
+		            if (curr_fitness > car.getFitness())
+		                continue;
+
+		            curr_fitness = car.getFitness();
+
+		            index_target_car = ii;
+		        }
 			}
-			else
-				index_target_car = -1;
+
+			if (index_target_car >= 0)
+			{
+				target = cars[index_target_car].getPosition();
+			}
+
+
+			// unsigned int index = 0;
+			// for (; index < m_Simulation.getCars().size(); ++index)
+			// 	if (m_Simulation.getCars()[index].isAlive())
+			// 		break;
+
+			// if (index < m_Simulation.getCars().size())
+			// {
+			// 	index_target_car = index;
+			// 	target = m_Simulation.getCars()[index_target_car].getPosition();
+			// }
+			// else
+			// 	index_target_car = -1;
+
+
+
 
 			sf::Vector2f	diff(target.x-camera_center.x-200, target.y-camera_center.y);
 
@@ -326,6 +397,10 @@ void	RendererSFML::run(std::function<void()> simulation_callback)
 
 				const auto& ann_topology = m_Simulation.getNNTopology();
 
+				//
+				// concatenate the weights in a usable array
+				//
+
 				std::vector<unsigned int> arr_topology;
 				arr_topology.reserve(2 + ann_topology.getHiddens().size());
 
@@ -338,8 +413,11 @@ void	RendererSFML::run(std::function<void()> simulation_callback)
 				for (unsigned int index = 1; index < arr_topology.size(); ++index)
 					arr_topology_max = std::max(arr_topology_max, arr_topology[index]);
 
-				unsigned int	windex = 0;
+				//
+				// show weights
+				//
 
+				unsigned int	windex = 0;
 				for (unsigned int index = 1; index < arr_topology.size(); ++index)
 				{
 					int prev_layer = arr_topology[index-1];
@@ -353,15 +431,15 @@ void	RendererSFML::run(std::function<void()> simulation_callback)
 						{
 							sf::Vector2f	p1;
 							p1.x = (index-1) * 75;
-							p1.y = prev_dec_y+pindex*75;
+							p1.y = prev_dec_y + pindex * 75;
 
 							sf::Vector2f	p2;
 							p2.x = (index) * 75;
-							p2.y = curr_dec_y+cindex*75;
+							p2.y = curr_dec_y + cindex * 75;
 
 							float wvalue = genome.m_weights[windex++];
 
-							float ratio = wvalue * 10;
+							float ratio = wvalue * 10.0f;
 							if (ratio < 0)  ratio = -ratio;
 							if (ratio < 1)  ratio = 1;
 
@@ -374,6 +452,10 @@ void	RendererSFML::run(std::function<void()> simulation_callback)
 								drawLine(window, line, sf::Color::Blue, ratio);
 						}
 				}
+
+				//
+				// show neurons
+				//
 
 				for (unsigned int index = 0; index < arr_topology.size(); ++index)
 				{

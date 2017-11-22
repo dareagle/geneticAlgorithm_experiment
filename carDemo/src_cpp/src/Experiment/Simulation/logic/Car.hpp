@@ -65,6 +65,9 @@ public: // setter/getter
 	// inline float	getFitness() const { return (m_fitness + (m_total_updates / 1000.0f)); }
 	inline bool		isAlive() const { return m_alive; }
 
+	// inline bool		getLife() const { return (m_min_updates / 50.0f); } // TODO: this is hardcoded :(
+	float			getLife() const;
+
 	inline unsigned int	getTotalUpdates() const { return m_total_updates; }
 
 	inline const std::vector<t_line>&	getTrail() const { return m_trail; };

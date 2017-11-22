@@ -39,7 +39,7 @@ void	Car::update(float step, const Circuit& circuit, const NeuralNetwork& in_NN)
 		--m_min_updates;
 	if (m_min_updates == 0)
 	{
-		m_min_updates = 50;
+		// m_min_updates = 50;
 		m_alive = false;
 	}
 
@@ -207,3 +207,7 @@ void	Car::reset(const Circuit& circuit)
 	m_current_checkpoint = 0;
 }
 
+float	Car::getLife() const
+{
+	return (m_min_updates / 50.0f);
+}

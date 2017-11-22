@@ -3,6 +3,7 @@
 #include "TraceLogger.hpp"
 
 #include <ctime>
+#include <iomanip>
 
 
 std::string getTime()
@@ -19,8 +20,11 @@ std::string getTime()
 	std::stringstream sstr;
 	// sstr << asctime(timeinfo);
 	sstr
+		<< std::setfill('0') << std::setw(2) // <= left pad (size of 2)
 		<< timeinfo->tm_hour << ":"
+		<< std::setfill('0') << std::setw(2) // <= left pad (size of 2)
 		<< timeinfo->tm_min << ":"
+		<< std::setfill('0') << std::setw(2) // <= left pad (size of 2)
 		<< timeinfo->tm_sec;
 
 	return sstr.str();

@@ -28,7 +28,7 @@ void	GeneticAlgorithm::init(NeuralNetworkTopology& NNTopology)
 void	GeneticAlgorithm::generateRandomPopulation()
 {
 	// reset the genomes
-	m_genomes.resize(100);
+	m_genomes.resize(200);
 
 	for (unsigned int i = 0; i < m_genomes.size(); ++i)
 	{
@@ -73,7 +73,7 @@ void	GeneticAlgorithm::BreedPopulation()
 		return;
 
 	std::vector<t_genome>	bestGenomes;
-	getBestGenomes(10, bestGenomes);
+	getBestGenomes(20, bestGenomes);
 
 
 	std::vector<t_genome>	children;
@@ -103,13 +103,17 @@ void	GeneticAlgorithm::BreedPopulation()
 	}
 	else
 	{
+		// elitism :
+		// here the best (alpha) genome from previous
+		// generation is pushed as an unmodified child
+
 		t_genome	bestDude;
 		bestDude.m_fitness = 0.0f;
 		bestDude.m_id = m_alpha_genome.m_id;
 		bestDude.m_weights = m_alpha_genome.m_weights;
 		bestDude.m_index = current_index++;
 
-		mutate(bestDude);
+		// mutate(bestDude);
 		children.push_back(bestDude);
 	}
 
