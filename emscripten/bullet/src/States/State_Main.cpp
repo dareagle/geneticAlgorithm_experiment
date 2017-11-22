@@ -391,7 +391,7 @@ void	State_Main::render(const SDL_Window& window)
 
 		Data::get()->m_GeometryColor_circuit_skelton.render(GL_LINES, pMatrix);
 
-		Data::get()->m_GeometryColor_circuit_ground.render(GL_TRIANGLES, pMatrix, 1.0f);
+		Data::get()->m_GeometryColor_circuit_ground.render(GL_TRIANGLES, pMatrix, 0.8f);
 
 		Data::get()->m_GeometryColor_circuit_walls.render(GL_TRIANGLES, pMatrix, 0.2f);
 
