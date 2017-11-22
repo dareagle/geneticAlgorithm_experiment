@@ -18,7 +18,7 @@ PhysicWrapper::~PhysicWrapper()
 //
 // world
 
-void	PhysicWrapper::step(float elapsed_time)
+void	PhysicWrapper::step(float elapsed_time, int world_index)
 {
 	Data::get()->m_PhysicWorld.step(elapsed_time);
 }

@@ -40,23 +40,23 @@ void	State_Main::handleEvent(const SDL_Event& event)
         keys[event.key.keysym.sym] = false;
         break;
 
-    case SDL_MOUSEBUTTONDOWN:
-		{
-			int tmp_X, tmp_Y;
-			SDL_GetMouseState(&tmp_X, &tmp_Y);
-			D_MYLOG("click, x=" << tmp_X << ", y=" << tmp_Y);
+	// case SDL_MOUSEBUTTONDOWN:
+	// 	{
+	// 		int tmp_X, tmp_Y;
+	// 		SDL_GetMouseState(&tmp_X, &tmp_Y);
+	// 		D_MYLOG("click, x=" << tmp_X << ", y=" << tmp_Y);
 
-			if (tmp_X > 100 && tmp_X < 200 &&
-				tmp_Y > 400 && tmp_Y < 500)
-			{
-				D_MYLOG("TOUCHED!");
+	// 		if (tmp_X > 100 && tmp_X < 200 &&
+	// 			tmp_Y > 400 && tmp_Y < 500)
+	// 		{
+	// 			D_MYLOG("TOUCHED!");
 
-				Data::get()->m_pSimulation->getBestCar().reset();
+	// 			Data::get()->m_pSimulation->getBestCar().reset();
 
-				StateManager::get()->changeState(StateManager::e_States::eRunBest);
-			}
-		}
-	    break;
+	// 			StateManager::get()->changeState(StateManager::e_States::eRunBest);
+	// 		}
+	// 	}
+	//     break;
 
     default:
         break;
@@ -213,10 +213,36 @@ void	State_Main::update(int delta)
 
 	} // camera
 
-	for (int i = 0; i < Data::get()->m_simualtion_step; ++i)
+
+
+	// for (int i = 0; i < Data::get()->m_simualtion_step; ++i)
+	// 	Data::get()->m_pSimulation->update(1.0f / 60); // <= MUST be constant
+
+	auto& myProducer = Data::get()->m_Producer;
+	auto& myRunning = Data::get()->m_running;
+
+	myProducer.update();
+
+	if (myRunning == 0)
 	{
-		Data::get()->m_pSimulation->update(1.0f / 60); // <= MUST be constant
+		myRunning = 1;
+
+		// for (int i = 0; i < 10; ++i)
+		{
+		    myProducer.push([&]() {
+
+				for (int jj = 0; jj < Data::get()->m_simualtion_step; ++jj)
+					Data::get()->m_pSimulation->update(1.0f / 60, 0); // <= MUST be constant
+
+		    }, [&]() {
+
+		    	--myRunning;
+		    });
+		}
 	}
+
+
+
 }
 
 

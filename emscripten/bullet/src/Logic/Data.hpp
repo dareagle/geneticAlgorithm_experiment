@@ -24,6 +24,8 @@
 #include "Physic/Trimesh.hpp"
 #include "Physic/Vehicle.hpp"
 
+#include "Threading/Producer.hpp"
+
 #include "Wrapper/PhysicWrapper.hpp"
 
 #include "../Simulation/Simulation.hpp"
@@ -104,6 +106,11 @@ public:
 	Simulation*		m_pSimulation;
 
 	int				m_simualtion_step;
+
+	//
+
+    Producer	m_Producer;
+    int			m_running = 0;
 
 	// experimental
 	//

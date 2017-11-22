@@ -39,9 +39,9 @@ void	Simulation::initialise(
 	m_pBest_car = new Car(num_car);
 }
 
-void	Simulation::update(float elapsed_time)
+void	Simulation::update(float elapsed_time, int world_index)
 {
-	m_pPhysicWrapper->step(elapsed_time);
+	m_pPhysicWrapper->step(elapsed_time, world_index);
 
 	bool	someone_is_alive = false;
 
@@ -88,25 +88,25 @@ void	Simulation::update(float elapsed_time)
 		car.reset();
 }
 
-void	Simulation::updateBest(float elapsed_time)
-{
-	if (m_GenAlgo.getAlpha().m_fitness == 0.0f)
-		return;
+// void	Simulation::updateBest(float elapsed_time)
+// {
+// 	if (m_GenAlgo.getAlpha().m_fitness == 0.0f)
+// 		return;
 
-	m_pPhysicWrapper->step(elapsed_time);
+// 	m_pPhysicWrapper->step(elapsed_time);
 
-	if (m_pBest_car->isAlive())
-	{
-		NeuralNetwork	tmp_ann(m_NNTopology);
+// 	if (m_pBest_car->isAlive())
+// 	{
+// 		NeuralNetwork	tmp_ann(m_NNTopology);
 
-		tmp_ann.setWeights( m_GenAlgo.getAlpha().m_weights );
+// 		tmp_ann.setWeights( m_GenAlgo.getAlpha().m_weights );
 
-		m_pBest_car->update( tmp_ann );
-	}
-	else
-	{
-		m_pBest_car->reset();
-	}
-}
+// 		m_pBest_car->update( tmp_ann );
+// 	}
+// 	else
+// 	{
+// 		m_pBest_car->reset();
+// 	}
+// }
 
 

@@ -18,7 +18,7 @@ public: // to override
 	//
 	// world
 
-	virtual void	step(float elapsed_time) override;
+	virtual void	step(float elapsed_time, int world_index) override;
 
 	//
 	//

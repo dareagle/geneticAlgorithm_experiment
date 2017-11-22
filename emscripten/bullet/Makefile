@@ -1,7 +1,7 @@
 
 
-# cpp_mode=yes
-cpp_mode=no
+cpp_mode=yes
+# cpp_mode=no
 
 
 ifeq ($(cpp_mode),yes)
@@ -44,6 +44,7 @@ SRC=	$(wildcard	$(PATH_SRC)/*.cpp \
 					$(PATH_SRC)/Logic/*.cpp \
 					$(PATH_SRC)/Logic/Graphic/*.cpp \
 					$(PATH_SRC)/Logic/Physic/*.cpp \
+					$(PATH_SRC)/Logic/Threading/*.cpp \
 					$(PATH_SRC)/Logic/Wrapper/*.cpp \
 					$(PATH_SRC)/Simulation/*.cpp \
 					$(PATH_SRC)/Simulation/Utility/*.cpp \
@@ -126,8 +127,8 @@ ifeq ($(cpp_mode),yes)
 				-lSDL2_image -lSDL2 -lGLESv2 -lEGL \
 				$(BULLETDYNAMICS_NAME) \
 				$(BULLETCOLLISION_NAME) \
-				$(BULLETLINEARMATH_NAME) #\
-				$(BULLETMTHREADED_NAME)
+				$(BULLETLINEARMATH_NAME) \
+				-pthread
 
 else
 
@@ -151,11 +152,11 @@ else
 
 	LDFLAGS=	-O3 \
 				-s USE_BULLET=0 -s USE_SDL=2 -s USE_SDL_IMAGE=2 \
+				-s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=4 -s PTHREAD_HINT_NUM_CORES=4 \
 				$(EXTERNAL) \
 				$(BULLETDYNAMICS_NAME) \
 				$(BULLETCOLLISION_NAME) \
-				$(BULLETLINEARMATH_NAME) \
-				-s WASM=1
+				$(BULLETLINEARMATH_NAME)
 
 				# -s FULL_ES2=1	\
 				# --use-preload-plugins	\

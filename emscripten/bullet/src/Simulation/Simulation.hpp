@@ -42,8 +42,8 @@ public:
 	);
 
 public:
-	void	update(float elapsed_time);
-	void	updateBest(float elapsed_time);
+	void	update(float elapsed_time, int world_index);
+	// void	updateBest(float elapsed_time);
 
 public:
 	const std::vector<Car>&	getCars() const { return m_Cars; }
