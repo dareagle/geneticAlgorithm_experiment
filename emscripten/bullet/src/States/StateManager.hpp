@@ -37,7 +37,7 @@ public:
 	enum /*class*/ e_States
 	{
 		eMain = 0,
-		eRunBest,
+		// eRunBest,
 		eTotalStates
 	};
 

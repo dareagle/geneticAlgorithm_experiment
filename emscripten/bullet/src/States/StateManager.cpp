@@ -3,7 +3,7 @@
 #include "StateManager.hpp"
 
 #include "State_Main.hpp"
-#include "State_RunBest.hpp"
+// #include "State_RunBest.hpp"
 
 //
 //
@@ -16,7 +16,7 @@ StateManager::StateManager()
 	// allocate states
 
 	m_States[e_States::eMain] = new State_Main();
-	m_States[e_States::eRunBest] = new State_RunBest();
+	// m_States[e_States::eRunBest] = new State_RunBest();
 
 	m_currentState = eMain;
 }
