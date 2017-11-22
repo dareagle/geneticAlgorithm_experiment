@@ -1,7 +1,7 @@
 
 
-# cpp_mode=yes
-cpp_mode=no
+cpp_mode=yes
+# cpp_mode=no
 
 
 ifeq ($(cpp_mode),yes)
@@ -113,7 +113,7 @@ ifeq ($(cpp_mode),yes)
 
 	# CXXFLAGS=	-Wall -W -Wextra -Wunused -O3 -std=c++11	\
 
-	CXXFLAGS=	-g3 -std=c++11	\
+	CXXFLAGS=	-O3 -std=c++11	\
 				-I$(PATH_SRC) \
 				-I$(PATH_GLM) \
 				-I$(PATH_BULLET)
