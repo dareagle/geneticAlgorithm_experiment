@@ -35,7 +35,7 @@ private: // attributs
 	bool	m_is_a_great_generation = false;
 
 public: // ctor/dtor
-	GeneticAlgorithm(unsigned int number_of_genome = 30);
+	GeneticAlgorithm(unsigned int number_of_genome = 90);
 
 public: // methods
 	void	init(NeuralNetworkTopology& NNTopology);

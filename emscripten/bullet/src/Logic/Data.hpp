@@ -101,6 +101,8 @@ public:
 	//
 
 	Physic::World	m_PhysicWorld;
+	Physic::World	m_PhysicWorld2;
+	Physic::World	m_PhysicWorld3;
 
 	PhysicWrapper*	m_pPhysicWrapper;
 	Simulation*		m_pSimulation;

@@ -42,7 +42,8 @@ public:
 	);
 
 public:
-	void	update(float elapsed_time, int world_index);
+	void	update(int world_index, float elapsed_time);
+	void	update2();
 	// void	updateBest(float elapsed_time);
 
 public:

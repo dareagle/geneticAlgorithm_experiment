@@ -67,6 +67,7 @@ void	State_Main::handleEvent(const SDL_Event& event)
 
 
 
+
 #include <glm/vec2.hpp> // glm::vec2
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
@@ -225,20 +226,29 @@ void	State_Main::update(int delta)
 
 	if (myRunning == 0)
 	{
-		myRunning = 1;
+		myRunning = 3;
 
-		// for (int i = 0; i < 10; ++i)
+		Data::get()->m_pSimulation->update2();
+
+		for (int world_index = 0; world_index < 3; ++world_index)
 		{
-		    myProducer.push([&]() {
+			// D_MYLOG("world_index=" << world_index);
+
+			myProducer.push([world_index]() {
+
+				// D_MYLOG("world_index=" << world_index);
 
 				for (int jj = 0; jj < Data::get()->m_simualtion_step; ++jj)
-					Data::get()->m_pSimulation->update(1.0f / 60, 0); // <= MUST be constant
+					Data::get()->m_pSimulation->update(world_index, 1.0f / 60); // <= MUST be constant
 
-		    }, [&]() {
+			}, [&]() {
 
-		    	--myRunning;
-		    });
+				--myRunning;
+			});
 		}
+
+		// while (myRunning > 0)
+		// 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 
 
@@ -321,17 +331,19 @@ void	State_Main::render(const SDL_Window& window)
 
 		btScalar	mat4[16];
 
-		for (unsigned int i = 0; i < PhysicWorld.getVehicleSize(); ++i)
+		// for (unsigned int i = 0; i < PhysicWorld.getVehicleSize(); ++i)
+		for (unsigned int ii = 0; ii < arr_Cars.size(); ++ii)
 		{
-			if (!arr_Cars[i].isAlive())
+			if (!arr_Cars[ii].isAlive())
 				continue;
 
-			auto*	pVehicle = PhysicWorld.getVehicle(i);
+			// auto*	pVehicle = PhysicWorld.getVehicle(i);
 
 			//
 
 			{
-				pVehicle->getOpenGLMatrix(mat4);
+				// pVehicle->getOpenGLMatrix(mat4);
+				Data::get()->m_pPhysicWrapper->vehicle_getOpenGLMatrix(ii, mat4);
 
 				glm::mat4	tmp_mat = Data::get()->m_composedMatrix * glm::make_mat4((float*)mat4);
 
@@ -348,9 +360,11 @@ void	State_Main::render(const SDL_Window& window)
 			//
 
 			{
-				for (int jj = 0; jj < pVehicle->getNumWheels(); ++jj)
+				// for (int jj = 0; jj < pVehicle->getNumWheels(); ++jj)
+				for (int jj = 0; jj < Data::get()->m_pPhysicWrapper->vehicle_getWheelsNumber(ii); ++jj)
 				{
-					pVehicle->getWheelMatrix(jj, mat4);
+					// pVehicle->getWheelMatrix(jj, mat4);
+					Data::get()->m_pPhysicWrapper->vehicle_getWheelsMatrix(ii, jj, mat4);
 
 					glm::mat4	tmp_mat = Data::get()->m_composedMatrix * glm::make_mat4((float*)mat4);
 
@@ -422,4 +436,3 @@ void	State_Main::render(const SDL_Window& window)
 
 	// SDL_GL_SwapBuffers();
 }
-

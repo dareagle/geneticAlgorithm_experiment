@@ -8,7 +8,7 @@
 #include <ctime> // <= time(NULL)
 
 
-GeneticAlgorithm::GeneticAlgorithm(unsigned int number_of_genome /*= 30*/)
+GeneticAlgorithm::GeneticAlgorithm(unsigned int number_of_genome /*= 90*/)
 {
 	my_srand( time(NULL) );
 
@@ -68,11 +68,11 @@ void	GeneticAlgorithm::BreedPopulation()
 		return;
 
 	std::vector<t_genome>	bestGenomes;
-	getBestGenomes(5, bestGenomes);
+	getBestGenomes(15, bestGenomes);
 
 	std::vector<t_genome>	children;
 	children.reserve( m_genomes.size() );
-	
+
 
 	if (m_best_fitness < bestGenomes[0].m_fitness)
 	{
@@ -191,7 +191,7 @@ void	GeneticAlgorithm::getBestGenomes(unsigned int totalAsked, std::vector<t_gen
 	if (m_genomes.empty())
 		return;
 
-	// realistic total outputed genomes 
+	// realistic total outputed genomes
 	totalAsked = std::min<unsigned int>(m_genomes.size(), totalAsked);
 
 	out.clear();
@@ -263,4 +263,3 @@ void	GeneticAlgorithm::mutate(t_genome& genome) const
 			++total_mutated;
 		}
 }
-

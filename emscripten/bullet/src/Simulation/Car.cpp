@@ -185,7 +185,7 @@ void	Car::collideSensors()
 
 		//
 
-		bool success = m_pPhysicWrapper->raycast(sensor.near, sensor.far, pCoord_hit, nullptr);
+		bool success = m_pPhysicWrapper->raycast(m_index, sensor.near, sensor.far, pCoord_hit, nullptr);
 
 		if (success)
 		{
@@ -232,7 +232,7 @@ void	Car::collideCheckpoints()
 
 		float	pCoord_hit[3];
 
-		bool success = m_pPhysicWrapper->raycast(m_sensor_ground.near, m_sensor_ground.far, pCoord_hit, &tmp_checkpoint_id);
+		bool success = m_pPhysicWrapper->raycast(m_index, m_sensor_ground.near, m_sensor_ground.far, pCoord_hit, &tmp_checkpoint_id);
 
 		if (success)
 		{
@@ -278,4 +278,3 @@ void	Car::reset() const
 
 	self->updateSensors();
 }
-

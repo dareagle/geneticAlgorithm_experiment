@@ -2,6 +2,8 @@
 
 #include "Simulation.hpp"
 
+#include "Utility/TraceLogger.hpp"
+
 
 Simulation::Simulation(IPhysicWrapper* pPhysicWrapper)
 	: m_pPhysicWrapper(pPhysicWrapper)
@@ -39,10 +41,30 @@ void	Simulation::initialise(
 	m_pBest_car = new Car(num_car);
 }
 
-void	Simulation::update(float elapsed_time, int world_index)
+void	Simulation::update(int world_index, float elapsed_time)
 {
-	m_pPhysicWrapper->step(elapsed_time, world_index);
+	// D_MYLOG("world_index=" << world_index);
 
+	m_pPhysicWrapper->step(world_index, elapsed_time);
+
+	// bool	someone_is_alive = false;
+
+	// for (unsigned int i = 0; i < m_Cars.size(); ++i)
+
+	int step = m_Cars.size() / 3;
+	for (unsigned int i = step*world_index; i < step*(world_index+1); ++i)
+	{
+		if (!m_Cars[i].isAlive())
+			continue;
+
+		// someone_is_alive = true;
+
+		m_Cars[i].update( m_GenAlgo.getNNetworks()[i] );
+	}
+}
+
+void	Simulation::update2()
+{
 	bool	someone_is_alive = false;
 
 	for (unsigned int i = 0; i < m_Cars.size(); ++i)
@@ -52,7 +74,7 @@ void	Simulation::update(float elapsed_time, int world_index)
 
 		someone_is_alive = true;
 
-		m_Cars[i].update( m_GenAlgo.getNNetworks()[i] );
+		// m_Cars[i].update( m_GenAlgo.getNNetworks()[i] );
 	}
 
 	if (someone_is_alive)
@@ -65,7 +87,7 @@ void	Simulation::update(float elapsed_time, int world_index)
 
 		// this will reward the fastest car once the reaching the end of the circuit
 		final_fitness += static_cast<float>(m_Cars[i].getTotalUpdates()) * 0.00001f;
-		
+
 		m_GenAlgo.rateGenome(i, final_fitness);
 	}
 
@@ -108,5 +130,3 @@ void	Simulation::update(float elapsed_time, int world_index)
 // 		m_pBest_car->reset();
 // 	}
 // }
-
-
