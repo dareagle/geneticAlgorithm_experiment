@@ -1,7 +1,7 @@
 
 
-cpp_mode=yes
-# cpp_mode=no
+# cpp_mode=yes
+cpp_mode=no
 
 
 ifeq ($(cpp_mode),yes)
@@ -58,7 +58,7 @@ OBJ=	$(patsubst %.cpp, obj/%.o, $(SRC))
 
 #### BULLET_SRC
 
-# 
+#
 
 #
 
@@ -71,7 +71,7 @@ BULLETLINEARMATH_SRC=	$(wildcard	$(PATH_BULLET)/LinearMath/*.cpp)
 BULLETLINEARMATH_OBJDIR=	$(BULLET_OBJDIR)/linearmath
 BULLETLINEARMATH_OBJ=	$(patsubst %.cpp, $(BULLETLINEARMATH_OBJDIR)/%.o, $(BULLETLINEARMATH_SRC))
 
-# 
+#
 
 BULLETCOLLISION_SRC=	$(wildcard	$(PATH_BULLET)/BulletCollision/*.cpp \
 									$(PATH_BULLET)/BulletCollision/BroadphaseCollision/*.cpp \
@@ -83,7 +83,7 @@ BULLETCOLLISION_SRC=	$(wildcard	$(PATH_BULLET)/BulletCollision/*.cpp \
 BULLETCOLLISION_OBJDIR=	$(BULLET_OBJDIR)/collision
 BULLETCOLLISION_OBJ=	$(patsubst %.cpp, $(BULLETCOLLISION_OBJDIR)/%.o, $(BULLETCOLLISION_SRC))
 
-# 
+#
 
 BULLETDYNAMICS_SRC=	$(wildcard	$(PATH_BULLET)/BulletDynamics/*.cpp \
 								$(PATH_BULLET)/BulletDynamics/Character/*.cpp \
@@ -95,9 +95,9 @@ BULLETDYNAMICS_SRC=	$(wildcard	$(PATH_BULLET)/BulletDynamics/*.cpp \
 BULLETDYNAMICS_OBJDIR=	$(BULLET_OBJDIR)/dynamic
 BULLETDYNAMICS_OBJ=		$(patsubst %.cpp, $(BULLETDYNAMICS_OBJDIR)/%.o, $(BULLETDYNAMICS_SRC))
 
-# 
+#
 
-# 
+#
 
 #### /BULLET_SRC
 
@@ -153,6 +153,7 @@ else
 	LDFLAGS=	-O3 \
 				-s USE_BULLET=0 -s USE_SDL=2 -s USE_SDL_IMAGE=2 \
 				-s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=4 -s PTHREAD_HINT_NUM_CORES=4 \
+				-s TOTAL_MEMORY=67108864 \
 				$(EXTERNAL) \
 				$(BULLETDYNAMICS_NAME) \
 				$(BULLETCOLLISION_NAME) \
