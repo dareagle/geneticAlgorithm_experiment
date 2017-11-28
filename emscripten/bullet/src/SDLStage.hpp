@@ -3,14 +3,11 @@
 #pragma once
 
 
+#include "OpenGLES.hpp"
+
 #include <iostream>
 #include <string>
 #include <functional>
-
-// #include "SDL/SDL.h"
-// #include <SDL/SDL.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengles2.h>
 
 
 class SDLStage
@@ -53,4 +50,3 @@ public:
 
 	// static Uint32 timer_onComplete(Uint32 interval, void *param);
 };
-

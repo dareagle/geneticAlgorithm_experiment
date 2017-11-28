@@ -79,8 +79,10 @@ void	State_Main::handleEvent(const SDL_Event& event)
 namespace
 {
 	glm::mat4 camera(const glm::vec3& in_Pos, float in_distance, const glm::vec2& in_Rotate)
+	// glm::mat4 camera(const glm::vec3& in_Pos, float in_distance, const glm::vec2& in_Rotate, glm::mat4& proj, glm::mat4& view)
 	{
 		glm::mat4 Projection = glm::perspective(glm::radians(70.0f), 4.0f / 3.0f, 1.0f, 1000.f);
+
 
 		glm::mat4 View = glm::mat4(1.0f);
 
@@ -89,6 +91,9 @@ namespace
 		View = glm::rotate(View, in_Rotate.x, glm::vec3(0.0f, 0.0f, 1.0f));
 
 		View = glm::translate(View, in_Pos);
+
+		// proj = Projection;
+		// view = View;
 
 		// glm::mat4 Model = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
 		glm::mat4 Model = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
@@ -209,6 +214,7 @@ void	State_Main::update(int delta)
 		//
 
 		Data::get()->m_composedMatrix = camera(center, 50, rotations);
+		// Data::get()->m_composedMatrix = camera(center, 50, rotations, Data::get()->m_graphic.m_proj, Data::get()->m_graphic.m_view);
 
 		Data::get()->m_StackRenderer.setMatrix( glm::value_ptr(Data::get()->m_composedMatrix) );
 
@@ -327,12 +333,17 @@ void	State_Main::render(const SDL_Window& window)
 
 		auto&	PhysicWorld = Data::get()->m_PhysicWorld;
 
-		Shader::bind( Data::get()->m_ShaderColor.getShader() );
+		// Shader::bind( Data::get()->m_ShaderColor.getShader() );
+		std::vector<float>	buffer_chassis;
+		buffer_chassis.reserve(16*90);
+		std::vector<float>	buffer_wheel;
+		buffer_wheel.reserve(16*90*4);
 
 		btScalar	mat4[16];
 
 		// for (unsigned int i = 0; i < PhysicWorld.getVehicleSize(); ++i)
 		for (unsigned int ii = 0; ii < arr_Cars.size(); ++ii)
+		// for (unsigned int ii = 0; ii < 1; ++ii)
 		{
 			if (!arr_Cars[ii].isAlive())
 				continue;
@@ -345,16 +356,20 @@ void	State_Main::render(const SDL_Window& window)
 				// pVehicle->getOpenGLMatrix(mat4);
 				Data::get()->m_pPhysicWrapper->vehicle_getOpenGLMatrix(ii, mat4);
 
-				glm::mat4	tmp_mat = Data::get()->m_composedMatrix * glm::make_mat4((float*)mat4);
+				// glm::mat4	tmp_mat = Data::get()->m_composedMatrix * glm::make_mat4((float*)mat4);
+				glm::mat4	tmp_mat = glm::make_mat4((float*)mat4);
 
 				tmp_mat = glm::translate(tmp_mat, glm::vec3(0.0f, 0.0f, 1.0f));
 
 				float*	pMatrix = glm::value_ptr(tmp_mat);
 
-				// if (arr_Cars[i].isAlive())
-					Data::get()->m_GeometryColor_chassis.render(GL_LINES, pMatrix);
-				// else
-				// 	Data::get()->m_GeometryColor_chassis_dead.render(GL_LINES, pMatrix);
+				// // if (arr_Cars[i].isAlive())
+				// 	Data::get()->m_GeometryColor_chassis.render(GL_LINES, pMatrix);
+				// // else
+				// // 	Data::get()->m_GeometryColor_chassis_dead.render(GL_LINES, pMatrix);
+
+				for (int ii = 0; ii < 16; ++ii)
+					buffer_chassis.push_back(pMatrix[ii]);
 			}
 
 			//
@@ -366,37 +381,61 @@ void	State_Main::render(const SDL_Window& window)
 					// pVehicle->getWheelMatrix(jj, mat4);
 					Data::get()->m_pPhysicWrapper->vehicle_getWheelsMatrix(ii, jj, mat4);
 
-					glm::mat4	tmp_mat = Data::get()->m_composedMatrix * glm::make_mat4((float*)mat4);
+					// glm::mat4	tmp_mat = Data::get()->m_composedMatrix * glm::make_mat4((float*)mat4);
+					// glm::mat4	tmp_mat = glm::make_mat4((float*)mat4);
+                    //
+					// float*	pMatrix = glm::value_ptr(tmp_mat);
 
-					float*	pMatrix = glm::value_ptr(tmp_mat);
+					// Data::get()->m_GeometryColor_wheel.render(GL_LINES, pMatrix);
 
-					Data::get()->m_GeometryColor_wheel.render(GL_LINES, pMatrix);
+					for (int ii = 0; ii < 16; ++ii)
+						buffer_wheel.push_back(mat4[ii]);
 				}
 			}
 		}
 
-		Shader::bind( nullptr );
+		// Shader::bind( nullptr );
+
+		Data::get()->m_graphic.m_InstGeometry_chassis.update2(&buffer_chassis[0], buffer_chassis.size() * sizeof(float));
+		Data::get()->m_graphic.m_InstGeometry_wheel.update2(&buffer_wheel[0], buffer_wheel.size() * sizeof(float));
 	}
 
-
-	Shader::bind( Data::get()->m_ShaderColor.getShader() );
-
+	{
 		float*	pMatrix = glm::value_ptr(Data::get()->m_composedMatrix);
+		// float*	pProj = glm::value_ptr(Data::get()->m_graphic.m_proj);
+		// float*	pView = glm::value_ptr(Data::get()->m_graphic.m_view);
 
-		// // Data::get()->m_GeometryColor.render(GL_TRIANGLES, pMatrix);
+		auto&& graphic = Data::get()->m_graphic;
 
-		// Data::get()->m_GeometryColor_chassis.render(GL_LINES, pMatrix);
+		Shader::bind(&graphic.m_InstShader.getShader());
 
-		// Data::get()->m_GeometryColor_wheel.render(GL_LINES, pMatrix);
+			graphic.m_InstGeometry_chassis.render(GL_LINES, pMatrix);
+			graphic.m_InstGeometry_wheel.render(GL_LINES, pMatrix);
+			// graphic.m_InstGeometry_chassis.render(GL_LINES, pProj, pView);
+			// graphic.m_InstGeometry_wheel.render(GL_LINES, pProj, pView);
 
-		Data::get()->m_GeometryColor_circuit_skelton.render(GL_LINES, pMatrix);
+		Shader::bind(nullptr);
+	}
 
-		Data::get()->m_GeometryColor_circuit_ground.render(GL_TRIANGLES, pMatrix, 0.8f);
+	{
+		Shader::bind( Data::get()->m_ShaderColor.getShader() );
 
-		Data::get()->m_GeometryColor_circuit_walls.render(GL_TRIANGLES, pMatrix, 0.2f);
+			float*	pMatrix = glm::value_ptr(Data::get()->m_composedMatrix);
 
-	Shader::bind( nullptr );
+			// // Data::get()->m_GeometryColor.render(GL_TRIANGLES, pMatrix);
 
+			// Data::get()->m_GeometryColor_chassis.render(GL_LINES, pMatrix);
+
+			// Data::get()->m_GeometryColor_wheel.render(GL_LINES, pMatrix);
+
+			Data::get()->m_GeometryColor_circuit_skelton.render(GL_LINES, pMatrix);
+
+			Data::get()->m_GeometryColor_circuit_ground.render(GL_TRIANGLES, pMatrix, 0.8f);
+
+			Data::get()->m_GeometryColor_circuit_walls.render(GL_TRIANGLES, pMatrix, 0.2f);
+
+		Shader::bind( nullptr );
+	}
 
 	{ // HUD
 

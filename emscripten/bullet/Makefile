@@ -1,7 +1,7 @@
 
 
-cpp_mode=yes
-# cpp_mode=no
+# cpp_mode=yes
+cpp_mode=no
 
 
 ifeq ($(cpp_mode),yes)

@@ -3,9 +3,7 @@
 #pragma once
 
 
-// #include <GLES2/gl2.h>
-// #include <GLES2/gl2ext.h>
-#include <SDL2/SDL_opengles2.h>
+#include "OpenGLES.hpp"
 
 
 class	ShaderColor;
@@ -33,4 +31,3 @@ public:
 	void	update(float* pData, unsigned int length);
 	void	render(GLint primitive, float* matrix, float alpha = 1.0f);
 };
-

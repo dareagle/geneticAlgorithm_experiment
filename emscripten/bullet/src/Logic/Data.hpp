@@ -3,22 +3,15 @@
 #pragma once
 
 
-#include <string>
-#include <list>
-#include <map>
-
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengles2.h>
-
-
-#include <glm/vec2.hpp> // glm::vec2
-#include <glm/vec3.hpp> // glm::vec3
+#include "OpenGLES.hpp"
 
 
 #include "Graphic/ShaderColor.hpp"
 #include "Graphic/GeometryColor.hpp"
 #include "Graphic/StackRenderer.hpp"
 #include "Graphic/BulletDebugDraw.hpp"
+#include "Graphic/InstShader.hpp"
+#include "Graphic/InstGeometry.hpp"
 
 #include "Physic/World.hpp"
 #include "Physic/Trimesh.hpp"
@@ -31,6 +24,13 @@
 #include "../Simulation/Simulation.hpp"
 
 
+#include <string>
+#include <list>
+#include <map>
+
+
+#include <glm/vec2.hpp> // glm::vec2
+#include <glm/vec3.hpp> // glm::vec3
 #include <glm/mat4x4.hpp> // glm::mat4
 
 
@@ -79,9 +79,9 @@ public:
 
 	ShaderColor		m_ShaderColor;
 
-	GeometryColor	m_GeometryColor_chassis;
-	// GeometryColor	m_GeometryColor_chassis_dead;
-	GeometryColor	m_GeometryColor_wheel;
+	// GeometryColor	m_GeometryColor_chassis;
+	// // GeometryColor	m_GeometryColor_chassis_dead;
+	// GeometryColor	m_GeometryColor_wheel;
 	GeometryColor	m_GeometryColor_circuit_skelton;
 	GeometryColor	m_GeometryColor_circuit_ground;
 	GeometryColor	m_GeometryColor_circuit_walls;
@@ -92,6 +92,17 @@ public:
 	StackRenderer	m_StackRenderer;
 
 	BulletDebugDraw	m_DebugDraw;
+
+
+	struct t_graphic
+	{
+		// glm::mat4		m_proj, m_view;
+		InstShader		m_InstShader;
+		InstGeometry	m_InstGeometry_chassis;
+		InstGeometry	m_InstGeometry_wheel;
+	}
+	m_graphic;
+
 
 	//
 

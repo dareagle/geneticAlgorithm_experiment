@@ -3,13 +3,11 @@
 #pragma once
 
 
+#include "OpenGLES.hpp"
+
 #include <string>
 #include <vector>
 #include <map>
-
-// #include <GLES2/gl2.h>
-// #include <GLES2/gl2ext.h>
-#include <SDL2/SDL_opengles2.h>
 
 
 class Shader
@@ -44,4 +42,3 @@ public:
 	GLint	getUniforms(const std::string& name) const;
 
 };
-

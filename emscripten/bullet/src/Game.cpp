@@ -7,10 +7,7 @@
 #include "Logic/Data.hpp"
 
 #include "Utility/TraceLogger.hpp"
-// #include "Utility/Clock.hpp"
 
-
-#include <SDL2/SDL.h>
 
 #ifdef EMSCRIPTEN
 #	include <emscripten.h>
@@ -154,4 +151,3 @@ void	Game::update(long int deltaTime)
 	// pWindow->Render();
 	m_pStage->render();
 }
-

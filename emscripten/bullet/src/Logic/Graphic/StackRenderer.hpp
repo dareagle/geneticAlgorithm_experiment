@@ -3,9 +3,7 @@
 #pragma once
 
 
-// #include <GLES2/gl2.h>
-// #include <GLES2/gl2ext.h>
-#include <SDL2/SDL_opengles2.h>
+#include "OpenGLES.hpp"
 
 #include <vector>
 
