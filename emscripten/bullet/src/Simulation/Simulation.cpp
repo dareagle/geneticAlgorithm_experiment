@@ -21,10 +21,11 @@ void	Simulation::initialise(
 {
 	m_Circuit.initialise(m_pPhysicWrapper, arr_left, arr_right, callback);
 
-	std::vector<unsigned int> tmp_hidden;
-	tmp_hidden.push_back(10);
-	tmp_hidden.push_back(5);
-	m_NNTopology.init(15, tmp_hidden, 2);
+	unsigned int input = 15;
+	std::vector<unsigned int> tmp_hidden = { 10, 5 };
+	unsigned int output = 15;
+
+	m_NNTopology.init(input, tmp_hidden, output);
 
 	m_GenAlgo.init(m_NNTopology);
 
