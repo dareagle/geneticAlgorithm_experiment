@@ -6,12 +6,12 @@
 #include "OpenGLES.hpp"
 
 
-#include "Graphic/ShaderColor.hpp"
-#include "Graphic/GeometryColor.hpp"
+#include "Graphic/Color/ShaderColor.hpp"
+#include "Graphic/Color/GeometryColor.hpp"
 #include "Graphic/StackRenderer.hpp"
 #include "Graphic/BulletDebugDraw.hpp"
-#include "Graphic/InstShader.hpp"
-#include "Graphic/InstGeometry.hpp"
+#include "Graphic/Inst/InstShader.hpp"
+#include "Graphic/Inst/InstGeometry.hpp"
 
 #include "Physic/World.hpp"
 #include "Physic/Trimesh.hpp"
