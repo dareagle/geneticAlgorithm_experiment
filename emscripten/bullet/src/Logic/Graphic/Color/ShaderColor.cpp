@@ -2,7 +2,7 @@
 
 #include "ShaderColor.hpp"
 
-#include "Shader.hpp"
+#include "../Shader.hpp"
 
 #include "Utility/TraceLogger.hpp"
 

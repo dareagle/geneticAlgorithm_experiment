@@ -3,7 +3,7 @@
 #pragma once
 
 
-#include "Shader.hpp"
+#include "../Shader.hpp"
 
 
 class InstShader
