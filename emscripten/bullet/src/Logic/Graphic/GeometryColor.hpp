@@ -16,11 +16,11 @@ public:
 	static void	initialise(ShaderColor*);
 
 private:
-	GLuint			m_obj_buffer;
-	unsigned int	m_numItems;
+	GLuint			m_obj_buffer = 0;
+	unsigned int	m_numItems = 0;
 
 public:
-	GeometryColor();
+	GeometryColor() = default;
 	~GeometryColor();
 
 public:

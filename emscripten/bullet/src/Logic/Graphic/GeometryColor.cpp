@@ -21,12 +21,6 @@ void	GeometryColor::initialise(ShaderColor* pShaderColor)
 
 //
 
-GeometryColor::GeometryColor()
-	: m_obj_buffer(0) // not initialised
-	, m_numItems(0)
-{
-}
-
 GeometryColor::~GeometryColor()
 {
 	if (m_obj_buffer) // initialised?

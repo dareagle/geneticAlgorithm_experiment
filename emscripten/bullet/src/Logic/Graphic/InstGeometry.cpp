@@ -60,24 +60,19 @@ void	InstGeometry::update2(float* pData, unsigned int length)
 }
 
 void	InstGeometry::render(GLint primitive, float* matrix)
-// void	InstGeometry::render(GLint primitive, float* proj, float* view)
 {
 	if (!m_obj_buffer ||
-		!m_pInstShader)
+		!m_pInstShader ||
+        !matrix)
 		return;
 
     auto attr_Position = m_pInstShader->getShader().getAttribute("a_Position");
 	auto attr_Color = m_pInstShader->getShader().getAttribute("a_Color");
-    // auto attr_Offset = m_pInstShader->getShader().getAttribute("a_Offset");
     auto attr_Transform = m_pInstShader->getShader().getAttribute("a_Transform");
 	auto unif_ComposedMatrix = m_pInstShader->getShader().getUniforms("u_ComposedMatrix");
-    // auto unif_ProjectionMatrix = m_pInstShader->getShader().getUniforms("u_ProjectionMatrix");
-    // auto unif_ViewMatrix = m_pInstShader->getShader().getUniforms("u_ViewMatrix");
 
 
     glUniformMatrix4fv( unif_ComposedMatrix, 1, GL_FALSE, matrix );
-    // glUniformMatrix4fv( unif_ProjectionMatrix, 1, GL_FALSE, proj );
-    // glUniformMatrix4fv( unif_ViewMatrix, 1, GL_FALSE, view );
 
 	glEnableVertexAttribArray(attr_Position);
 	glEnableVertexAttribArray(attr_Color);
@@ -92,17 +87,12 @@ void	InstGeometry::render(GLint primitive, float* matrix)
 			glVertexAttribPointer(attr_Position, 3, GL_FLOAT, GL_FALSE, stride, index_pos);
 			glVertexAttribPointer(attr_Color, 3, GL_FLOAT, GL_FALSE, stride, index_color);
 
-			// glDrawArrays(primitive, 0, m_numItems);
-
-        // std::size_t 	stride2 = 2 * bpp;
         std::size_t 	stride2 = 16 * bpp;
-        // void* 			index2_offset = (void*)(0 * bpp);
         void* 			index2_transform1 = (void*)(0 * bpp);
         void* 			index2_transform2 = (void*)(4 * bpp);
         void* 			index2_transform3 = (void*)(8 * bpp);
         void* 			index2_transform4 = (void*)(12 * bpp);
 
-    // glEnableVertexAttribArray(attr_Offset);
     glEnableVertexAttribArray(attr_Transform+0);
     glEnableVertexAttribArray(attr_Transform+1);
     glEnableVertexAttribArray(attr_Transform+2);
@@ -110,8 +100,6 @@ void	InstGeometry::render(GLint primitive, float* matrix)
 
         glBindBuffer(GL_ARRAY_BUFFER, m_obj_buffer2);
 
-            // glVertexAttribPointer(attr_Offset, 2, GL_FLOAT, GL_FALSE, stride2, index2_offset);
-            // glVertexAttribDivisor(attr_Offset, 1); // This makes it instanced!
             glVertexAttribPointer(attr_Transform+0, 4, GL_FLOAT, GL_FALSE, stride2, index2_transform1);
             glVertexAttribPointer(attr_Transform+1, 4, GL_FLOAT, GL_FALSE, stride2, index2_transform2);
             glVertexAttribPointer(attr_Transform+2, 4, GL_FLOAT, GL_FALSE, stride2, index2_transform3);
@@ -134,7 +122,6 @@ void	InstGeometry::render(GLint primitive, float* matrix)
     glDisableVertexAttribArray(attr_Transform+2);
     glDisableVertexAttribArray(attr_Transform+1);
     glDisableVertexAttribArray(attr_Transform+0);
-    // glDisableVertexAttribArray(attr_Offset);
     glDisableVertexAttribArray(attr_Color);
 	glDisableVertexAttribArray(attr_Position);
 }

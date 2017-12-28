@@ -28,6 +28,5 @@ public:
 
 public:
     void	render(GLint primitive, float* matrix);
-    // void	render(GLint primitive, float* proj, float* view);
 
 };
