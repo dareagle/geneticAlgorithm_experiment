@@ -439,37 +439,37 @@ void	State_Main::render(const SDL_Window& window)
 
 	{ // HUD
 
-		glClear(/*GL_COLOR_BUFFER_BIT |*/ GL_DEPTH_BUFFER_BIT);
+		// glClear(/*GL_COLOR_BUFFER_BIT |*/ GL_DEPTH_BUFFER_BIT);
 
-		{
-			// glm::mat4 Projection = glm::perspective(glm::radians(70.0f), 4.0f / 3.0f, 1.0f, 1000.f);
-			glm::mat4 Projection = glm::ortho(0.0f,800.0f, 0.0f,600.0f, -1.0f,+1.0f);
+		// {
+		// 	// glm::mat4 Projection = glm::perspective(glm::radians(70.0f), 4.0f / 3.0f, 1.0f, 1000.f);
+		// 	glm::mat4 Projection = glm::ortho(0.0f,800.0f, 0.0f,600.0f, -1.0f,+1.0f);
 
-			glm::mat4 View = glm::mat4(1.0f);
-			glm::mat4 composedMatrix = Projection * View;
+		// 	glm::mat4 View = glm::mat4(1.0f);
+		// 	glm::mat4 composedMatrix = Projection * View;
 
-			Data::get()->m_StackRenderer.setMatrix( glm::value_ptr(composedMatrix) );
-		}
+		// 	Data::get()->m_StackRenderer.setMatrix( glm::value_ptr(composedMatrix) );
+		// }
 
 
-		StackRenderer::t_color	trails_color(1,1,1,1.0);
+		// StackRenderer::t_color	trails_color(1,1,1,1.0);
 
-		{ // render button
+		// { // render button
 
-			Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(100,100,0), trails_color);
-			Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(100,200, 0), trails_color);
+		// 	Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(100,100,0), trails_color);
+		// 	Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(100,200, 0), trails_color);
 
-			Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(100,200, 0), trails_color);
-			Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(200,200, 0), trails_color);
+		// 	Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(100,200, 0), trails_color);
+		// 	Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(200,200, 0), trails_color);
 
-			Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(200,200, 0), trails_color);
-			Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(200,100, 0), trails_color);
+		// 	Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(200,200, 0), trails_color);
+		// 	Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(200,100, 0), trails_color);
 
-			Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(200,100, 0), trails_color);
-			Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(100,100, 0), trails_color);
-		}
+		// 	Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(200,100, 0), trails_color);
+		// 	Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(100,100, 0), trails_color);
+		// }
 
-		Data::get()->m_StackRenderer.flush();
+		// Data::get()->m_StackRenderer.flush();
 	}
 
 
