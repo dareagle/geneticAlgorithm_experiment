@@ -234,7 +234,7 @@ void	State_Main::update(int delta)
 	{
 		myRunning = 3;
 
-		Data::get()->m_pSimulation->update2();
+		Data::get()->m_pSimulation->evolve();
 
 		for (int world_index = 0; world_index < 3; ++world_index)
 		{

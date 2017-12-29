@@ -749,45 +749,92 @@ void	Data::initialise()
 	std::vector<float>	buffer_walls;
 	buffer_walls.reserve(2048*2);
 
+    int physic_index = 1;
+
 	m_pSimulation->initialise(
-		m_arr_skelton_left,
-		m_arr_skelton_right,
-		[&](std::vector<float>& buf, std::vector<int>& indices, bool ground) -> void
-		{
-			std::vector<float>&	current_buffer = (ground ? buffer : buffer_walls);
+		// m_arr_skelton_left,
+		// m_arr_skelton_right,
+		// [&](std::vector<float>& buf, std::vector<int>& indices, bool ground) -> void
+		// {
+		// 	// std::vector<float>&	current_buffer = (ground ? buffer : buffer_walls);
 
-			for (int ii = 0; ii < indices.size(); ++ii)
-			{
-				int index = indices[ii] * 3;
+		// 	// for (int ii = 0; ii < indices.size(); ++ii)
+		// 	// {
+		// 	// 	int index = indices[ii] * 3;
 
-				current_buffer.push_back( buf[ index+0 ] );
-				current_buffer.push_back( buf[ index+1 ] );
-				current_buffer.push_back( buf[ index+2 ] );
+		// 	// 	current_buffer.push_back( buf[ index+0 ] );
+		// 	// 	current_buffer.push_back( buf[ index+1 ] );
+		// 	// 	current_buffer.push_back( buf[ index+2 ] );
 
-				if (ground)
-				{
-					if (index == 0 ||
-						index == 3)
-					{
-						current_buffer.push_back(1.0f);
-						current_buffer.push_back(1.0f);
-						current_buffer.push_back(1.0f);
-					}
-					else
-					{
-						current_buffer.push_back(0.0f);
-						current_buffer.push_back(0.0f);
-						current_buffer.push_back(1.0f);
-					}
-				}
-				else
-				{
-					current_buffer.push_back(0.6f);
-					current_buffer.push_back(0.6f);
-					current_buffer.push_back(0.6f);
-				}
-			}
-		}
+		// 	// 	if (ground)
+		// 	// 	{
+		// 	// 		if (index == 0 ||
+		// 	// 			index == 3)
+		// 	// 		{
+		// 	// 			current_buffer.push_back(1.0f);
+		// 	// 			current_buffer.push_back(1.0f);
+		// 	// 			current_buffer.push_back(1.0f);
+		// 	// 		}
+		// 	// 		else
+		// 	// 		{
+		// 	// 			current_buffer.push_back(0.0f);
+		// 	// 			current_buffer.push_back(0.0f);
+		// 	// 			current_buffer.push_back(1.0f);
+		// 	// 		}
+		// 	// 	}
+		// 	// 	else
+		// 	// 	{
+		// 	// 		current_buffer.push_back(0.6f);
+		// 	// 		current_buffer.push_back(0.6f);
+		// 	// 		current_buffer.push_back(0.6f);
+		// 	// 	}
+		// 	// }
+		// },
+        "assets/circuits/default.txt",
+        [&](const std::vector<float>& buf, const std::vector<int>& indices) -> void
+        {
+            m_pPhysicWrapper->createGround(buf, indices, physic_index++);
+
+            for (int ii = 0; ii < indices.size(); ++ii)
+            {
+                int index = indices[ii] * 3;
+
+                buffer.push_back( buf[ index+0 ] );
+                buffer.push_back( buf[ index+1 ] );
+                buffer.push_back( buf[ index+2 ] );
+
+                if (index == 0 ||
+                    index == 3)
+                {
+                    buffer.push_back(1.0f);
+                    buffer.push_back(1.0f);
+                    buffer.push_back(1.0f);
+                }
+                else
+                {
+                    buffer.push_back(0.0f);
+                    buffer.push_back(0.0f);
+                    buffer.push_back(1.0f);
+                }
+            }
+        },
+        [&](const std::vector<float>& buf, const std::vector<int>& indices) -> void
+        {
+            m_pPhysicWrapper->createGhostWall(buf, indices);
+
+            for (int ii = 0; ii < indices.size(); ++ii)
+            {
+                int index = indices[ii] * 3;
+
+                buffer_walls.push_back( buf[ index+0 ] );
+                buffer_walls.push_back( buf[ index+1 ] );
+                buffer_walls.push_back( buf[ index+2 ] );
+                buffer_walls.push_back(0.6f);
+                buffer_walls.push_back(0.6f);
+                buffer_walls.push_back(0.6f);
+            }
+        }
+
 	);
 
 	m_GeometryColor_circuit_ground.initialise();

@@ -5,7 +5,8 @@
 
 #include "IPhysicWrapper.hpp"
 
-#include "Circuit.hpp"
+// #include "Circuit.hpp"
+#include "CircuitBuilder.hpp"
 #include "Car.hpp"
 
 #include "AI/GeneticAlgorithm.hpp"
@@ -19,7 +20,7 @@ class Simulation
 private:
 	IPhysicWrapper*	m_pPhysicWrapper;
 
-	Circuit						m_Circuit;
+	// Circuit						m_Circuit;
 	std::vector<Car>			m_Cars;
 
 	NeuralNetworkTopology		m_NNTopology;
@@ -36,14 +37,17 @@ public:
 
 public:
 	void	initialise(
-		const std::vector<float>& arr_left,
-		const std::vector<float>& arr_right,
-		Circuit::t_geometry_callback callback
+		// const std::vector<float>& arr_left,
+		// const std::vector<float>& arr_right,
+		// Circuit::t_geometry_callback callback,
+		const std::string& filename,
+		CircuitBuilder::t_callback ground,
+		CircuitBuilder::t_callback wall
 	);
 
 public:
 	void	update(int world_index, float elapsed_time);
-	void	update2();
+	void	evolve();
 	// void	updateBest(float elapsed_time);
 
 public:

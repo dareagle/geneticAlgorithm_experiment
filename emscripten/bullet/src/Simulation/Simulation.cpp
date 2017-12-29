@@ -15,11 +15,23 @@ Simulation::~Simulation()
 }
 
 void	Simulation::initialise(
-	const std::vector<float>& arr_left,
-	const std::vector<float>& arr_right,
-	Circuit::t_geometry_callback callback)
+	// const std::vector<float>& arr_left,
+	// const std::vector<float>& arr_right,
+	// Circuit::t_geometry_callback callback,
+	const std::string& filename,
+	CircuitBuilder::t_callback ground,
+	CircuitBuilder::t_callback wall)
 {
-	m_Circuit.initialise(m_pPhysicWrapper, arr_left, arr_right, callback);
+	// m_Circuit.initialise(m_pPhysicWrapper, arr_left, arr_right, callback);
+
+	{
+		CircuitBuilder	circuit;
+		if (!circuit.load(filename))
+			return /*false*/; // <= TODO
+
+		circuit.generate(ground, wall);
+	}
+	
 
 	unsigned int input = 15;
 	std::vector<unsigned int> tmp_hidden = { 10, 5 };
@@ -64,7 +76,7 @@ void	Simulation::update(int world_index, float elapsed_time)
 	}
 }
 
-void	Simulation::update2()
+void	Simulation::evolve()
 {
 	bool	someone_is_alive = false;
 

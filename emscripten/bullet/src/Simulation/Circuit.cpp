@@ -9,38 +9,40 @@
 #include <cmath> // <= sqrtf
 #include <iostream>
 
-
-
-void calculate_normal(float* v0, float* v1, float* v2, float* normal)
+namespace /* anonymous */
 {
-    float px = v1[0] - v0[0];
-    float py = v1[1] - v0[1];
-    float pz = v1[2] - v0[2];
 
-    float qx = v2[0] - v0[0];
-    float qy = v2[1] - v0[1];
-    float qz = v2[2] - v0[2];
+	void calculate_normal(float* v0, float* v1, float* v2, float* normal)
+	{
+	    float px = v1[0] - v0[0];
+	    float py = v1[1] - v0[1];
+	    float pz = v1[2] - v0[2];
 
-    normal[0] = (py * qz) - (pz * qy);
-    normal[1] = (pz * qx) - (px * qz);
-    normal[2] = (px * qy) - (py * qx);
+	    float qx = v2[0] - v0[0];
+	    float qy = v2[1] - v0[1];
+	    float qz = v2[2] - v0[2];
 
-    // std::cout << "v0=" << v0[0] << "/" << v0[1] << "/" << v0[2] << std::endl;
-    // std::cout << "v1=" << v1[0] << "/" << v1[1] << "/" << v1[2] << std::endl;
-    // std::cout << "v2=" << v2[0] << "/" << v2[1] << "/" << v2[2] << std::endl;
+	    normal[0] = (py * qz) - (pz * qy);
+	    normal[1] = (pz * qx) - (px * qz);
+	    normal[2] = (px * qy) - (py * qx);
 
-    float tmp_len = sqrtf(normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2]);
+	    // std::cout << "v0=" << v0[0] << "/" << v0[1] << "/" << v0[2] << std::endl;
+	    // std::cout << "v1=" << v1[0] << "/" << v1[1] << "/" << v1[2] << std::endl;
+	    // std::cout << "v2=" << v2[0] << "/" << v2[1] << "/" << v2[2] << std::endl;
 
-    // std::cout << "tmp_len=" << tmp_len << std::endl;
+	    float tmp_len = sqrtf(normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2]);
 
-    normal[0] /= tmp_len;
-    normal[1] /= tmp_len;
-    normal[2] /= tmp_len;
+	    // std::cout << "tmp_len=" << tmp_len << std::endl;
 
-    // return normal;
+	    normal[0] /= tmp_len;
+	    normal[1] /= tmp_len;
+	    normal[2] /= tmp_len;
 
-} // function calculate_normal(v0, v1, v2)
+	    // return normal;
 
+	}	
+
+};
 
 
 void	Circuit::initialise(
@@ -189,7 +191,10 @@ void	Circuit::initialise(
 
 			int index2 = 0;
 
-	        for (int index5 = index; index5 < arr_spline1.size() && index5 < index + geometry_step * 3; index5 += 3)
+	        for (int index5 = index;
+	        	index5 < arr_spline1.size() &&
+	        	index5 < index + geometry_step * 3;
+	        	index5 += 3)
 	        {
 
 				if (index2 > 0)
@@ -273,9 +278,9 @@ void	Circuit::initialise(
 			} // for (int index5 = index; index5 < arr_spline1.size() && index5 < index + geometry_step * 3; index5 += 3)
 
 
-			pPhysicWrapper->createGround(vertices_ground, indices, index);
-			pPhysicWrapper->createGhostWall(vertices_walls1, indices);
-			pPhysicWrapper->createGhostWall(vertices_walls2, indices);
+			// pPhysicWrapper->createGround(vertices_ground, indices, index);
+			// pPhysicWrapper->createGhostWall(vertices_walls1, indices);
+			// pPhysicWrapper->createGhostWall(vertices_walls2, indices);
 
 			if (callback)
 			{
