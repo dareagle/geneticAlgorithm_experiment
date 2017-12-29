@@ -15,8 +15,10 @@ class Shader
 public:
 	struct t_def
 	{
-		std::string	vertex_source;
-		std::string	fragment_source;
+		// std::string	vertex_source;
+		// std::string	fragment_source;
+		std::string	vertex_filename;
+		std::string	fragment_filename;
 		std::vector<std::string> attributes;
 		std::vector<std::string> uniforms;
 	};

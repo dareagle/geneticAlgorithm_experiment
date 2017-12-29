@@ -6,6 +6,9 @@
 
 #include <string>
 
+#include <fstream>
+#include <sstream>
+
 
 namespace /* anonymous */
 {
@@ -88,7 +91,13 @@ Shader*	Shader::build(const t_def& def)
 #ifdef EMSCRIPTEN
 	vertex_source += "precision mediump float;\n\n";
 #endif
-	vertex_source += def.vertex_source;
+	{
+		std::ifstream istr(def.vertex_filename);
+		std::stringstream sstr;
+		sstr << istr.rdbuf();
+		vertex_source += sstr.str();
+	}
+
 
 	//
 
@@ -96,7 +105,12 @@ Shader*	Shader::build(const t_def& def)
 #ifdef EMSCRIPTEN
 	fragment_source += "precision mediump float;\n\n";
 #endif
-	fragment_source += def.fragment_source;
+	{
+		std::ifstream istr(def.fragment_filename);
+		std::stringstream sstr;
+		sstr << istr.rdbuf();
+		fragment_source += sstr.str();
+	}
 
 	//
 
