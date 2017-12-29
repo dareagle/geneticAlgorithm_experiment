@@ -41,6 +41,7 @@ public:
 		// const std::vector<float>& arr_right,
 		// Circuit::t_geometry_callback callback,
 		const std::string& filename,
+		CircuitBuilder::t_callback skeleton,
 		CircuitBuilder::t_callback ground,
 		CircuitBuilder::t_callback wall
 	);

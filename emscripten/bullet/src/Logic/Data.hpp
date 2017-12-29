@@ -103,12 +103,6 @@ public:
 	}
 	m_graphic;
 
-
-	//
-
-	std::vector<float>	m_arr_skelton_left;
-	std::vector<float>	m_arr_skelton_right;
-
 	//
 
 	Physic::World	m_PhysicWorld;
