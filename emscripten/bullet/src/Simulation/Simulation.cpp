@@ -28,10 +28,12 @@ void	Simulation::initialise(
 	{
 		CircuitBuilder	circuit;
 		if (!circuit.load(filename))
+		{
+			D_MYLOG("failure");
 			return /*false*/; // <= TODO
+		}
 
 		circuit.generate_skeleton(skeleton);
-
 		circuit.generate(ground, wall);
 	}
 	
