@@ -2,6 +2,7 @@
 
 #include "Data.hpp"
 
+#include "Utility/TraceLogger.hpp"
 
 //
 //
@@ -11,18 +12,6 @@ Data*	Data::m_pInstance = nullptr;
 
 Data::Data()
 {
-
-	//
-	// camera
-
-	m_vec2_rotations.x = 0.5;
-	m_vec2_rotations.y = 0.95;
-
-	m_timeout_camera = 0;
-	m_index_targetedCar = -1;
-
-	// camera
-	//
 
 	//
 	//
@@ -194,8 +183,6 @@ Data::Data()
 	m_pPhysicWrapper = new PhysicWrapper();
 
 	m_pSimulation = new Simulation(m_pPhysicWrapper);
-
-	m_simualtion_step = 1;
 }
 
 Data::~Data()

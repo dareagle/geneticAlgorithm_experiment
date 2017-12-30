@@ -63,11 +63,12 @@ public:
 	//
 	// camera
 
-	glm::vec2	m_vec2_rotations;
-	glm::vec3	m_vec3_center;
+	glm::vec2	m_vec2_rotations = {0.5f, 0.95f};
+	glm::vec3	m_vec3_center = {0.0f, 0.0f, 0.0f};
+	glm::vec3	m_vec3_previous_center = {0.0f, 0.0f, 0.0f};
 
-	int			m_timeout_camera;
-	int			m_index_targetedCar;
+	int			m_timeout_camera = 0;
+	int			m_index_targetedCar = -1;
 
 	// camera
 	//
@@ -79,9 +80,6 @@ public:
 
 	ShaderColor		m_ShaderColor;
 
-	// GeometryColor	m_GeometryColor_chassis;
-	// // GeometryColor	m_GeometryColor_chassis_dead;
-	// GeometryColor	m_GeometryColor_wheel;
 	GeometryColor	m_GeometryColor_circuit_skelton;
 	GeometryColor	m_GeometryColor_circuit_ground;
 	GeometryColor	m_GeometryColor_circuit_walls;
@@ -96,7 +94,8 @@ public:
 
 	struct t_graphic
 	{
-		// glm::mat4		m_proj, m_view;
+		glm::vec2		window_size = { 800.0f, 600.0f };
+
 		InstShader		m_InstShader;
 		InstGeometry	m_InstGeometry_chassis;
 		InstGeometry	m_InstGeometry_wheel;
@@ -109,10 +108,10 @@ public:
 	Physic::World	m_PhysicWorld2;
 	Physic::World	m_PhysicWorld3;
 
-	PhysicWrapper*	m_pPhysicWrapper;
-	Simulation*		m_pSimulation;
+	PhysicWrapper*	m_pPhysicWrapper = nullptr;
+	Simulation*		m_pSimulation = nullptr;
 
-	int				m_simualtion_step;
+	int				m_simualtion_step = -1;
 
 	//
 
@@ -126,7 +125,6 @@ public:
 
 	struct t_input
 	{
-		// bool	keys[SDLK_LAST];
 		std::map<int, bool>	keys;
 	}
 	m_input;
