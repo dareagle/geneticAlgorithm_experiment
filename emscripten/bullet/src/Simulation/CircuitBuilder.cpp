@@ -80,8 +80,6 @@ bool	CircuitBuilder::load(const std::string& filename)
 	//
 	// parse file and extract skeleton
 
-	// D_MYLOG("step");
-
 	std::vector<float>	arr_left, arr_right;
 
 	std::string str_line;
@@ -98,7 +96,10 @@ bool	CircuitBuilder::load(const std::string& filename)
 		std::string str_type;
 		float x1, y1, z1,  x2, y2, z2;
 		if (!(isstr >> str_type >> x1 >> y1 >> z1 >> x2 >> y2 >> z2)) // TODO: <= what if it get a NaN?
+		{
+			D_MYLOG("failure");
 			return false;
+		}
 
 		arr_left.push_back(x1);
 		arr_left.push_back(y1);
@@ -152,6 +153,8 @@ bool	CircuitBuilder::load(const std::string& filename)
 	    m_points_right.push_back(y2);
 	    m_points_right.push_back(z2);
 	}
+
+    return true;
 }
 
 //
