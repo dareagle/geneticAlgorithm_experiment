@@ -69,3 +69,8 @@ void	StateManager::render(const SDL_Window& window)
 {
 	m_States[m_currentState]->render(window);
 }
+
+void	StateManager::resize(int width, int height)
+{
+	m_States[m_currentState]->resize(width, height);
+}

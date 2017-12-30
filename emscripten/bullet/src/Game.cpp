@@ -17,7 +17,10 @@
 
 Game::Game()
 {
-	m_pStage = new SDLStage(800, 600);
+	int width = 800;
+	int height = 600;
+
+	m_pStage = new SDLStage(width, height);
 
 	// m_pStage->setCaption("OpenGL and Bullet");
 
@@ -52,6 +55,11 @@ Game::Game()
 #endif
 	});
 
+	m_pStage->setResizeCallback([this](int width, int height)
+	{
+		StateManager::get()->resize(width, height);
+	});
+
     glEnable(GL_DEPTH_TEST);
 
     glEnable(GL_BLEND);
@@ -64,6 +72,8 @@ Game::Game()
 	m_time_start = SDL_GetTicks();
 
 	Data::create();
+	Data::get()->m_graphic.window_size = { width, height };
+
 	StateManager::create();
 }
 

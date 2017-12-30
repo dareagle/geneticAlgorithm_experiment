@@ -136,7 +136,7 @@ void	State_Main::update(int delta)
 
 	{ // camera
 
-		glm::vec3	camera_pos = glm::vec3(0.0f);
+		glm::vec3	camera_pos = {0.0f, 0.0f, 0.0f};
 
 		//
 		//
@@ -171,10 +171,15 @@ void	State_Main::update(int delta)
 					index_targetedCar = car.getIndex();
 
 		        	Data::get()->m_pPhysicWrapper->vehicle_getOpenGLMatrix(index_targetedCar, mat4x4);
+					glm::mat4	tmp_mat = glm::make_mat4((float*)mat4x4);
+					glm::vec4	tmp_pos = tmp_mat * glm::vec4(0.0f,0.0f,-2.0f,-1.0f);
+					camera_pos.x = tmp_pos.x;
+					camera_pos.y = tmp_pos.y;
+					camera_pos.z = tmp_pos.z;
 
-					camera_pos.x = -mat4x4[12];
-					camera_pos.y = -mat4x4[13];
-					camera_pos.z = -mat4x4[14];
+					// camera_pos.x = mat4x4[12];
+					// camera_pos.y = mat4x4[13];
+					// camera_pos.z = mat4x4[14];
 		        }
 			}
 			else if (index_targetedCar >= 0)
@@ -182,10 +187,15 @@ void	State_Main::update(int delta)
 		        float	mat4x4[16];
 
 				Data::get()->m_pPhysicWrapper->vehicle_getOpenGLMatrix(index_targetedCar, mat4x4);
+				glm::mat4	tmp_mat = glm::make_mat4((float*)mat4x4);
+				glm::vec4	tmp_pos = tmp_mat * glm::vec4(0.0f,0.0f,-2.0f,-1.0f);
+				camera_pos.x = tmp_pos.x;
+				camera_pos.y = tmp_pos.y;
+				camera_pos.z = tmp_pos.z;
 
-				camera_pos.x = -mat4x4[12];
-				camera_pos.y = -mat4x4[13];
-				camera_pos.z = -mat4x4[14];
+				// camera_pos.x = mat4x4[12];
+				// camera_pos.y = mat4x4[13];
+				// camera_pos.z = mat4x4[14];
 			}
 			else
 			{
@@ -201,14 +211,18 @@ void	State_Main::update(int delta)
         //
 
         auto&	center = Data::get()->m_vec3_center;
+        auto&	previous_center = Data::get()->m_vec3_previous_center;
 
-        glm::vec3	diff(camera_pos.x - center.x, camera_pos.y - center.y, camera_pos.z - center.z);
+        previous_center = center; // <= to determine the lookAt of the second camera
 
-        float	lerp_ratio = 0.15;
+        // glm::vec3	diff(camera_pos.x-center.x, camera_pos.y-center.y, camera_pos.z-center.z);
+        glm::vec3	diff(center.x-camera_pos.x, center.y-camera_pos.y, center.z-camera_pos.z);
 
-        center.x += diff.x * lerp_ratio;
-        center.y += diff.y * lerp_ratio;
-        center.z += diff.z * lerp_ratio;
+        float	lerp_ratio = 0.10;
+
+        center.x -= diff.x * lerp_ratio;
+        center.y -= diff.y * lerp_ratio;
+        center.z -= diff.z * lerp_ratio;
 
 		//
 		//
@@ -264,18 +278,61 @@ void	State_Main::update(int delta)
 
 void	State_Main::render(const SDL_Window& window)
 {
+	{
+		auto&	window_size = Data::get()->m_graphic.window_size;
 
-	// glViewport(0, 0, window.w, window.h);
+		glViewport(0, 0, window_size.x, window_size.y);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
 
+	{ // update instacing matrices
 
-	// Data::get()->m_PhysicWorld.debugDrawWorld();
+		auto&& arr_Cars = Data::get()->m_pSimulation->getCars();
 
-	// Data::get()->m_StackRenderer.flush();
+		auto&	PhysicWorld = Data::get()->m_PhysicWorld;
 
+		std::vector<float>	buffer_chassis;
+		buffer_chassis.reserve(16*90);
+		std::vector<float>	buffer_wheel;
+		buffer_wheel.reserve(16*90*4);
 
-	{ // raycast
+		btScalar	mat4[16];
+
+		for (unsigned int ii = 0; ii < arr_Cars.size(); ++ii)
+		{
+			if (!arr_Cars[ii].isAlive())
+				continue;
+
+			{
+				Data::get()->m_pPhysicWrapper->vehicle_getOpenGLMatrix(ii, mat4);
+
+				glm::mat4	tmp_mat = glm::make_mat4((float*)mat4);
+
+				tmp_mat = glm::translate(tmp_mat, glm::vec3(0.0f, 0.0f, 1.0f));
+
+				float*	pMatrix = glm::value_ptr(tmp_mat);
+
+				for (int ii = 0; ii < 16; ++ii)
+					buffer_chassis.push_back(pMatrix[ii]);
+			}
+
+			{
+				for (int jj = 0; jj < Data::get()->m_pPhysicWrapper->vehicle_getWheelsNumber(ii); ++jj)
+				{
+					Data::get()->m_pPhysicWrapper->vehicle_getWheelsMatrix(ii, jj, mat4);
+
+					for (int ii = 0; ii < 16; ++ii)
+						buffer_wheel.push_back(mat4[ii]);
+				}
+			}
+		}
+
+		Data::get()->m_graphic.m_InstGeometry_chassis.update2(&buffer_chassis[0], buffer_chassis.size() * sizeof(float));
+		Data::get()->m_graphic.m_InstGeometry_wheel.update2(&buffer_wheel[0], buffer_wheel.size() * sizeof(float));
+	}
+
+	{ // render raycast
 
 		StackRenderer::t_color	sensors_color(0,1,0,1.0);
 		StackRenderer::t_color	ground_sensor(1,0,0,1.0);
@@ -285,7 +342,6 @@ void	State_Main::render(const SDL_Window& window)
 		auto&	index_targetedCar = Data::get()->m_index_targetedCar;
 
 		if (index_targetedCar >= 0)
-		// for (auto&& car : arr_Cars)
 		{
 			auto&& car = arr_Cars[index_targetedCar];
 
@@ -305,10 +361,8 @@ void	State_Main::render(const SDL_Window& window)
 			}
 		}
 
-
 		Data::get()->m_StackRenderer.flush();
-
-	} // raycast
+	}
 
 	{ // trails
 
@@ -325,85 +379,11 @@ void	State_Main::render(const SDL_Window& window)
 			}
 		}
 		Data::get()->m_StackRenderer.flush();
-
-	} // trails
-
-	{
-		auto&& arr_Cars = Data::get()->m_pSimulation->getCars();
-
-		auto&	PhysicWorld = Data::get()->m_PhysicWorld;
-
-		// Shader::bind( Data::get()->m_ShaderColor.getShader() );
-		std::vector<float>	buffer_chassis;
-		buffer_chassis.reserve(16*90);
-		std::vector<float>	buffer_wheel;
-		buffer_wheel.reserve(16*90*4);
-
-		btScalar	mat4[16];
-
-		// for (unsigned int i = 0; i < PhysicWorld.getVehicleSize(); ++i)
-		for (unsigned int ii = 0; ii < arr_Cars.size(); ++ii)
-		// for (unsigned int ii = 0; ii < 1; ++ii)
-		{
-			if (!arr_Cars[ii].isAlive())
-				continue;
-
-			// auto*	pVehicle = PhysicWorld.getVehicle(i);
-
-			//
-
-			{
-				// pVehicle->getOpenGLMatrix(mat4);
-				Data::get()->m_pPhysicWrapper->vehicle_getOpenGLMatrix(ii, mat4);
-
-				// glm::mat4	tmp_mat = Data::get()->m_composedMatrix * glm::make_mat4((float*)mat4);
-				glm::mat4	tmp_mat = glm::make_mat4((float*)mat4);
-
-				tmp_mat = glm::translate(tmp_mat, glm::vec3(0.0f, 0.0f, 1.0f));
-
-				float*	pMatrix = glm::value_ptr(tmp_mat);
-
-				// // if (arr_Cars[i].isAlive())
-				// 	Data::get()->m_GeometryColor_chassis.render(GL_LINES, pMatrix);
-				// // else
-				// // 	Data::get()->m_GeometryColor_chassis_dead.render(GL_LINES, pMatrix);
-
-				for (int ii = 0; ii < 16; ++ii)
-					buffer_chassis.push_back(pMatrix[ii]);
-			}
-
-			//
-
-			{
-				// for (int jj = 0; jj < pVehicle->getNumWheels(); ++jj)
-				for (int jj = 0; jj < Data::get()->m_pPhysicWrapper->vehicle_getWheelsNumber(ii); ++jj)
-				{
-					// pVehicle->getWheelMatrix(jj, mat4);
-					Data::get()->m_pPhysicWrapper->vehicle_getWheelsMatrix(ii, jj, mat4);
-
-					// glm::mat4	tmp_mat = Data::get()->m_composedMatrix * glm::make_mat4((float*)mat4);
-					// glm::mat4	tmp_mat = glm::make_mat4((float*)mat4);
-                    //
-					// float*	pMatrix = glm::value_ptr(tmp_mat);
-
-					// Data::get()->m_GeometryColor_wheel.render(GL_LINES, pMatrix);
-
-					for (int ii = 0; ii < 16; ++ii)
-						buffer_wheel.push_back(mat4[ii]);
-				}
-			}
-		}
-
-		// Shader::bind( nullptr );
-
-		Data::get()->m_graphic.m_InstGeometry_chassis.update2(&buffer_chassis[0], buffer_chassis.size() * sizeof(float));
-		Data::get()->m_graphic.m_InstGeometry_wheel.update2(&buffer_wheel[0], buffer_wheel.size() * sizeof(float));
 	}
 
-	{
+	{ // instaced geometries
+
 		float*	pMatrix = glm::value_ptr(Data::get()->m_composedMatrix);
-		// float*	pProj = glm::value_ptr(Data::get()->m_graphic.m_proj);
-		// float*	pView = glm::value_ptr(Data::get()->m_graphic.m_view);
 
 		auto&& graphic = Data::get()->m_graphic;
 
@@ -411,22 +391,15 @@ void	State_Main::render(const SDL_Window& window)
 
 			graphic.m_InstGeometry_chassis.render(GL_LINES, pMatrix);
 			graphic.m_InstGeometry_wheel.render(GL_LINES, pMatrix);
-			// graphic.m_InstGeometry_chassis.render(GL_LINES, pProj, pView);
-			// graphic.m_InstGeometry_wheel.render(GL_LINES, pProj, pView);
 
 		Shader::bind(nullptr);
 	}
 
-	{
+	{ // static gemetries
+
 		Shader::bind( Data::get()->m_ShaderColor.getShader() );
 
 			float*	pMatrix = glm::value_ptr(Data::get()->m_composedMatrix);
-
-			// // Data::get()->m_GeometryColor.render(GL_TRIANGLES, pMatrix);
-
-			// Data::get()->m_GeometryColor_chassis.render(GL_LINES, pMatrix);
-
-			// Data::get()->m_GeometryColor_wheel.render(GL_LINES, pMatrix);
 
 			Data::get()->m_GeometryColor_circuit_skelton.render(GL_LINES, pMatrix);
 
@@ -435,6 +408,115 @@ void	State_Main::render(const SDL_Window& window)
 			Data::get()->m_GeometryColor_circuit_walls.render(GL_TRIANGLES, pMatrix, 0.2f);
 
 		Shader::bind( nullptr );
+	}
+
+	{ // second camera
+
+		auto&	window_size = Data::get()->m_graphic.window_size;
+
+		glm::vec2	tmp_position = { window_size.x * 0.66f, 0.0f };
+		glm::vec2	tmp_window_size = { window_size.x * 0.33f, window_size.y * 0.3f };
+		float aspect_ratio = tmp_window_size.x / tmp_window_size.y;
+
+		glViewport(tmp_position.x, tmp_position.y, tmp_window_size.x, tmp_window_size.y);
+		glEnable(GL_SCISSOR_TEST);
+		glScissor(tmp_position.x, tmp_position.y, tmp_window_size.x, tmp_window_size.y);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glScissor(0, 0, window_size.x, window_size.y);
+		glDisable(GL_SCISSOR_TEST);
+
+		//
+
+        auto&	center = Data::get()->m_vec3_center;
+        auto&	prev_center = Data::get()->m_vec3_previous_center;
+
+		glm::mat4 Projection = glm::perspective(glm::radians(70.0f), aspect_ratio, 1.0f, 1000.f);
+		glm::mat4 View = glm::lookAt(-prev_center, -center, {0.0f, 0.0f, 1.0f});
+		glm::mat4 tmp_composedMatrix = Projection * View;
+
+		//
+
+		{
+			Data::get()->m_StackRenderer.setMatrix( glm::value_ptr(tmp_composedMatrix) );
+		}
+
+		{ // render raycast
+
+			StackRenderer::t_color	sensors_color(0,1,0,1.0);
+			StackRenderer::t_color	ground_sensor(1,0,0,1.0);
+
+			auto&& arr_Cars = Data::get()->m_pSimulation->getCars();
+
+			auto&	index_targetedCar = Data::get()->m_index_targetedCar;
+
+			if (index_targetedCar >= 0)
+			{
+				auto&& car = arr_Cars[index_targetedCar];
+
+				if (car.isAlive())
+				{
+					auto&& sensors = car.getSensors();
+
+					for (auto&& sensor : sensors)
+					{
+						Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(sensor.near[0], sensor.near[1], sensor.near[2]), sensors_color);
+						Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(sensor.far[0], sensor.far[1], sensor.far[2]), sensors_color);
+					}
+
+					auto&& sensor = car.getGroundSensor();
+					Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(sensor.near[0], sensor.near[1], sensor.near[2]), ground_sensor);
+					Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(sensor.far[0], sensor.far[1], sensor.far[2]), ground_sensor);
+				}
+			}
+
+			Data::get()->m_StackRenderer.flush();
+		}
+
+		{ // trails
+
+			auto&& car_trails = Data::get()->m_pSimulation->getCarTrails();
+
+			StackRenderer::t_color	trails_color(1,1,1,1.0);
+
+			for (auto&& buffer : car_trails)
+			{
+				for (unsigned int ii = 3; ii < buffer.size(); ii += 3)
+				{
+					Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(buffer[ii-3], buffer[ii-2], buffer[ii-1]), trails_color);
+					Data::get()->m_StackRenderer.push_vertex(StackRenderer::t_pos(buffer[ii+0], buffer[ii+1], buffer[ii+2]), trails_color);
+				}
+			}
+			Data::get()->m_StackRenderer.flush();
+		}
+
+		{ // instaced geometries
+
+			float*	pMatrix = glm::value_ptr(tmp_composedMatrix);
+
+			auto&& graphic = Data::get()->m_graphic;
+
+			Shader::bind(&graphic.m_InstShader.getShader());
+
+				graphic.m_InstGeometry_chassis.render(GL_LINES, pMatrix);
+				graphic.m_InstGeometry_wheel.render(GL_LINES, pMatrix);
+
+			Shader::bind(nullptr);
+		}
+
+		{ // static gemetries
+
+			Shader::bind( Data::get()->m_ShaderColor.getShader() );
+
+				float*	pMatrix = glm::value_ptr(tmp_composedMatrix);
+
+				Data::get()->m_GeometryColor_circuit_skelton.render(GL_LINES, pMatrix);
+
+				Data::get()->m_GeometryColor_circuit_ground.render(GL_TRIANGLES, pMatrix, 0.8f);
+
+				Data::get()->m_GeometryColor_circuit_walls.render(GL_TRIANGLES, pMatrix, 0.2f);
+
+			Shader::bind( nullptr );
+		}
 	}
 
 	{ // HUD
@@ -474,4 +556,9 @@ void	State_Main::render(const SDL_Window& window)
 
 
 	// SDL_GL_SwapBuffers();
+}
+
+void	State_Main::resize(int width, int height)
+{
+	Data::get()->m_graphic.window_size = { width, height };
 }

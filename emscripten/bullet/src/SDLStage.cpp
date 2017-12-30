@@ -80,7 +80,10 @@ void SDLStage::handleEvent(SDL_Event &event)
 			{
 				int local_width = 0, local_height = 0;
 				SDL_GL_GetDrawableSize(m_pWindow, &local_width, &local_height);
-				glViewport(0, 0, local_width, local_height);
+				// glViewport(0, 0, local_width, local_height);
+
+				if (m_resizeCallback)
+					m_resizeCallback(local_width, local_height);
 			}
 			break;
 			}

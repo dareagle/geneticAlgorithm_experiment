@@ -55,4 +55,5 @@ public:
 	void	handleEvent(const SDL_Event&);
 	void	update(int);
 	void	render(const SDL_Window&);
+	void	resize(int, int);
 };
